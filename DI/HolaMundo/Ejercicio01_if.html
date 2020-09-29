@@ -20,7 +20,7 @@
             var aux = document.getElementById('titulo').textContent;
 
             if (checkText(aux, variable)) {
-                alert(variable.length == 0 ? "La caja no puede estar en blanco" : "Ese texto ya está puesto");
+                alert(variable.length == 0 ? "La caja no puede estar en blanco" : "Ese texto ya está puesto");  // handle de errores
             }
 
             else {
@@ -28,7 +28,7 @@
             }
         }
 
-        function checkText(prevText, newText) {
+        function checkText(prevText, newText) {  // comprobación de que no estas escribiendo el mismo texto o que el input sea ""
             return prevText === newText || newText.length == 0;
         }
     </script>

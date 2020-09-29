@@ -8,27 +8,27 @@ html {
     top: 35%;
     right: 50%;
     transform: translate(50%, -50%);
-    /*posicionamiento de la caja principal*/
+    /* posicionamiento de la caja principal */
 
     background-color: rgba(255, 255, 255, 0.384);
-    border-radius: 15px;/*puntas redondeadas*/
+    border-radius: 15px;  /* puntas redondeadas*/
     width: 480px;
     padding: 40px;
 }
 
-.text {/*css para el texto que vamos a escribir al presionar el botón*/
+.text {  /* css para el texto que vamos a escribir al presionar el botón */
     color: rgb(245, 103, 15);
     font-size: 40px;
     text-align: center;
 }
 
 .input {
-    margin-top: 35px;
+    margin-top: 35px;  /* para que el texto no quede descolocado arriba */
     font-size: 16px;
     width: 100%;
     border-radius: 3px;
     border-width: 1px;
-    box-sizing: border-box; /*define el ancho y alto*/
+    box-sizing: border-box;  /* define el ancho y alto */
     padding: 10px;
     border-color: rgba(0,0,0,.3);
 }
