@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 01 - IF</title>
+    <link rel="stylesheet" media="screen" href="CSS/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <h1 id="titulo" class="text"></h1>
+        <input type="text" id="miCajaTexto" class="input" maxlength="15"/>
+        <div><br><br></div>
+        <button onclick="ejemploIf()">Ejemplo IF</button>
+    </div>
+
+    <script>
+        function ejemploIf(){
+            var variable = document.getElementById('miCajaTexto').value;
+            var aux = document.getElementById('titulo').textContent;
+
+            if (checkText(aux, variable)) {
+                alert(variable.length == 0 ? "La caja no puede estar en blanco" : "Ese texto ya está puesto");
+            }
+
+            else {
+                document.getElementById('titulo').innerHTML = variable;
+            }
+        }
+
+        function checkText(prevText, newText) {
+            return prevText === newText || newText.length == 0;
+        }
+    </script>
+</body>
+</html>
