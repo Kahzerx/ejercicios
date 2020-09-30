@@ -32,5 +32,11 @@
             return prevText === newText || newText.length == 0;
         }
     </script>
+
+    <script>
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploIf();
+        }
+    </script>
 </body>
 </html>
