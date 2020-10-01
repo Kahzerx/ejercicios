@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - FOR</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="titulo" class="text"></div>
+        <div><br><br></div>
+        <button onclick="ejemploFor()">EJEMPLO FOR</button>
+    </div>
+
+    <script>
+        function ejemploFor() {
+            var cabeceras = ``;
+            for (var i = 1; i < 7; i++) {
+                cabeceras += `<h${i}>Cabecera de nivel ${i}</h${i}>`;
+                cabeceras += i < 6 ? `<br>` : ``;
+            }
+            document.getElementById('titulo').innerHTML = cabeceras;
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploFor();
+        }
+    </script>
+</body>
+</html>
