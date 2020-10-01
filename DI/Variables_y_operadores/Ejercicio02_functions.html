@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - FUNCTION</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="titulo" class="text"></div>
+        <div><br></div>
+        <button onclick="ejemploFunction()">EJEMPLO FUNCTION</button>
+    </div>
+
+    <script>
+        function ejemploFunction() {
+            document.getElementById('titulo').innerHTML = suma;
+        }
+
+        var suma = (function() {  // Funciones anónimas con argumentos.
+            var resultado = 0;
+            for (i in arguments) {
+                resultado += arguments[i];
+            }
+            return resultado;
+        })(44, 56, 100, 250, 1034)
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploFunction();
+        }
+    </script>
+</body>
+</html>
