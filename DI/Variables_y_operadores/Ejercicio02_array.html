@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - ARRAY</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="titulo" class="text"></div>
+        <div><br></div>
+        <button onclick="ejemploArray()">EJEMPLO ARRAY</button>
+    </div>
+
+    <script>
+        function ejemploArray() {
+            var ejemploArray = [];
+            ejemploArray["Stark"] = 6;
+            ejemploArray["Baratheon"] = 3;
+            ejemploArray["Lannister"] = 3;
+            ejemploArray["Targaryen"] = 2;
+
+            var result = "";
+
+            for (var familia in ejemploArray) {
+                result += `${familia} tiene ${ejemploArray[familia]} hijos.<br>`;
+            }
+
+            document.getElementById('titulo').innerHTML = result;
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploArray();
+        }
+    </script>
+</body>
+</html>
