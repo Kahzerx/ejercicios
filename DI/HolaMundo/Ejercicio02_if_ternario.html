@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - IF TERNARIO</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <h1 id="titulo" class="text"></h1>
+        <div><br><br></div>
+        <button onclick="ejemploIfTernario()">EJEMPLO IF TERNARIO</button>
+    </div>
+
+    <script>
+        function ejemploIfTernario() {
+            var fechaHoy = new Date().getDay();
+
+            document.getElementById('titulo').innerHTML = `${getJueves(fechaHoy)}<br><br>${getFinDeSemana(fechaHoy)}`;
+        }
+
+        function getJueves(fechaHoy) {
+            return fechaHoy == 4 ? "Jueves." : "Hoy no es Jueves.";
+        }
+
+        function getFinDeSemana(fechaHoy) {
+            return fechaHoy == 0 || fechaHoy == 6 ? "Fin de Semana." : "Laborable.";
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploIfTernario();
+        }
+    </script>
+</body>
+</html>
