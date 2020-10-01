@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - SWITCH</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <h1 id="titulo" class="text"></h1>
+        <div><br><br></div>
+        <button onclick="ejemploSwitch()">EJEMPLO SWITCH</button>
+    </div>
+
+    <script>
+        function ejemploSwitch() {
+            var fechaHoy = new Date().getDay();
+
+            document.getElementById('titulo').innerHTML = `${getWeekDay(fechaHoy)}.`;
+        }
+
+        function getWeekDay(fechaHoy) {
+            var dia;
+            switch (fechaHoy) {
+                case 1: dia = "Lunes"; break;
+                case 2: dia = "Martes"; break;
+                case 3: dia = "Miércoles"; break;
+                case 4: dia = "Jueves"; break;
+                case 5: dia = "Viernes"; break;
+                case 6: dia = "Sábado"; break;
+                case 0: dia = "Domingo"; break;
+                default: dia = "Error"; break;  // No debería ocurrir nunca
+            }
+            return dia;
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploSwitch();
+        }
+    </script>
+</body>
+</html>
