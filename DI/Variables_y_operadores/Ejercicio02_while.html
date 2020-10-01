@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - WHILE</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="titulo" class="text"></div>
+        <div><br><br></div>
+        <button onclick="ejemploWhile()">EJEMPLO WHILE</button>
+    </div>
+
+    <script>
+        function ejemploWhile() {
+            var pass = "";
+            while (pass != "Password") {
+                pass = prompt("Contraseña => Password", "");
+            }
+            document.getElementById('titulo').innerHTML = "\\o/";
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 13) ejemploWhile();
+        }
+    </script>
+</body>
+</html>
