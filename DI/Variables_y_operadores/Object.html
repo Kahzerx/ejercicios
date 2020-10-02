@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBJECT</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <button onclick="muestraInfo()">Object</button>
+    </div>
+
+    <script>
+        var equipo = function(nombre, color, estadio) {
+            this.nombre = nombre;
+            this.color = color;
+            this.estadio = estadio;
+        }
+
+        var equipo1 = new equipo("Numancia", "Rojo", "Los Pajaritos")
+
+        function muestraInfo(){
+            nombre = equipo1.nombre;
+            color = equipo1.color;
+            estadio = equipo1.estadio;
+            console.trace({nombre, color, estadio})
+        }
+    </script>
+</body>
+</html>

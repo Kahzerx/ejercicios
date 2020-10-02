@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literal Object</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <button onclick="prueba()">Literal Object</button>
+        <div><br><br></div>
+        <input class="inputB"type="submit" value="listado" onclick="familia.listado()"/>
+    </div>
+
+    <script>
+        var familia = {
+            nombre: "Stark",
+            castillo: {
+                nombre: "Invernalia",
+                gobierno: {
+                    Lord: "Ned Stark",
+                    Lady: "Catelyn Stark",
+                },
+                lema: "Se acerca el invierno."
+            },
+            hijos: [
+                {edad: 14, nombre: "Robb Stark"},
+                {edad: 14, nombre: "Jon Nieve"},
+                {edad: 11, nombre: "Sansa Stark"},
+                {edad: 9, nombre: "Arya Stark"},
+                {edad: 7, nombre: "Bran Stark"},
+                {edad: 3, nombre: "Rickon Stark"},
+            ],
+            listado: function() {
+                for (var i in this.hijos) {
+                    console.log(`${this.hijos[i].nombre}, edad: ${this.hijos[i].edad}`);
+                }
+            },
+            fundador: function() {
+                console.log("Brandon el Constructor.");
+            }
+        };
+
+        function prueba() {
+            console.log(`Jefe: ${familia.castillo.gobierno.Lord}`);
+            console.log(`Lema: ${familia.castillo.lema}`);
+            console.log(`Hijo tercero: ${familia.hijos[2].nombre}`);
+            familia.fundador();
+        }
+    </script>
+</body>
+</html>
