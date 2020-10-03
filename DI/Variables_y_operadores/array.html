@@ -28,6 +28,14 @@
             }
 
             document.getElementById('titulo').innerHTML = result;
+
+            // Cosa de split y join.
+
+            var months = "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec";
+
+            console.log(months.split(','));  // Crea una array separando cada elemento por cada coma en la variable.
+
+            console.log(months.split(',').join('-'))  // vuelve a unir la array poniendo guiones en lugar de comas.
         }
 
         document.onkeydown = function(e) {

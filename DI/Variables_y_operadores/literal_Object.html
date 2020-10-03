@@ -33,6 +33,7 @@
                 {edad: 3, nombre: "Rickon Stark"},
             ],
             listado: function() {
+                console.log('=============================');
                 for (var i in this.hijos) {
                     console.log(`${this.hijos[i].nombre}, edad: ${this.hijos[i].edad}`);
                 }
@@ -43,6 +44,7 @@
         };
 
         function prueba() {
+            console.log('=============================');
             console.log(`Jefe: ${familia.castillo.gobierno.Lord}`);
             console.log(`Lema: ${familia.castillo.lema}`);
             console.log(`Hijo tercero: ${familia.hijos[2].nombre}`);
