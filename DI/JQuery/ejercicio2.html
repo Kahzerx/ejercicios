@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio2</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="msg" class="text">
+            <h1>Hola jQuery</h1>
+            <p id="par1" class="selected">Esto es un parrafo</p>
+            <p id="par2" nombre="segundoParrafo">Esto es el parrafo 2</p>
+            <p id="par3">Esto es el parrafo 3</p>
+            <ul>
+                <li class="selected">Valor 1</li>
+                <li>Valor 2</li>
+                <li>Valor 3</li>
+            </ul>
+        </div>
+        <input class="inputB" type="button" value="erase" onclick="erase()"/>
+        <input class="inputB" type="button" value="add" onclick="addiase()"/>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Lo cargo desde el cdn de google >...< -->
+
+    <script>
+        onReady();  // Para que todo termine de generarse la web.
+
+        function onReady() {
+            $(document).ready();
+        }
+
+        function erase() {
+            // $('.selected, p:contains("parrafo")').fadeOut('slow');  // Para eliminar todos los class selected y ps que contengan parrafos.
+            $('p[nombre != "segundoParrafo"]').fadeOut('slow');  // para eliminar todos los ps cuyo atributo nombre no es segundoParrafo.
+        }
+
+        function addiase() {
+            // $('.selected, p:contains("parrafo")').fadeIn('slow');
+            $('p[nombre != "segundoParrafo"]').fadeIn('slow');
+        }
+    </script>
+</body>
+</html>

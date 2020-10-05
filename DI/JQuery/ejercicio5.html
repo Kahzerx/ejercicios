@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio5</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <input class="inputB" type="button" value="BEFORE" onclick="antes()"/>
+        <input class="inputB" type="button" value="AFTER" onclick="despues()"/>
+        <input class="inputB" type="button" value="APPEND" onclick="sufijo()"/>
+        <input class="inputB" type="button" value="PREPEND" onclick="prefijo()"/>
+        <input class="inputB" type="button" value="borra todos los <p>" onclick="borra();"/>
+        <input class="inputB" type="button" value="cambiar todos los <p>" onclick="edit();"/>
+        <input class="inputB" type="button" value="ocultar <p>" onclick="ocultar();"/>
+        <input class="inputB" type="button" value="mostrar <p>" onclick="mostrar();"/>
+        <input class="inputB" type="button" value="slideUp <p>" onclick="slideUp();"/>
+        <input class="inputB" type="button" value="slideDown <p>" onclick="slideDown();"/>
+        <h1 class="text">Esto es la cabecera</h1>
+        <p class="text">Esto es el parrafo</p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Lo cargo desde el cdn de google >...< -->
+
+    <script>
+        onReady();  // Para que todo termine de generarse la web.
+        function onReady() {
+            $(document).ready();
+        }
+
+        var nPar = 0;
+        
+        function antes() {  // Antes del h1
+            let par = (`<p class="text">Parrafo nuevo con before ${nPar}</p>`);
+            $('h1').before(par);
+            nPar++;
+        }
+
+        function despues() {  // Despues del h1
+            let par = (`<p class="text">Parrafo nuevo con after ${nPar}</p>`);
+            $('h1').after(par);
+            nPar++;
+        }
+
+        function sufijo() {  // Al final del h1
+            let par = (`<p class="text">Parrafo nuevo con append ${nPar}</p>`);
+            $('h1').append(par);
+            nPar++;
+        }
+
+        function prefijo() {  // Al principio del h1
+            let par = (`<p class="text">Parrafo nuevo con prepend ${nPar}</p>`);
+            $('h1').prepend(par);
+            nPar++;
+        }
+
+        function borra() {
+            $('p').remove();
+        }
+
+        function edit() {
+            $('p').text('Hola mundo!');
+        }
+
+        function mostrar() {
+            $('p').show();
+        }
+
+        function ocultar() {
+            $('p').hide();
+        }
+
+        function slideUp() {  // Ocultar con animación.
+            $('p').slideUp();
+        }
+
+        function slideDown() {
+            $('p').slideDown();
+        }
+    </script>
+</body>
+</html>

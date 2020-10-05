@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio4</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="msg" class="text">
+            <h1>Hola jQuery</h1>
+            <ul id="list">
+                <li>Valor 1</li>
+                <li>Valor 2
+                    <ul>
+                        <li>Valor2.1</li>
+                    </ul>
+                </li>
+                <li>Valor 3</li>
+            </ul>
+        </div>
+        <input class="inputB" type="button" value="lista" onclick="li()"/>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Lo cargo desde el cdn de google >...< -->
+
+    <script>
+        onReady();  // Para que todo termine de generarse la web.
+
+        function onReady() {
+            $(document).ready();
+        }
+
+        function li() {
+            console.log($('#list').find('li').first());  // Saca el primer li
+        }
+    </script>
+</body>
+</html>

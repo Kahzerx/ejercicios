@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio1</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div class="mainbox">
+        <div id="msg" class="text">
+            <h1>Hola jQuery</h1>
+        </div>
+        <input class="inputB" type="button" value="erase" onclick="erase()"/>
+        <input class="inputB" type="button" value="add" onclick="add()"/>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Lo cargo desde el cdn de google >...< -->
+
+    <script>
+        onReady();  // Para que todo termine de generarse la web.
+
+        function onReady() {
+            $(document).ready();
+        }
+
+        function erase() {
+            $('#msg').fadeOut('slow');
+        }
+
+        function add() {
+            $('#msg').fadeIn('slow');
+        }
+    </script>
+</body>
+</html>
