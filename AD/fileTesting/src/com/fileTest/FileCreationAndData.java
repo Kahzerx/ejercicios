@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Main {
+public class FileCreationAndData {
 
     public static String dirName = "directorio";
 
