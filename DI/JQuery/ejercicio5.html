@@ -19,7 +19,7 @@
         <input class="inputB" type="button" value="slideUp <p>" onclick="slideUp()"/>
         <input class="inputB" type="button" value="slideDown <p>" onclick="slideDown()"/>
         <h1 class="text">Esto es la cabecera</h1>
-        <p class="text">Esto es el parrafo</p>
+        <p class="text">Esto es el párrafo</p>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -34,25 +34,25 @@
         var nPar = 0;
         
         function antes() {  // Antes del h1
-            let par = (`<p class="text">Parrafo nuevo con before ${nPar}</p>`);
+            let par = (`<p class="text">Párrafo nuevo con before ${nPar}</p>`);
             $('h1').before(par);
             nPar++;
         }
 
         function despues() {  // Despues del h1
-            let par = (`<p class="text">Parrafo nuevo con after ${nPar}</p>`);
+            let par = (`<p class="text">Párrafo nuevo con after ${nPar}</p>`);
             $('h1').after(par);
             nPar++;
         }
 
         function sufijo() {  // Al final del h1
-            let par = (`<p class="text">Parrafo nuevo con append ${nPar}</p>`);
+            let par = (`<p class="text">Párrafo nuevo con append ${nPar}</p>`);
             $('h1').append(par);
             nPar++;
         }
 
         function prefijo() {  // Al principio del h1
-            let par = (`<p class="text">Parrafo nuevo con prepend ${nPar}</p>`);
+            let par = (`<p class="text">Párrafo nuevo con prepend ${nPar}</p>`);
             $('h1').prepend(par);
             nPar++;
         }
