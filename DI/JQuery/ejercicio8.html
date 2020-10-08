@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio8</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+</head>
+<body>
+    <div id="box" class="mainbox">
+        <input class="inputB" type="button" value="Anima p" onclick="anima()"/>
+        <p class="text">Esto es un párrafo</p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Lo cargo desde el cdn de google >...< -->
+
+    <script>
+        onReady();  // Para que todo termine de generarse.
+        function onReady() {
+            $(document).ready();
+        }
+
+        function anima() {
+            $('p').animate({'opacity': '0.25'});
+        }
+
+        $('#box').on('mouseover', function(e) { moveBox(e); });
+
+        function moveBox(e) {
+            var box = document.getElementById('box');
+
+            // var X = box.offsetLeft;
+            // var Y = box.offsetTop;
+            var W = box.offsetWidth;
+            var H = box.offsetHeight;
+
+            console.log(e.offsetX, e.offsetY);
+            console.log(X, Y, W, H);
+
+            if (e.offsetX > W / 2) {
+                console.log('Mover a la izquierda.');
+                $('#box').animate({'left': '-=50px'}, 'fast');
+            }
+            else if (e.offsetX < W / 2) {
+                console.log('Mover a la derecha.');
+                $('#box').animate({'left': '+=50px'}, 'fast');
+            }
+        }
+    </script>
+</body>
+</html>
