@@ -23,7 +23,7 @@ public class BufferedWriterReader {
 
     private static void bufferedReader(String dir, String file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(String.format("%s/%s", dir, file)));
-        String line = "";
+        String line;
 
         while ((line = reader.readLine()) != null) {
             line = line.replaceAll("[\\r\\n]", "");
