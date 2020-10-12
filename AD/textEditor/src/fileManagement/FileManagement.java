@@ -1,7 +1,5 @@
 package fileManagement;
 
-import application.Variables;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
@@ -9,21 +7,22 @@ import java.io.*;
 //TODO detectores de si es necesario guardar el archivo si se quiere abrir uno nuevo sin cerrar previamente el anterior.
 
 public class FileManagement {
+    private static File openFile;  // Archivo que se está modificando.
     // Seleccionar y abrir un archivo.
-    public static void openFile() throws IOException {
+    public static String openFile() throws IOException {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "conf", "py", "java");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Selecciona un archivo");
         if  (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION && shouldSetText(chooser.getSelectedFile().getName(), chooser.getSelectedFile().length())) {
-            Variables.textArea.setText(getContent(chooser.getSelectedFile()));
-            Variables.textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
-            Variables.openFile = chooser.getSelectedFile();
+            openFile = chooser.getSelectedFile();
+            return getContent(chooser.getSelectedFile());
         }
+        return null;
     }
 
     // Acción al guardar como.
-    public static void createFile() throws IOException {
+    public static void createFile(String content) throws IOException {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Guardar archivo");
         chooser.showSaveDialog(null);
@@ -36,18 +35,18 @@ public class FileManagement {
             return;
         }
 
-        Variables.openFile = newFile;
-        writeContent(Variables.openFile, Variables.textArea.getText());
+        openFile = newFile;
+        writeContent(openFile, content);
     }
 
     // Acción guardar que activa el guardar como si no existe archivo.
-    public static void saveFile() throws IOException {
+    public static void saveFile(String content) throws IOException {
         //TODO feedback de si hay que guardar o de cuando lo has hecho.
-        if (Variables.openFile == null || !Variables.openFile.exists()) {  // Puede que se elimine el archivo mientras está abierto?
-            createFile();
+        if (openFile == null || !openFile.exists()) {  // Puede que se elimine el archivo mientras está abierto?
+            createFile(content);
         }
         else {
-            writeContent(Variables.openFile, Variables.textArea.getText());
+            writeContent(openFile, content);
         }
     }
 
