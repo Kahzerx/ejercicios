@@ -20,7 +20,6 @@ public class MainWindow {
     }
 
     private JFrame frame;
-    public static JTextArea textArea;  // Lo declaro aquí arriba para fácil acceso al contenido siempre.
 
     private void initialize() {
         // Configuro un JFrame en 1280x720 con un BorderLayout para colocar más elementos.
@@ -31,12 +30,12 @@ public class MainWindow {
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
         // Configuro la TextArea junto con la fuente y el tamaño de letra.
-        textArea = new JTextArea();
-        textArea.setFont(new Font("Arial", Font.PLAIN, 15));
-        frame.getContentPane().add(textArea, BorderLayout.NORTH);
+        Variables.textArea = new JTextArea();
+        Variables.textArea.setFont(new Font("Arial", Font.PLAIN, 15));
+        frame.getContentPane().add(Variables.textArea, BorderLayout.NORTH);
 
         // Scroll tanto lateral como vertical para visualizar el texto.
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        JScrollPane scrollPane = new JScrollPane(Variables.textArea);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         // Menu superior para desplegables.
@@ -59,7 +58,13 @@ public class MainWindow {
         menuArchivo.add(menuAbrirArchivo);
 
         JMenuItem guardar = new JMenuItem("Guardar");
-        guardar.addActionListener(actionEvent -> FileManagement.saveFile());
+        guardar.addActionListener(actionEvent -> {
+            try {
+                FileManagement.saveFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         menuArchivo.add(guardar);
 
         JMenuItem guardarComo = new JMenuItem("Guardar como...");
@@ -71,6 +76,12 @@ public class MainWindow {
             }
         });
         menuArchivo.add(guardarComo);
+
+        JMenuItem cerrar = new JMenuItem("Cerrar");
+        cerrar.addActionListener(actionEvent -> {
+            FileManagement.close();
+        });
+        menuArchivo.add(cerrar);
     }
 
     public static void main(String[] args) {

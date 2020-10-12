@@ -1,6 +1,6 @@
 package fileManagement;
 
-import application.MainWindow;
+import application.Variables;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,8 +16,9 @@ public class FileManagement {
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Selecciona un archivo");
         if  (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION && shouldSetText(chooser.getSelectedFile().getName(), chooser.getSelectedFile().length())) {
-            MainWindow.textArea.setText(getContent(chooser.getSelectedFile()));
-            MainWindow.textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
+            Variables.textArea.setText(getContent(chooser.getSelectedFile()));
+            Variables.textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
+            Variables.openFile = chooser.getSelectedFile();
         }
     }
 
@@ -29,18 +30,29 @@ public class FileManagement {
 
         File file = chooser.getSelectedFile();
         String name = file.getName().split("\\.").length > 1 ? file.getName() : String.format("%s.txt", file.getName());
+        File newFile = new File(file.getAbsolutePath().replace(file.getName(), name));
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath().replace(file.getName(), name)));
-        String content = MainWindow.textArea.getText();
+        if (newFile.exists() && !shouldSaveFile(name)) {  // Prompt de si de verdad quieres sobreescribir el archivo seleccionado.
+            return;
+        }
 
-        writer.write(content);
-        writer.close();
-
-        //TODO checker de si debería sobreescribir archivo ya existente.
+        Variables.openFile = newFile;
+        writeContent(Variables.openFile, Variables.textArea.getText());
     }
 
-    public static void saveFile() {
-        //TODO guardar archivo si existe.
+    // Acción guardar que activa el guardar como si no existe archivo.
+    public static void saveFile() throws IOException {
+        //TODO feedback de si hay que guardar o de cuando lo has hecho.
+        if (Variables.openFile == null || !Variables.openFile.exists()) {  // Puede que se elimine el archivo mientras está abierto?
+            createFile();
+        }
+        else {
+            writeContent(Variables.openFile, Variables.textArea.getText());
+        }
+    }
+
+    public static void close() {
+        //TODO check de si el documento está guardado.
     }
 
     //Devuelve el contenido de un archivo.
@@ -58,7 +70,7 @@ public class FileManagement {
             return content.toString();
         }
         else {
-            System.err.println("El archivo no existe :(");
+            JOptionPane.showMessageDialog(null, "El archivo seleccionado no existe", "Error", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -70,5 +82,15 @@ public class FileManagement {
             return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("Este archivo pesa más de %dMB:\n - %s (%.2fMB)\nEstas seguro de que quieres continuar?\nEl programa puede dejar de responder", warningSize, fileName, fileLength * Math.pow(2, -20)), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         }
         return true;
+    }
+
+    private static void writeContent(File file, String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(content);
+        writer.close();
+    }
+
+    private static Boolean shouldSaveFile(String fileName) {
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("Has seleccionado un archivo ya existente:\n - %s\nSeguro que quieres sobreescribirlo?", fileName), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 }
