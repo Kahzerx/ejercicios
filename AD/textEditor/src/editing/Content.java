@@ -20,13 +20,14 @@ public class Content {
         saves.add(content);
     }
 
-    // Acciones ante determinadas hotkeys
+    // Acciones ante determinadas hotkeys.
     public static void getAction(int keyCode, String content) {
         if (keyCode == KeyEvent.VK_ENTER) {
             autoSave(content);
         }
     }
 
+    // Acciones para la arraylist.
     public static void updateSaves(int action) {
         switch (action) {
             case 0:

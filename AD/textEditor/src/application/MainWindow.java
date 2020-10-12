@@ -8,17 +8,16 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 
 /*
  * Hacer un editor de texto en el cual se pueda escribir, abrir archivos y guardarlos.
  */
 
-//TODO: zoom, información del punto en el que se está escribiendo (meh).
+//TODO: zoom, información del punto en el que se está escribiendo (meh), información arriba del archivo, comprobar si se está editando.
 
 public class MainWindow {
 
-    // Inicializar ventana desde el constructor
+    // Inicializar ventana desde el constructor.
     public MainWindow() {
         initialize();
     }
@@ -27,14 +26,25 @@ public class MainWindow {
     private JTextArea textArea;
 
     private void initialize() {
-        // Configuro un JFrame en 1280x720 con un BorderLayout para colocar más elementos.
-        frame = new JFrame();
-        frame.setTitle("Nuevo Documento - Editor de Texto");
-        frame.setBounds(100, 100, 1280, 720);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new BorderLayout(0, 0));
+        createJFrame();
 
-        // Configuro la TextArea junto con la fuente y el tamaño de letra.
+        createJTextArea();
+
+        // Scroll tanto lateral como vertical para visualizar el texto.
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        // Menu superior para desplegables.
+        JMenuBar bar = new JMenuBar();
+        frame.getContentPane().add(bar, BorderLayout.NORTH);
+
+        createArchivoMenu(bar);
+
+        createEditarMenu(bar);
+    }
+
+    // Configuro la TextArea junto con la fuente y el tamaño de letra.
+    private void createJTextArea() {
         textArea = new JTextArea();
         textArea.setFont(new Font("Arial", Font.PLAIN, 15));
         frame.getContentPane().add(textArea, BorderLayout.NORTH);
@@ -50,60 +60,49 @@ public class MainWindow {
             @Override
             public void keyReleased(KeyEvent keyEvent) {}
         });
+    }
 
-        // Scroll tanto lateral como vertical para visualizar el texto.
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+    // Configuro un JFrame en 1280x720 con un BorderLayout para colocar más elementos.
+    private void createJFrame() {
+        frame = new JFrame();
+        frame.setTitle("Nuevo Documento - Editor de Texto");
+        frame.setBounds(100, 100, 1280, 720);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(new BorderLayout(0, 0));
+    }
 
-        // Menu superior para desplegables.
-        JMenuBar bar = new JMenuBar();
-        frame.getContentPane().add(bar, BorderLayout.NORTH);
-
-        // Desplegable de "Archivo".
+    // Desplegable de "Archivo".
+    private void createArchivoMenu(JMenuBar bar) {
         JMenu menuArchivo = new JMenu("Archivo");
         bar.add(menuArchivo);
 
-        JMenuItem abrir = new JMenuItem("Abrir");
-        abrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        JMenuItem open = new JMenuItem("Abrir");
+        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         // Listener para realizar una acción al presionar cada item del menu.
-        abrir.addActionListener(actionEvent -> {
-            try {
-                textArea.setText(FileManagement.openFile());
-                textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        open.addActionListener(actionEvent -> {
+            textArea.setText(FileManagement.openFile());
+            textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
         });
-        menuArchivo.add(abrir);
+        menuArchivo.add(open);
 
-        JMenuItem guardar = new JMenuItem("Guardar");
-        guardar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
-        guardar.addActionListener(actionEvent -> {
-            try {
-                FileManagement.saveFile(textArea.getText());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        menuArchivo.add(guardar);
+        JMenuItem save = new JMenuItem("Guardar");
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        save.addActionListener(actionEvent -> FileManagement.saveFile(textArea.getText()));
+        menuArchivo.add(save);
 
-        JMenuItem guardarComo = new JMenuItem("Guardar como...");
-        guardarComo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
-        guardarComo.addActionListener(actionEvent -> {
-            try {
-                FileManagement.createFile(textArea.getText());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        menuArchivo.add(guardarComo);
+        JMenuItem saveAs = new JMenuItem("Guardar como...");
+        saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
+        saveAs.addActionListener(actionEvent -> FileManagement.createFile(textArea.getText()));
+        menuArchivo.add(saveAs);
 
-        JMenuItem cerrar = new JMenuItem("Cerrar");
-        cerrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
-        cerrar.addActionListener(actionEvent -> FileManagement.close());
-        menuArchivo.add(cerrar);
+        JMenuItem close = new JMenuItem("Cerrar");
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+        close.addActionListener(actionEvent -> FileManagement.close());
+        menuArchivo.add(close);
+    }
 
-        // Desplegable de "Editar".
+    // Desplegable de "Editar".
+    private void createEditarMenu(JMenuBar bar) {
         JMenu menuEditar = new JMenu("Editar");
         bar.add(menuEditar);
 
@@ -114,17 +113,21 @@ public class MainWindow {
             Content.updateSaves(1);
         });
         menuEditar.add(undo);
+
+        JMenuItem selectAll = new JMenuItem("Seleccionar todo");
+        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        selectAll.addActionListener(actionEvent -> textArea.selectAll());
+        menuEditar.add(selectAll);
     }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
                 MainWindow window = new MainWindow();
                 window.frame.setVisible(true);
             }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            catch (Exception ignored) {}
         });
     }
 }

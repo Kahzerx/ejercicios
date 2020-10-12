@@ -9,7 +9,7 @@ import java.io.*;
 public class FileManagement {
     private static File openFile;  // Archivo que se está modificando.
     // Seleccionar y abrir un archivo.
-    public static String openFile() throws IOException {
+    public static String openFile() {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "conf", "py", "java");
         chooser.setFileFilter(filter);
@@ -22,7 +22,7 @@ public class FileManagement {
     }
 
     // Acción al guardar como.
-    public static void createFile(String content) throws IOException {
+    public static void createFile(String content) {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Guardar archivo");
         chooser.showSaveDialog(null);
@@ -34,13 +34,13 @@ public class FileManagement {
         if (newFile.exists() && !shouldSaveFile(name)) {  // Prompt de si de verdad quieres sobreescribir el archivo seleccionado.
             return;
         }
-
         openFile = newFile;
+
         writeContent(openFile, content);
     }
 
     // Acción guardar que activa el guardar como si no existe archivo.
-    public static void saveFile(String content) throws IOException {
+    public static void saveFile(String content) {
         //TODO feedback de si hay que guardar o de cuando lo has hecho.
         if (openFile == null || !openFile.exists()) {  // Puede que se elimine el archivo mientras está abierto?
             createFile(content);
@@ -55,18 +55,26 @@ public class FileManagement {
     }
 
     //Devuelve el contenido de un archivo.
-    private static String getContent(File file) throws IOException {
+    private static String getContent(File file) {
         if (file.exists()) {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            StringBuilder content = new StringBuilder();
-
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String line;
+                StringBuilder content = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append("\n");
+                }
+                reader.close();
+                return content.toString();
             }
-            reader.close();
+            catch (FileNotFoundException e) {
+                System.err.println("No se ha encontrado el archivo.");
+            }
+            catch (IOException e) {
+                System.err.println("No ha sido posible extraer el contenido del archivo.");
+            }
 
-            return content.toString();
+
         }
         else {
             JOptionPane.showMessageDialog(null, "El archivo seleccionado no existe", "Error", JOptionPane.ERROR_MESSAGE);
@@ -83,12 +91,18 @@ public class FileManagement {
         return true;
     }
 
-    private static void writeContent(File file, String content) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(content);
-        writer.close();
+    // Escribir en el archivo el contenido de JTextArea.
+    private static void writeContent(File file, String content) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(content);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Escribir en el archivo.");
+        }
     }
 
+    // Devuelve true si cumple los requisitos para guardar el archivo.
     private static Boolean shouldSaveFile(String fileName) {
         return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("Has seleccionado un archivo ya existente:\n - %s\nSeguro que quieres sobreescribirlo?", fileName), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
