@@ -12,19 +12,32 @@ public class FileManagement {
     // Seleccionar y abrir un archivo.
     public static void openFile() throws IOException {
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "conf", "py");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "conf", "py", "java");
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("Selecciona un archivo");
-        if  (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            if (shouldSetText(chooser.getSelectedFile().getName(), chooser.getSelectedFile().length())) {
-                MainWindow.textArea.setText(getContent(chooser.getSelectedFile()));
-                MainWindow.textArea.setCaretPosition(0);
-            }
+        if  (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION && shouldSetText(chooser.getSelectedFile().getName(), chooser.getSelectedFile().length())) {
+            MainWindow.textArea.setText(getContent(chooser.getSelectedFile()));
+            MainWindow.textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
         }
     }
 
-    public static void createFile() {
-        //TODO creación de archivo al guardar.
+    // Acción al guardar como.
+    public static void createFile() throws IOException {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.showSaveDialog(null);
+
+        File file = chooser.getSelectedFile();
+        String name = file.getName().split("\\.").length > 1 ? file.getName() : String.format("%s.txt", file.getName());
+        System.out.println(name);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("%s/%s", file.getAbsolutePath(), name)));
+        String content = MainWindow.textArea.getText();
+
+        writer.write(content);
+        writer.close();
+
+        //TODO checker de si debería sobreescribir archivo ya existente.
     }
 
     public static void saveFile() {

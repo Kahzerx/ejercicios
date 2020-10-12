@@ -39,10 +39,11 @@ public class MainWindow {
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-        // Menu superior con otras opciones de archivos.
+        // Menu superior para desplegables.
         JMenuBar bar = new JMenuBar();
         frame.getContentPane().add(bar, BorderLayout.NORTH);
 
+        // Desplegable de "Archivo".
         JMenu menuArchivo = new JMenu("Archivo");
         bar.add(menuArchivo);
 
@@ -62,7 +63,13 @@ public class MainWindow {
         menuArchivo.add(guardar);
 
         JMenuItem guardarComo = new JMenuItem("Guardar como...");
-        guardarComo.addActionListener(actionEvent -> FileManagement.createFile());
+        guardarComo.addActionListener(actionEvent -> {
+            try {
+                FileManagement.createFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         menuArchivo.add(guardarComo);
     }
 
