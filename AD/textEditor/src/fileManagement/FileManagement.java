@@ -29,9 +29,8 @@ public class FileManagement {
 
         File file = chooser.getSelectedFile();
         String name = file.getName().split("\\.").length > 1 ? file.getName() : String.format("%s.txt", file.getName());
-        System.out.println(name);
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("%s/%s", file.getAbsolutePath(), name)));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath().replace(file.getName(), name)));
         String content = MainWindow.textArea.getText();
 
         writer.write(content);
