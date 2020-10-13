@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
  * Hacer un editor de texto en el cual se pueda escribir, abrir archivos y guardarlos.
  */
 
-//TODO: zoom, información del punto en el que se está escribiendo (meh), información arriba del archivo, comprobar si se está editando.
+//TODO: zoom, información del punto en el que se está escribiendo (meh), comprobar si se está editando.
 
 public class MainWindow {
 
@@ -24,6 +24,7 @@ public class MainWindow {
 
     private JFrame frame;
     private JTextArea textArea;
+    private String windowName = "Sin título";
 
     private void initialize() {
         createJFrame();
@@ -52,11 +53,26 @@ public class MainWindow {
         textArea.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent keyEvent) {
+                // Detección de si el archivo editandose ha sido eliminado.
+                if (!FileManagement.fileIsNull()) {
+                    if (!FileManagement.fileExists()) {
+                        FileManagement.onRandomDelete();
+                        Content.resetContent();
+                        Content.updateSaves(0);
+
+                        setWindowName("Sin título");
+                        updateTitle("");
+                    }
+                    else updateTitle(Content.hasChanged(textArea.getText()) ? "*" : "");
+                }
+
+                // Autosaves.
                 Content.getAction(keyEvent.getKeyCode(), textArea.getText());
             }
 
             @Override
-            public void keyTyped(KeyEvent keyEvent) {}
+            public void keyTyped(KeyEvent keyEvent) {
+            }
             @Override
             public void keyReleased(KeyEvent keyEvent) {}
         });
@@ -65,7 +81,7 @@ public class MainWindow {
     // Configuro un JFrame en 1280x720 con un BorderLayout para colocar más elementos.
     private void createJFrame() {
         frame = new JFrame();
-        frame.setTitle("Nuevo Documento - Editor de Texto");
+        updateTitle("");
         frame.setBounds(100, 100, 1280, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -79,10 +95,7 @@ public class MainWindow {
         JMenuItem open = new JMenuItem("Abrir");
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         // Listener para realizar una acción al presionar cada item del menu.
-        open.addActionListener(actionEvent -> {
-            textArea.setText(FileManagement.openFile());
-            textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
-        });
+        open.addActionListener(actionEvent -> onOpen());
         menuArchivo.add(open);
 
         JMenuItem save = new JMenuItem("Guardar");
@@ -118,6 +131,28 @@ public class MainWindow {
         selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
         selectAll.addActionListener(actionEvent -> textArea.selectAll());
         menuEditar.add(selectAll);
+    }
+
+    // Actualizar el título de la ventana.
+    private void updateTitle(String updated) {
+        frame.setTitle(String.format("%s%s - Editor de Texto", updated, windowName));
+    }
+
+    // Cambiar el valor según cambias de archivo.
+    private void setWindowName(String newName) {
+        windowName = newName;
+    }
+
+    // Acciones cada vez que se abre un archivo.
+    private void onOpen() {
+        String value = FileManagement.openFile();
+        textArea.setText(value);
+        textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
+
+        Content.updateContent(value);
+
+        setWindowName(FileManagement.getCurrentPath());
+        updateTitle("");
     }
 
     public static void main(String[] args) {

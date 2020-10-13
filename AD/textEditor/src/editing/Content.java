@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Content {
 
     private static final ArrayList<String> saves = new ArrayList<>();
+    private static String actualContent;
 
     // Retrocede en la Arraylist de contenido para simular el "deshacer".
     public static String undo() {
@@ -39,5 +40,19 @@ public class Content {
             default:
                 break;
         }
+    }
+
+    // Actualizar variable cada vez que se guarda.
+    public static void updateContent(String text) {
+        actualContent = text;
+    }
+
+    public static void resetContent() {
+        actualContent = null;
+    }
+
+    public static boolean hasChanged(String text) {
+        if (actualContent != null) return !actualContent.equals(text);
+        return false;
     }
 }

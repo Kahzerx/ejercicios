@@ -106,4 +106,22 @@ public class FileManagement {
     private static Boolean shouldSaveFile(String fileName) {
         return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("Has seleccionado un archivo ya existente:\n - %s\nSeguro que quieres sobreescribirlo?", fileName), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
+
+    // Conseguir la path del archivo para el título.
+    public static String getCurrentPath() {
+        return openFile.getAbsolutePath();
+    }
+
+    // Comprobar si el archivo no ha sido eliminado.
+    public static boolean fileExists() {
+        return openFile.exists();
+    }
+
+    public static Boolean fileIsNull() {
+        return openFile == null;
+    }
+
+    public static void onRandomDelete() {
+        openFile = null;
+    }
 }
