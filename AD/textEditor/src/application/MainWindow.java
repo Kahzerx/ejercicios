@@ -77,7 +77,7 @@ public class MainWindow {
         bar.add(menuArchivo);
 
         JMenuItem open = new JMenuItem("Abrir");
-        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         // Listener para realizar una acción al presionar cada item del menu.
         open.addActionListener(actionEvent -> {
             textArea.setText(FileManagement.openFile());
@@ -86,17 +86,17 @@ public class MainWindow {
         menuArchivo.add(open);
 
         JMenuItem save = new JMenuItem("Guardar");
-        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         save.addActionListener(actionEvent -> FileManagement.saveFile(textArea.getText()));
         menuArchivo.add(save);
 
         JMenuItem saveAs = new JMenuItem("Guardar como...");
-        saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
+        saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         saveAs.addActionListener(actionEvent -> FileManagement.createFile(textArea.getText()));
         menuArchivo.add(saveAs);
 
         JMenuItem close = new JMenuItem("Cerrar");
-        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
         close.addActionListener(actionEvent -> FileManagement.close());
         menuArchivo.add(close);
     }
@@ -107,7 +107,7 @@ public class MainWindow {
         bar.add(menuEditar);
 
         JMenuItem undo = new JMenuItem("Deshacer");
-        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_MASK));
+        undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
         undo.addActionListener(actionEvent -> {
             textArea.setText(Content.undo());
             Content.updateSaves(1);
@@ -115,7 +115,7 @@ public class MainWindow {
         menuEditar.add(undo);
 
         JMenuItem selectAll = new JMenuItem("Seleccionar todo");
-        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
+        selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
         selectAll.addActionListener(actionEvent -> textArea.selectAll());
         menuEditar.add(selectAll);
     }
