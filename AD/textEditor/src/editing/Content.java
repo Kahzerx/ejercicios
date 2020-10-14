@@ -10,10 +10,7 @@ public class Content {
 
     // Retrocede en la Arraylist de contenido para simular el "deshacer".
     public static String undo() {
-        if (!saves.isEmpty()) {
-            return saves.get(saves.size() - 1);
-        }
-        return null;
+        return saves.get(saves.size() - 1);
     }
 
     // Realiza un autosave Cada vez que se presiona Enter.
@@ -33,9 +30,11 @@ public class Content {
         switch (action) {
             case 0:
                 saves.clear();  // trigger al cerrar o abrir nuevo.
+                autoSave("");
                 break;
             case 1:
-                if (!saves.isEmpty()) saves.remove(saves.size() - 1);  // trigger en undo().
+                saves.remove(saves.size() - 1);  // trigger en undo().
+                if (saves.isEmpty()) autoSave("");
                 break;
             default:
                 break;
@@ -47,10 +46,12 @@ public class Content {
         actualContent = text;
     }
 
+    // Resetear la variable que guarda la referencia de si el archivo ha sido editado o no.
     public static void resetContent() {
         actualContent = null;
     }
 
+    // Comprueba si el documento ha tenido cambios desde la última vez que se guardó.
     public static boolean hasChanged(String text) {
         if (actualContent != null) return !actualContent.equals(text);
         return false;
