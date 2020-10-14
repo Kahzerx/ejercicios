@@ -4,6 +4,7 @@
   "language.region": "España",
 
   "app.name": "Editor de texto",
+  "app.untitled": "Sin título",
 
   "menu.file": "Archivo",
   "menu.file.open": "Abrir",
@@ -29,8 +30,7 @@
   "prompt.confirmation": "Confirmación",
   "prompt.wannaSave": "Quieres guardar?",
   "prompt.error.fileNotFound": "No se ha encontrado el archivo",
-  "prompt.openNoSave": "Estas intentando abrir un archivo sin guardar el anterior",
-  "prompt.closeNoSave": "Estas intentando cerrar un archivo no guardado",
+  "prompt.fileNotSaved": "Archivo no guardado",
   "prompt.wannaOverwrite": "Seguro que quieres sobreescribirlo?",
   "prompt.fileExists": "Has seleccionado un archivo ya existente",
   "prompt.fileNoWrite": "No ha sido posible aplicar cambios sobre este archivo",

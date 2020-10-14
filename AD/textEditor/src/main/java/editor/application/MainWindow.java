@@ -13,7 +13,7 @@ import java.awt.event.KeyListener;
  * Hacer un editor de texto en el cual se pueda escribir, abrir archivos y guardarlos.
  */
 
-//TODO: información del punto en el que se está escribiendo (meh), multilanguage support LOL.
+//TODO: información del punto en el que se está escribiendo (meh).
 
 public class MainWindow {
 
@@ -25,11 +25,13 @@ public class MainWindow {
 
     private JFrame frame;
     private JTextArea textArea;
-    private final String untitled = "Sin título";
-    private String windowName = untitled;
+    private String untitled;
+    private String windowName;
     private int fontSize = 15;
 
     private void initialize() {
+        windowName = untitled = LanguageUtils.getTranslation("app.untitled");
+
         createJFrame();
 
         createJTextArea();

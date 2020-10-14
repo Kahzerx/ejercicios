@@ -57,7 +57,7 @@ public class FileManagement {
     }
 
     public static void close(String content, String windowName) {
-        if (isGonnaClose(content, windowName) && shouldCloseSaving()) {
+        if (isGonnaClose(content, windowName) && shouldSave()) {
             saveFile(content);
         }
         onDelete();
@@ -111,14 +111,9 @@ public class FileManagement {
         return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s:\n - %s\n%s", LanguageUtils.getTranslation("prompt.fileExists"), fileName, LanguageUtils.getTranslation("prompt.wannaOverwrite")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
-    // Devuelve true si el usuario decide guardar al intenta cerrar un archivo no guardado, si se cierra la ventana se asume un false.
-    private static boolean shouldCloseSaving() {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s", LanguageUtils.getTranslation("prompt.closeNoSave"), LanguageUtils.getTranslation("prompt.wannaSave")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-    }
-
-    // Devuelve true si el usuario intenta abrir un archivo sin cerrar al anterior, si se cierra la ventana se asume un false.
-    private static boolean shouldOpenSaving() {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s", LanguageUtils.getTranslation("prompt.openNoSave"), LanguageUtils.getTranslation("prompt.wannaSave")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+    // Devuelve true si el usuario decide guardar al intenta cerrar un archivo no guardado o abrir un archivo sin cerrar al anterior, si se cierra la ventana se asume un false.
+    private static boolean shouldSave() {
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s", LanguageUtils.getTranslation("prompt.fileNotSaved"), LanguageUtils.getTranslation("prompt.wannaSave")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
     // Conseguir la path del archivo para el título.
@@ -143,13 +138,13 @@ public class FileManagement {
     }
 
     // Devuelve true si el documento que se va a cerrar tiene cambios que requieran de guardado.
-    public static boolean isGonnaClose(String content, String windowName) {
+    private static boolean isGonnaClose(String content, String windowName) {
         return (openFile == null && !content.equals("")) || windowName.startsWith("*");
     }
 
     // Añade verificación del usuario al isGonnaClose.
     public static void shouldSaveBeforeOpening(String content, String windowName) {
-        if (isGonnaClose(content, windowName) && shouldOpenSaving()) {
+        if (isGonnaClose(content, windowName) && shouldSave()) {
             saveFile(content);
         }
     }

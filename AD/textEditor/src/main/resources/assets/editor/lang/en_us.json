@@ -1,0 +1,40 @@
+{
+  "language.code": "en_us",
+  "language.name": "English",
+  "language.region": "United States",
+
+  "app.name": "Text editor",
+  "app.untitled": "Untitled",
+
+  "menu.file": "File",
+  "menu.file.open": "Open",
+  "menu.file.save": "Save",
+  "menu.file.saveAs": "Save as...",
+  "menu.file.close": "Close",
+
+  "menu.edit": "Edit",
+  "menu.edit.undo": "Undo",
+  "menu.edit.selectAll": "Select all",
+
+  "menu.view": "View",
+  "menu.view.zoomIn": "Zoom +",
+  "menu.view.zoomOut": "Zoom -",
+  "menu.view.defaultZoom": "Default zoom",
+
+  "chooser.filter": "Text files",
+  "chooser.select.file": "Open file",
+  "chooser.save.file": "Save file",
+  "chooser.error.UnableToGetContent": "Unable to get file content",
+
+  "prompt.error": "Error",
+  "prompt.confirmation": "Confirmation",
+  "prompt.wannaSave": "Do you want to save?",
+  "prompt.error.fileNotFound": "File not found",
+  "prompt.fileNotSaved": "File not saved",
+  "prompt.wannaOverwrite": "Do you with to overwrite it?",
+  "prompt.fileExists": "This file already exists",
+  "prompt.fileNoWrite": "Unable to save changes on this file",
+  "prompt.size.moreThan": "The size of this file is bigger than",
+  "prompt.wannaContinue": "Do you want to proceed?",
+  "prompt.mayCrash": "Program may stop working"
+}
