@@ -1,25 +1,26 @@
-package fileManagement;
+package editor.fileManagement;
+
+import editor.utils.LanguageUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
-
 
 public class FileManagement {
     private static File openFile;  // Archivo que se está modificando.
     // Seleccionar y abrir un archivo.
     public static String openFile() {
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "conf", "py", "java");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(LanguageUtils.getTranslation("chooser.filter"), "txt", "conf", "py", "java");
         chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Selecciona un archivo");
+        chooser.setDialogTitle(LanguageUtils.getTranslation("chooser.select.file"));
         if  (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION && shouldSetText(chooser.getSelectedFile().getName(), chooser.getSelectedFile().length())) {
             openFile = chooser.getSelectedFile();
             if (fileExists()) {  // Por si no has seleccionado ningún archivo y has cerrado la ventana del chooser.
                 return getContent(chooser.getSelectedFile());
             }
             else {
-                JOptionPane.showMessageDialog(null, "El archivo seleccionado no existe", "Error", JOptionPane.ERROR_MESSAGE);  // Input manual de un archivo que no existe.
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.error.fileNotFound"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);  // Input manual de un archivo que no existe.
             }
         }
         return null;
@@ -28,7 +29,7 @@ public class FileManagement {
     // Acción al guardar como.
     public static void createAndSaveFile(String content) {
         JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle("Guardar archivo");
+        chooser.setDialogTitle(LanguageUtils.getTranslation("chooser.save.file"));
         chooser.showSaveDialog(null);
 
         File file = chooser.getSelectedFile();
@@ -76,10 +77,10 @@ public class FileManagement {
                 return content.toString();
             }
             catch (FileNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "No se ha encontrado el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.error.fileNotFound"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
             }
             catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "No ha sido posible extraer el contenido del archivo", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("chooser.error.UnableToGetContent"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
             }
         }
         return null;
@@ -89,7 +90,7 @@ public class FileManagement {
     private static boolean shouldSetText(String fileName, long fileLength) {
         int warningSize = 60;  // Archivos demasiado grandes pueden dar problemas e incluso crashear el programa.
         if (fileLength > warningSize * Math.pow(2, 20)) {
-            return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("Este archivo pesa más de %dMB:\n - %s (%.2fMB)\nEstas seguro de que quieres continuar?\nEl programa puede dejar de responder", warningSize, fileName, fileLength * Math.pow(2, -20)), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s %dMB:\n - %s (%.2fMB)\n%s\n%s",  LanguageUtils.getTranslation("prompt.size.moreThan"), warningSize, fileName, fileLength * Math.pow(2, -20),  LanguageUtils.getTranslation("prompt.wannaContinue"), LanguageUtils.getTranslation("prompt.mayCrash")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         }
         return true;
     }
@@ -101,23 +102,23 @@ public class FileManagement {
             writer.write(content);
             writer.close();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "No ha sido posible aplicar cambios sobre este archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.fileNoWrite"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
     // Devuelve true si el usuario quiere sobreescribir, si se cierra la ventana se asume un false.
     private static boolean shouldSaveFileOverwrite(String fileName) {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("Has seleccionado un archivo ya existente:\n - %s\nSeguro que quieres sobreescribirlo?", fileName), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s:\n - %s\n%s", LanguageUtils.getTranslation("prompt.fileExists"), fileName, LanguageUtils.getTranslation("prompt.wannaOverwrite")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
     // Devuelve true si el usuario decide guardar al intenta cerrar un archivo no guardado, si se cierra la ventana se asume un false.
     private static boolean shouldCloseSaving() {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Estas intentando cerrar un archivo no guardado\nQuieres guardar?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s", LanguageUtils.getTranslation("prompt.closeNoSave"), LanguageUtils.getTranslation("prompt.wannaSave")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
     // Devuelve true si el usuario intenta abrir un archivo sin cerrar al anterior, si se cierra la ventana se asume un false.
     private static boolean shouldOpenSaving() {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Estas intentando abrir un archivo sin guardar el anterior\nQuieres guardar?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s", LanguageUtils.getTranslation("prompt.openNoSave"), LanguageUtils.getTranslation("prompt.wannaSave")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
     // Conseguir la path del archivo para el título.

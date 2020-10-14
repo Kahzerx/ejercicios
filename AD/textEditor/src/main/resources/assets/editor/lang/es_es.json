@@ -1,0 +1,40 @@
+{
+  "language.code": "es_es",
+  "language.name": "Español",
+  "language.region": "España",
+
+  "app.name": "Editor de texto",
+
+  "menu.file": "Archivo",
+  "menu.file.open": "Abrir",
+  "menu.file.save": "Guardar",
+  "menu.file.saveAs": "Guardar como...",
+  "menu.file.close": "Cerrar",
+
+  "menu.edit": "Editar",
+  "menu.edit.undo": "Deshacer",
+  "menu.edit.selectAll": "Seleccionar todo",
+
+  "menu.view": "Vista",
+  "menu.view.zoomIn": "Zoom +",
+  "menu.view.zoomOut": "Zoom -",
+  "menu.view.defaultZoom": "Zoom por defecto",
+
+  "chooser.filter": "Archivos de texto",
+  "chooser.select.file": "Selecciona un archivo",
+  "chooser.save.file": "Guardar archivo",
+  "chooser.error.UnableToGetContent": "No ha sido posible extraer el contenido del archivo",
+
+  "prompt.error": "Error",
+  "prompt.confirmation": "Confirmación",
+  "prompt.wannaSave": "Quieres guardar?",
+  "prompt.error.fileNotFound": "No se ha encontrado el archivo",
+  "prompt.openNoSave": "Estas intentando abrir un archivo sin guardar el anterior",
+  "prompt.closeNoSave": "Estas intentando cerrar un archivo no guardado",
+  "prompt.wannaOverwrite": "Seguro que quieres sobreescribirlo?",
+  "prompt.fileExists": "Has seleccionado un archivo ya existente",
+  "prompt.fileNoWrite": "No ha sido posible aplicar cambios sobre este archivo",
+  "prompt.size.moreThan": "Este archivo pesa más de",
+  "prompt.wannaContinue": "Estas seguro de que quieres continuar?",
+  "prompt.mayCrash": "El programa puede dejar de responder"
+}
