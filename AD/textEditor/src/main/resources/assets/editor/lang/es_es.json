@@ -11,6 +11,7 @@
   "menu.file.save": "Guardar",
   "menu.file.saveAs": "Guardar como...",
   "menu.file.close": "Cerrar",
+  "menu.file.quit": "Salir",
 
   "menu.edit": "Editar",
   "menu.edit.undo": "Deshacer",

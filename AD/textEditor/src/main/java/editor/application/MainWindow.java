@@ -5,15 +5,11 @@ import editor.utils.LanguageUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 /*
  * Hacer un editor de texto en el cual se pueda escribir, abrir archivos y guardarlos.
  */
-
-//TODO: información del punto en el que se está escribiendo (meh).
 
 public class MainWindow {
 
@@ -56,8 +52,15 @@ public class MainWindow {
         frame = new JFrame();
         updateTitle("");
         frame.setBounds(100, 100, 1280, 720);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
+
+        // Por si intentas cerrar la ventana con un documento no guardado abierto.
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
+                onQuit();
+            }
+        });
     }
 
     // Configuro la TextArea junto con la fuente y el tamaño de letra.
@@ -89,72 +92,79 @@ public class MainWindow {
 
     // Desplegable de "Archivo".
     private void createArchivoMenu(JMenuBar bar) {
-        JMenu menuArchivo = new JMenu(LanguageUtils.getTranslation("menu.file"));
-        bar.add(menuArchivo);
+        JMenu menuFile = new JMenu(LanguageUtils.getTranslation("menu.file"));
+        bar.add(menuFile);
 
         JMenuItem open = new JMenuItem(LanguageUtils.getTranslation("menu.file.open"));
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));  // Hotkeys.
         // Listener para realizar una acción al presionar cada item del menu.
         open.addActionListener(actionEvent -> onOpen());
-        menuArchivo.add(open);
+        menuFile.add(open);
 
-        menuArchivo.addSeparator();
+        menuFile.addSeparator();
 
         JMenuItem save = new JMenuItem(LanguageUtils.getTranslation("menu.file.save"));
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         save.addActionListener(actionEvent -> onSave());
-        menuArchivo.add(save);
+        menuFile.add(save);
 
         JMenuItem saveAs = new JMenuItem(LanguageUtils.getTranslation("menu.file.saveAs"));
         saveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_DOWN_MASK | InputEvent.CTRL_DOWN_MASK));
         saveAs.addActionListener(actionEvent -> onCreateAndSave());
-        menuArchivo.add(saveAs);
+        menuFile.add(saveAs);
 
-        menuArchivo.addSeparator();
+        menuFile.addSeparator();
 
         JMenuItem close = new JMenuItem(LanguageUtils.getTranslation("menu.file.close"));
         close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
         close.addActionListener(actionEvent -> onClose());
-        menuArchivo.add(close);
+        menuFile.add(close);
+
+        menuFile.addSeparator();
+
+        JMenuItem quit = new JMenuItem(LanguageUtils.getTranslation("menu.file.quit"));
+        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
+        quit.addActionListener(actionEvent -> onQuit());
+        menuFile.add(quit);
     }
 
     // Desplegable de "Editar".
     private void createEditarMenu(JMenuBar bar) {
-        JMenu menuEditar = new JMenu(LanguageUtils.getTranslation("menu.edit"));
-        bar.add(menuEditar);
+        JMenu menuEdit = new JMenu(LanguageUtils.getTranslation("menu.edit"));
+        bar.add(menuEdit);
 
         JMenuItem undo = new JMenuItem(LanguageUtils.getTranslation("menu.edit.undo"));
         undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
         undo.addActionListener(actionEvent -> onUndo());
-        menuEditar.add(undo);
+        menuEdit.add(undo);
 
-        menuEditar.addSeparator();
+        menuEdit.addSeparator();
 
         JMenuItem selectAll = new JMenuItem(LanguageUtils.getTranslation("menu.edit.selectAll"));
         selectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
         selectAll.addActionListener(actionEvent -> textArea.selectAll());
-        menuEditar.add(selectAll);
+        menuEdit.add(selectAll);
     }
 
     private void createVistaMenu(JMenuBar bar) {
-        JMenu menuVista = new JMenu(LanguageUtils.getTranslation("menu.view"));
-        bar.add(menuVista);
+        JMenu menuView = new JMenu(LanguageUtils.getTranslation("menu.view"));
+        bar.add(menuView);
 
         //Hotkeys del teclado numérico.
         JMenuItem zoomIn = new JMenuItem(LanguageUtils.getTranslation("menu.view.zoomIn"));
         zoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ADD, InputEvent.CTRL_DOWN_MASK));
         zoomIn.addActionListener(actionEvent -> onZoomIn());
-        menuVista.add(zoomIn);
+        menuView.add(zoomIn);
 
         JMenuItem zoomOut = new JMenuItem(LanguageUtils.getTranslation("menu.view.zoomOut"));
         zoomOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_SUBTRACT, InputEvent.CTRL_DOWN_MASK));
         zoomOut.addActionListener(actionEvent -> onZoomOut());
-        menuVista.add(zoomOut);
+        menuView.add(zoomOut);
 
         JMenuItem zoomReset = new JMenuItem(LanguageUtils.getTranslation("menu.view.defaultZoom"));
         zoomReset.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_NUMPAD0, InputEvent.CTRL_DOWN_MASK));
         zoomReset.addActionListener(actionEvent -> onZoomReset());
-        menuVista.add(zoomReset);
+        menuView.add(zoomReset);
     }
 
     // Actualizar el título de la ventana.
@@ -214,6 +224,13 @@ public class MainWindow {
 
         setWindowName(untitled);
         updateTitle("");
+    }
+
+    // Acciones cada vez que se cierra la aplicación.
+    private void onQuit() {
+        onClose();
+        frame.dispose();
+        Runtime.getRuntime().halt(0);  // Al cerrar con un documento no guardado, si le das a que Si, no finaliza el proceso :(.
     }
 
     // Acciones cada vez que se realiza un deshacer.
