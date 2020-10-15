@@ -20,7 +20,9 @@ public class FileManagement {
                 return getContent(chooser.getSelectedFile());
             }
             else {
-                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.error.fileNotFound"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);  // Input manual de un archivo que no existe.
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.error.fileNotFound"),
+                        LanguageUtils.getTranslation("prompt.error"),
+                        JOptionPane.ERROR_MESSAGE);  // Input manual de un archivo que no existe.
             }
         }
         return null;
@@ -34,7 +36,8 @@ public class FileManagement {
 
         File file = chooser.getSelectedFile();
         if (file != null) {  // Por si no has seleccionado ningún archivo y has cerrado la ventana del chooser.
-            String name = file.getName().split("\\.").length > 1 ? file.getName() : String.format("%s.txt", file.getName());  // Por si pones un nombre sin extensión, por defecto va un ".txt".
+            String name = file.getName().split("\\.").length > 1 ? file.getName() : String.format("%s.txt", file.getName());
+            // Por si pones un nombre sin extensión, por defecto va un ".txt".
             File newFile = new File(file.getAbsolutePath().replace(file.getName(), name));
 
             if (newFile.exists() && !shouldSaveFileOverwrite(name)) {  // Prompt de si de verdad quieres sobreescribir el archivo seleccionado.
@@ -77,10 +80,14 @@ public class FileManagement {
                 return content.toString();
             }
             catch (FileNotFoundException e) {
-                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.error.fileNotFound"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.error.fileNotFound"),
+                        LanguageUtils.getTranslation("prompt.error"),
+                        JOptionPane.ERROR_MESSAGE);
             }
             catch (IOException e) {
-                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("chooser.error.UnableToGetContent"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("chooser.error.UnableToGetContent"),
+                        LanguageUtils.getTranslation("prompt.error"),
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
         return null;
@@ -90,7 +97,15 @@ public class FileManagement {
     private static boolean shouldSetText(String fileName, long fileLength) {
         int warningSize = 60;  // Archivos demasiado grandes pueden dar problemas e incluso crashear el programa.
         if (fileLength > warningSize * Math.pow(2, 20)) {
-            return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s %dMB:\n - %s (%.2fMB)\n%s\n%s",  LanguageUtils.getTranslation("prompt.size.moreThan"), warningSize, fileName, fileLength * Math.pow(2, -20),  LanguageUtils.getTranslation("prompt.wannaContinue"), LanguageUtils.getTranslation("prompt.mayCrash")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s %dMB:\n - %s (%.2fMB)\n%s\n%s",
+                    LanguageUtils.getTranslation("prompt.size.moreThan"),
+                    warningSize,
+                    fileName,
+                    fileLength * Math.pow(2, -20),
+                    LanguageUtils.getTranslation("prompt.wannaContinue"),
+                    LanguageUtils.getTranslation("prompt.mayCrash")),
+                    LanguageUtils.getTranslation("prompt.confirmation"),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         }
         return true;
     }
@@ -102,18 +117,27 @@ public class FileManagement {
             writer.write(content);
             writer.close();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.fileNoWrite"), LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("prompt.fileNoWrite"),
+                    LanguageUtils.getTranslation("prompt.error"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
     // Devuelve true si el usuario quiere sobreescribir, si se cierra la ventana se asume un false.
     private static boolean shouldSaveFileOverwrite(String fileName) {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s:\n - %s\n%s", LanguageUtils.getTranslation("prompt.fileExists"), fileName, LanguageUtils.getTranslation("prompt.wannaOverwrite")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s:\n - %s\n%s",
+                LanguageUtils.getTranslation("prompt.fileExists"), fileName,
+                LanguageUtils.getTranslation("prompt.wannaOverwrite")),
+                LanguageUtils.getTranslation("prompt.confirmation"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
     // Devuelve true si el usuario decide guardar al intenta cerrar un archivo no guardado o abrir un archivo sin cerrar al anterior, si se cierra la ventana se asume un false.
     private static boolean shouldSave() {
-        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s", LanguageUtils.getTranslation("prompt.fileNotSaved"), LanguageUtils.getTranslation("prompt.wannaSave")), LanguageUtils.getTranslation("prompt.confirmation"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, String.format("%s\n%s",
+                LanguageUtils.getTranslation("prompt.fileNotSaved"),
+                LanguageUtils.getTranslation("prompt.wannaSave")),
+                LanguageUtils.getTranslation("prompt.confirmation"),
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
     }
 
     // Conseguir la path del archivo para el título.
