@@ -194,6 +194,8 @@ public class MainWindow {
             textArea.setText(value);
             textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
             updateWindow(value);
+            Content.updateContent(value);
+            Content.updateSaves(0);
         }
     }
 
