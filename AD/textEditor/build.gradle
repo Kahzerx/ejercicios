@@ -1,7 +1,10 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'java'
+    id 'application'
 }
+
+mainClassName = 'editor.application.MainWindow'
 
 group 'org.editor'
 version '1.0'
