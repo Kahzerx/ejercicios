@@ -188,16 +188,18 @@ public class MainWindow {
 
     // Acciones cada vez que se abre un archivo.
     private void onOpen() {
-        checkFile();  // Arreglar un bug en el que eliminas el archivo editandose y sin que el programa se de cuenta (ejecutando hotkeys) hagas alguna accion de archivo.
         FileManagement.shouldSaveBeforeOpening(textArea.getText(), frame.getTitle());
+        onClose();
         String value = FileManagement.openFile();
-        textArea.setText(value);
-        textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
-
+        if (value != null) {
+            textArea.setText(value);
+            textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
+        }
         if (FileManagement.fileIsNotNull() && FileManagement.fileExists()) {
             updateWindow(value);
-
-            Content.updateSaves(0);
+        }
+        else {
+            setWindowName(untitled);
         }
     }
 
