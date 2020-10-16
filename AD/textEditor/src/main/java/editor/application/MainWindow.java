@@ -189,17 +189,11 @@ public class MainWindow {
     // Acciones cada vez que se abre un archivo.
     private void onOpen() {
         FileManagement.shouldSaveBeforeOpening(textArea.getText(), frame.getTitle());
-        onClose();
         String value = FileManagement.openFile();
         if (value != null) {
             textArea.setText(value);
             textArea.setCaretPosition(0);  // Pongo el cursor en la primera linea.
-        }
-        if (FileManagement.fileIsNotNull() && FileManagement.fileExists()) {
             updateWindow(value);
-        }
-        else {
-            setWindowName(untitled);
         }
     }
 
