@@ -7,6 +7,7 @@
   "app.untitled": "Sin título",
 
   "menu.file": "Archivo",
+  "menu.file.new": "Nuevo",
   "menu.file.open": "Abrir",
   "menu.file.save": "Guardar",
   "menu.file.saveAs": "Guardar como...",

@@ -95,6 +95,14 @@ public class MainWindow {
         JMenu menuFile = new JMenu(LanguageUtils.getTranslation("menu.file"));
         bar.add(menuFile);
 
+        JMenuItem newFile = new JMenuItem(LanguageUtils.getTranslation("menu.file.new"));
+        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));  // Hotkeys.
+        // Listener para realizar una acción al presionar cada item del menu.
+        newFile.addActionListener(actionEvent -> onClose());
+        menuFile.add(newFile);
+
+        menuFile.addSeparator();
+
         JMenuItem open = new JMenuItem(LanguageUtils.getTranslation("menu.file.open"));
         open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));  // Hotkeys.
         // Listener para realizar una acción al presionar cada item del menu.
