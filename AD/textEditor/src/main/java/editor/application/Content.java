@@ -10,7 +10,7 @@ public class Content {
 
     // Retrocede en la Arraylist de contenido para simular el "deshacer".
     public static String undo() {
-        return saves.get(saves.size() - 1);
+        return saves.size() > 1 ? saves.get(saves.size() - 1) : actualContent;
     }
 
     // Realiza un autosave Cada vez que se presiona Enter.
