@@ -25,6 +25,7 @@ public class LanguageUtils {
         catch (NullPointerException | IOException e) {
             return false;
         }
+        System.out.println();
 
         // Serialización y convertir en array para acceder facilmente con la key correcta.
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
