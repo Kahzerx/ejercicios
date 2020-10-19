@@ -4,8 +4,11 @@ import editor.fileManagement.FileManagement;
 import editor.utils.LanguageUtils;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * Hacer un editor de texto en el cual se pueda escribir, abrir archivos y guardarlos.
@@ -24,6 +27,8 @@ public class MainWindow {
     private String untitled;
     private String windowName;
     private int fontSize = 15;
+    private Highlighter highlighter;
+    private Highlighter.HighlightPainter highlightPainter;
 
     private void initialize() {
         windowName = untitled = LanguageUtils.getTranslation("app.untitled");
@@ -31,6 +36,9 @@ public class MainWindow {
         createJFrame();
 
         createJTextArea();
+
+        highlighter = textArea.getHighlighter();
+        highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.PINK);
 
         // Scroll tanto lateral como vertical para visualizar el texto.
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -80,13 +88,42 @@ public class MainWindow {
             }
 
             @Override
-            public void keyTyped(KeyEvent keyEvent) {
-            }
+            public void keyTyped(KeyEvent keyEvent) {}
+
             @Override
             public void keyReleased(KeyEvent keyEvent) {
                 // Detección de si el archivo editándose ha sido eliminado.
                 checkFile();
             }
+        });
+
+        textArea.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                highlighter.removeAllHighlights();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {}
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {}
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {}
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {}
+        });
+
+        textArea.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent mouseEvent) {
+                onSelect();
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent mouseEvent) {}
         });
     }
 
@@ -258,6 +295,23 @@ public class MainWindow {
     // Acciones al resetear zoom.
     private void onZoomReset() {
         if (textArea.getFont().getSize() != 15) textArea.setFont(new Font("Arial", Font.PLAIN, fontSize = 15));
+    }
+
+    // Encuentra lo que coincida con el texto seleccionado.
+    private void onSelect() {
+        if (textArea.getSelectedText() != null) {
+            String selected = textArea.getSelectedText();
+            Matcher m = Pattern.compile(selected).matcher(textArea.getText());
+            highlighter.removeAllHighlights();
+
+            while (m.find()) {
+                try {
+                    highlighter.addHighlight(m.start(), m.end(), highlightPainter);
+                }
+                catch (BadLocationException ignored) {}
+            }
+        }
+        else highlighter.removeAllHighlights();
     }
 
     // Verifica que el archivo está en su estado normal y añado indicadores de cuando está siendo editado.
