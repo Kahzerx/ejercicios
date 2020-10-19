@@ -29,6 +29,7 @@ public class MainWindow {
     private int fontSize = 15;
     private Highlighter highlighter;
     private Highlighter.HighlightPainter highlightPainter;
+    private Highlighter.HighlightPainter selectedHighlightPainter;
 
     private void initialize() {
         windowName = untitled = LanguageUtils.getTranslation("app.untitled");
@@ -39,6 +40,7 @@ public class MainWindow {
 
         highlighter = textArea.getHighlighter();
         highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.PINK);
+        selectedHighlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.DARK_GRAY);
 
         // Scroll tanto lateral como vertical para visualizar el texto.
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -85,6 +87,7 @@ public class MainWindow {
             public void keyPressed(KeyEvent keyEvent) {
                 // Autosaves.
                 Content.getAction(keyEvent.getKeyCode(), textArea.getText());
+                highlighter.removeAllHighlights();
             }
 
             @Override
@@ -119,7 +122,7 @@ public class MainWindow {
         textArea.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent mouseEvent) {
-                onSelect();
+                onSelect(textArea.getSelectedText());
             }
 
             @Override
@@ -298,15 +301,15 @@ public class MainWindow {
     }
 
     // Encuentra lo que coincida con el texto seleccionado.
-    private void onSelect() {
-        if (textArea.getSelectedText() != null) {
-            String selected = textArea.getSelectedText();
+    private void onSelect(String selected) {
+        if (selected != null) {
             Matcher m = Pattern.compile(selected).matcher(textArea.getText());
             highlighter.removeAllHighlights();
 
             while (m.find()) {
                 try {
-                    highlighter.addHighlight(m.start(), m.end(), highlightPainter);
+                    if (m.start() != textArea.getSelectionStart() && m.end() != textArea.getSelectionEnd()) highlighter.addHighlight(m.start(), m.end(), highlightPainter);
+                    else highlighter.addHighlight(m.start(), m.end(), selectedHighlightPainter);
                 }
                 catch (BadLocationException ignored) {}
             }
