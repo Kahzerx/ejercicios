@@ -1,5 +1,6 @@
 from discord.ext import commands
 import datetime
+from lib.QueryDB import insertTask
 
 
 class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
@@ -13,24 +14,25 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
     @staticmethod
     def getDate(userInput):
         array = userInput.split(r'/')
-        return datetime.datetime(year=int(array[2]), month=int(array[1]), day=int(array[0])).strftime('%d-%m-%Y')
+        return datetime.datetime(year=int(array[2]), month=int(array[1]), day=int(array[0])).strftime('%d-%m-%y')
 
     @staticmethod
     def addHelp():
-        return '`.add msg(str) date(dd/mm/yyyy)`'
+        return '`.add msg(str) date(dd/mm/yy)`'
 
     @commands.command()
     async def add(self, ctx):
         msg = ctx.message.content.split(' ')
-        if len(msg) == 3:
-            try:
-                date = self.getDate(msg[2])
-                print(date)
-                note = msg[1]
-                print(note)
-            except:
-                await ctx.send(self.addHelp())
-        else:
+        try:
+            userId = ctx.message.author.id
+            message = '_'.join(msg[1:-1])
+            date = self.getDate(msg[-1])
+
+            insertTask(userId, message, date, 0)
+
+            await ctx.send('Task added!')
+
+        except:
             await ctx.send(self.addHelp())
 
 
