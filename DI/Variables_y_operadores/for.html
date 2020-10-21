@@ -14,6 +14,17 @@
     </div>
 
     <script>
+        console.log(factorial(6));
+
+        function factorial(num) {
+            if (num >= 1) {
+                return num *= factorial(num -1);
+            }
+            else {
+                return 1;
+            }
+        }
+
         function ejemploFor() {
             var cabeceras = ``;  // Agrupar todo en una variable para meterlo en el <div> directamente
             for (var i = 1; i < 7; i++) {
