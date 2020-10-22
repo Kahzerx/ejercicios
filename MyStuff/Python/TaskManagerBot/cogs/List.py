@@ -21,7 +21,7 @@ class List(commands.Cog, command_attrs=dict(help='List tasks')):
     async def listDone(self, ctx):
         tasks = getDoneTasks(ctx.message.author.id)
         embed = Embed(
-            title='All Tasks:',
+            title='Tasks:',
             description=tasks,
             color=Color.green() if tasks != 'No tasks' else Color.red()
         )
