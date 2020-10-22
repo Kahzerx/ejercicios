@@ -15,7 +15,7 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
     @staticmethod
     def getDate(userInput):
         array = userInput.split(r'/')
-        return datetime.datetime(year=int(array[2]), month=int(array[1]), day=int(array[0])).strftime('%d-%m-%y')
+        return datetime.datetime(year=int(array[2]), month=int(array[1]), day=int(array[0])).strftime('%d/%m/%y')
 
     @staticmethod
     def addHelp():

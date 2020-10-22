@@ -57,8 +57,9 @@ def getDoneTasks(userId):
 
 def getId(msgId, userId, done):
     table = Table('tasks', metadata, autoload=True, autoload_with=engine)
-    stmt = select([table.columns.id, table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId,
-                                                                                        table.columns.completed == done))
+    stmt = select([table.columns.id,
+                   table.columns.msg,
+                   table.columns.date]).where(and_(table.columns.userId == userId, table.columns.completed == done))
     result = session.execute(stmt).fetchall()
 
     var = -1
@@ -78,14 +79,16 @@ def updateCompleted(rowId, done):
 
 def getAllTasks(userId):
     table = Table('tasks', metadata, autoload=True, autoload_with=engine)
-    stmt = select([table.columns.msg, table.columns.date, table.columns.completed]).where(and_(table.columns.userId == userId))
+    stmt = select([table.columns.msg,
+                   table.columns.date,
+                   table.columns.completed]).where(table.columns.userId == userId)
     result = session.execute(stmt).fetchall()
     if not result:
         return 'No tasks'
 
     tasks = ''
     for idX, item in enumerate(result):
-        status = 'x' if item[2] == 0 else '✓'
+        status = '✗' if item[2] == 0 else '🗸'
         tasks += f'[{status}] {item[0]} --> {item[1]}\n'
 
     return tasks
