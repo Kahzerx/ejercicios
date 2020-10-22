@@ -1,6 +1,6 @@
 from discord.ext import commands
 import datetime
-from lib.QueryDB import insertTask
+from lib.QueryDB import insertTask, insertUser
 
 
 class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
@@ -24,11 +24,13 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
     async def add(self, ctx):
         msg = ctx.message.content.split(' ')
         try:
+            userName = ctx.message.author.name
             userId = ctx.message.author.id
             message = '_'.join(msg[1:-1])
             date = self.getDate(msg[-1])
 
             insertTask(userId, message, date, 0)
+            insertUser(userId, userName)
 
             await ctx.send('Task added!')
 
