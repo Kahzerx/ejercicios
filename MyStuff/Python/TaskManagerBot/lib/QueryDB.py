@@ -34,7 +34,7 @@ def getTodoTasks(userId):
 
     for idX, item in enumerate(result):
         tasks += f'[{idX + 1}] {item[0]} --> {item[1]}\n'
-    tasks += '\nInstrucciones para marcar como completadas'
+    tasks += '\n.done 1 -- to mark as done'
 
     return tasks
 
@@ -50,13 +50,42 @@ def getDoneTasks(userId):
     tasks = ''
     for idX, item in enumerate(result):
         tasks += f'[{idX + 1}] {item[0]} --> {item[1]}\n'
-    tasks += '\nInstrucciones para desmarcar como completadas'
+    tasks += '\n.unDone 1 -- to mark as not done'
 
     return tasks
 
 
-def getId(rowId, userId):
+def getId(msgId, userId, done):
     table = Table('tasks', metadata, autoload=True, autoload_with=engine)
     stmt = select([table.columns.id, table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId,
-                                                                                        table.columns.completed == 0))
+                                                                                        table.columns.completed == done))
     result = session.execute(stmt).fetchall()
+
+    var = -1
+    for idX, item in enumerate(result):
+        if idX == msgId - 1:
+            var = item[0]
+
+    return var
+
+
+def updateCompleted(rowId, done):
+    table = Table('tasks', metadata, autoload=True, autoload_with=engine)
+    stmt = update(table).values(completed=done).where(table.columns.id == rowId)
+    session.execute(stmt)
+    session.commit()
+
+
+def getAllTasks(userId):
+    table = Table('tasks', metadata, autoload=True, autoload_with=engine)
+    stmt = select([table.columns.msg, table.columns.date, table.columns.completed]).where(and_(table.columns.userId == userId))
+    result = session.execute(stmt).fetchall()
+    if not result:
+        return 'No tasks'
+
+    tasks = ''
+    for idX, item in enumerate(result):
+        status = 'x' if item[2] == 0 else '✓'
+        tasks += f'[{status}] {item[0]} --> {item[1]}\n'
+
+    return tasks
