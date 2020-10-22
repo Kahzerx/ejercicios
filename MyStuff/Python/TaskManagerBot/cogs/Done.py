@@ -18,9 +18,9 @@ class Done(commands.Cog, command_attrs=dict(help='Mark tasks as completed')):
                 rowId = getId(int(msg[1]), ctx.message.author.id, 0)
                 if rowId != -1:
                     updateCompleted(rowId, 1)
-                    await ctx.send('Updated!')
+                    await ctx.send('`Updated!`')
                 else:
-                    await ctx.send('Unable to find the task')
+                    await ctx.send('`Unable to find the task`')
             except:
                 await ctx.send(self.doneHelp())
         else:
@@ -34,9 +34,9 @@ class Done(commands.Cog, command_attrs=dict(help='Mark tasks as completed')):
                 rowId = getId(int(msg[1]), ctx.message.author.id, 1)
                 if rowId != -1:
                     updateCompleted(rowId, 0)
-                    await ctx.send('Updated!')
+                    await ctx.send('`Updated!`')
                 else:
-                    await ctx.send('Unable to find the task')
+                    await ctx.send('`Unable to find the task`')
             except:
                 await ctx.send(self.doneHelp())
         else:
