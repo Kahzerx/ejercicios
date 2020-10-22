@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, String, Integer
 
 
-engine = create_engine('sqlite:///database/database.db', echo=False)
+engine = create_engine('sqlite:///database/database.db', echo=True)
 Base = declarative_base()
 
 

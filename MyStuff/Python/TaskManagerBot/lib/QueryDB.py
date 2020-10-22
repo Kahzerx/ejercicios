@@ -1,4 +1,4 @@
-from sqlalchemy import Table, MetaData, select, insert, and_
+from sqlalchemy import Table, MetaData, select, insert, update, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from lib.Databases import engine, Task
@@ -24,7 +24,8 @@ def insertUser(userId1, name1):
 
 def getTodoTasks(userId):
     table = Table('tasks', metadata, autoload=True, autoload_with=engine)
-    stmt = select([table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId, table.columns.completed == 0))
+    stmt = select([table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId,
+                                                                      table.columns.completed == 0))
     result = session.execute(stmt).fetchall()
     if not result:
         return 'No tasks'
@@ -36,3 +37,26 @@ def getTodoTasks(userId):
     tasks += '\nInstrucciones para marcar como completadas'
 
     return tasks
+
+
+def getDoneTasks(userId):
+    table = Table('tasks', metadata, autoload=True, autoload_with=engine)
+    stmt = select([table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId,
+                                                                      table.columns.completed == 1))
+    result = session.execute(stmt).fetchall()
+    if not result:
+        return 'No tasks'
+
+    tasks = ''
+    for idX, item in enumerate(result):
+        tasks += f'[{idX + 1}] {item[0]} --> {item[1]}\n'
+    tasks += '\nInstrucciones para desmarcar como completadas'
+
+    return tasks
+
+
+def getId(rowId, userId):
+    table = Table('tasks', metadata, autoload=True, autoload_with=engine)
+    stmt = select([table.columns.id, table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId,
+                                                                                        table.columns.completed == 0))
+    result = session.execute(stmt).fetchall()
