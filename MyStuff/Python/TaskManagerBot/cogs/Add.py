@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import Embed, Color
 import datetime
 from lib.QueryDB import insertTask, insertUser
 
@@ -26,13 +27,16 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
         try:
             userName = ctx.message.author.name
             userId = ctx.message.author.id
-            message = '_'.join(msg[1:-1])
+            message = ' '.join(msg[1:-1])
             date = self.getDate(msg[-1])
 
             insertTask(userId, message, date, 0)
             insertUser(userId, userName)
 
-            await ctx.send('Task added!')
+            await ctx.send(embed=Embed(
+                title='Task added!',
+                color=Color.green()
+            ))
 
         except:
             await ctx.send(self.addHelp())

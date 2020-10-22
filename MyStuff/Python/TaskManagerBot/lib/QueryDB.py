@@ -1,27 +1,12 @@
-from sqlalchemy import create_engine, Column, String, Integer
+from sqlalchemy import Table, MetaData, select, insert, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from lib.Databases import engine, Task
 
 Base = declarative_base()
 
-engine = create_engine('sqlite:///database/database.db', echo=False)
 session = sessionmaker(bind=engine)()
-
-
-class Task(Base):
-    __tablename__ = 'tasks'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    userId = Column(Integer, nullable=False)
-    msg = Column(String, nullable=False)
-    date = Column(String, nullable=False)
-    completed = Column(Integer, nullable=False)
-
-    def __init__(self, userId, msg, date, completed):
-        self.userId = userId
-        self.msg = msg
-        self.date = date
-        self.completed = completed
+metadata = MetaData(bind=None)
 
 
 def insertTask(userId, msg, date, completed):
@@ -30,18 +15,24 @@ def insertTask(userId, msg, date, completed):
     session.commit()
 
 
-class User(Base):
-    __tablename__ = 'user'
-
-    userId = Column(Integer, primary_key=True, nullable=False)
-    name = Column(String, nullable=False)
-
-    def __init__(self, userId, name):
-        self.userId = userId
-        self.name = name
-
-
-def insertUser(userId, name):
-    user = User(userId, name)
-    session.add(user)
+def insertUser(userId1, name1):
+    table = Table('user', metadata, autoload=True, autoload_with=engine)
+    stmt = insert(table).prefix_with('OR IGNORE').values(userId=userId1, name=name1)
+    session.execute(stmt)
     session.commit()
+
+
+def getTodoTasks(userId):
+    table = Table('tasks', metadata, autoload=True, autoload_with=engine)
+    stmt = select([table.columns.msg, table.columns.date]).where(and_(table.columns.userId == userId, table.columns.completed == 0))
+    result = session.execute(stmt).fetchall()
+    if not result:
+        return 'No tasks'
+
+    tasks = ''
+
+    for idX, item in enumerate(result):
+        tasks += f'[{idX + 1}] {item[0]} --> {item[1]}\n'
+    tasks += '\nInstrucciones para marcar como completadas'
+
+    return tasks
