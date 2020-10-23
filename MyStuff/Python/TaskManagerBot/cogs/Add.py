@@ -1,5 +1,7 @@
 from discord.ext import commands
+from discord import Embed, Color
 import datetime
+from lib.QueryDB import insertTask, insertUser
 
 
 class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
@@ -13,24 +15,30 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
     @staticmethod
     def getDate(userInput):
         array = userInput.split(r'/')
-        return datetime.datetime(year=int(array[2]), month=int(array[1]), day=int(array[0])).strftime('%d-%m-%Y')
+        return datetime.datetime(year=int(array[2]), month=int(array[1]), day=int(array[0])).strftime('%d/%m/%y')
 
     @staticmethod
     def addHelp():
-        return '`.add msg(str) date(dd/mm/yyyy)`'
+        return '`.add msg(str) date(dd/mm/yy)`'
 
     @commands.command()
     async def add(self, ctx):
         msg = ctx.message.content.split(' ')
-        if len(msg) == 3:
-            try:
-                date = self.getDate(msg[2])
-                print(date)
-                note = msg[1]
-                print(note)
-            except:
-                await ctx.send(self.addHelp())
-        else:
+        try:
+            userName = ctx.message.author.name
+            userId = ctx.message.author.id
+            message = ' '.join(msg[1:-1])
+            date = self.getDate(msg[-1])
+
+            insertTask(userId, message, date, 0)
+            insertUser(userId, userName)
+
+            await ctx.send(embed=Embed(
+                title='Task added!',
+                color=Color.green()
+            ))
+
+        except:
             await ctx.send(self.addHelp())
 
 
