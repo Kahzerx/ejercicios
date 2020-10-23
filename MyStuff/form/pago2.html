@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Formularios</title>
+    <link rel="stylesheet" media="screen" href="css/style.css">
+    <meta charset="UTF-8">
+</head>
+
+<body style="padding: 0; margin: 0;">
+    <div id="particles-js"><canvas class="particles-js-canvas-el" style="width: 100%; height: 100%;" width="1148"
+            height="575"></canvas></div>
+    <form action="final.html" method="POST" class="authbox">
+        <div class="title">Introduzca los datos</div>
+        <div class="title">de su tarjeta</div>
+            <label>
+                <h5 class="inputType">NÚMERO DE TARJETA</h5>
+            </label>
+            <input class="input" type="text" id="number-cart" maxlength="16" minlength="14" onkeyup="type_card()"
+                name="numbe_cart" />
+            <span class="card" id="card" style="background-position: 98% 87%;"></span>
+            <label>
+                <h5 class="inputType">FECHA DE EXPIRACIÓN</h5>
+            </label>
+            <input type="text" name="date_card" class="input"/>
+            <label>
+                <h5 class="inputType">CVV</h5>
+            </label>
+            <input type="text" name="cvv_card" class="input"/>
+            <div><br></div>
+            <div class="buttonContents">
+                <input type="submit" value="Enviar" class="submitButton">
+            </div>
+    </form>
+    <script>
+        function type_card() {
+            var get_value = document.getElementById('number-cart').value;
+            var type = get_value.substring(0, 2);
+            var other = get_value.substring(0, 1);
+            if (other == "4") {
+                document.getElementById("card").style.backgroundPosition = "0px 1px";
+                document.getElementById("csc").maxLength = "4"
+            } else if (other == "5") {
+                document.getElementById("card").style.backgroundPosition = "0px -27px";
+                document.getElementById("csc").maxLength = "4";
+            }
+            /*Amex Card*/
+            else if (type == "34") {
+                document.getElementById("card").style.backgroundPosition = "0px -57px";
+                document.getElementById('type_cvv').style.backgroundPosition = "0px -462px";
+                document.getElementById("csc").maxLength = "4"
+            }
+            else if (type == "37") {
+                document.getElementById("card").style.backgroundPosition = "0px -57px";
+                document.getElementById('type_cvv').style.backgroundPosition = "0px -462px";
+                document.getElementById("csc").maxLength = "4"
+            }
+            /*Amex Card*/
+            /*Card*/
+            else if (type == "30") {
+                document.getElementById("card").style.backgroundPosition = "0px -116px";
+                document.getElementById('cont_in').style.display = "none"
+            } else if (type == "36") {
+                document.getElementById("card").style.backgroundPosition = "0px -116px";
+                document.getElementById('cont_in').style.display = "none"
+            }
+            else if (type == "38") {
+                document.getElementById("card").style.backgroundPosition = "0px -116px";
+                document.getElementById('cont_in').style.display = "none"
+            }
+            /*blue Card*/
+            else if (other == "6") {
+                document.getElementById("card").style.backgroundPosition = "0px -86px";
+                document.getElementById('cont_in').style.display = "none"
+            }
+            else if (type == "35") {
+                document.getElementById("card").style.backgroundPosition = "0px -145px";
+                document.getElementById('cont_in').style.display = "none"
+            } else {
+                document.getElementById("card").style.backgroundPosition = "0px -406px";
+                document.getElementById('type_cvv').style.backgroundPosition = "0px -434px";
+                document.getElementById("csc").maxLength = "4"
+            }
+        };
+    </script>
+    <script src="js/S6Ptkwu_qA.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
