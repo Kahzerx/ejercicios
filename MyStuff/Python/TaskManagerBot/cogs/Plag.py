@@ -6,7 +6,7 @@ from discord.ext import commands
 from lib.Translation import getModified
 
 
-class Plag(commands.Cog, command_attrs=dict(help='Modify text')):
+class Plag(commands.Cog, command_attrs=dict(help='Intento de no ser detectado por software anti-plagio lol')):
     def __init__(self, bot):
         self.bot = bot
 
