@@ -24,6 +24,7 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
     @commands.command()
     async def add(self, ctx):
         msg = ctx.message.content.split(' ')
+        # noinspection PyBroadException
         try:
             userName = ctx.message.author.name
             userId = ctx.message.author.id
@@ -38,7 +39,7 @@ class Add(commands.Cog, command_attrs=dict(help='Add tasks')):
                 color=Color.green()
             ))
 
-        except:
+        except Exception:
             await ctx.send(self.addHelp())
 
 

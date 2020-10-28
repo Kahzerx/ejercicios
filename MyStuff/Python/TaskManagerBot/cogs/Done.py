@@ -14,6 +14,7 @@ class Done(commands.Cog, command_attrs=dict(help='Mark tasks as completed')):
     async def done(self, ctx):
         msg = ctx.message.content.split(' ')
         if len(msg) == 2:
+            # noinspection PyBroadException
             try:
                 rowId = getId(int(msg[1]), ctx.message.author.id, 0)
                 if rowId != -1:
@@ -21,7 +22,7 @@ class Done(commands.Cog, command_attrs=dict(help='Mark tasks as completed')):
                     await ctx.send('`Updated!`')
                 else:
                     await ctx.send('`Unable to find the task`')
-            except:
+            except Exception:
                 await ctx.send(self.doneHelp())
         else:
             await ctx.send(self.doneHelp())
@@ -30,6 +31,7 @@ class Done(commands.Cog, command_attrs=dict(help='Mark tasks as completed')):
     async def unDone(self, ctx):
         msg = ctx.message.content.split(' ')
         if len(msg) == 2:
+            # noinspection PyBroadException
             try:
                 rowId = getId(int(msg[1]), ctx.message.author.id, 1)
                 if rowId != -1:
@@ -37,7 +39,7 @@ class Done(commands.Cog, command_attrs=dict(help='Mark tasks as completed')):
                     await ctx.send('`Updated!`')
                 else:
                     await ctx.send('`Unable to find the task`')
-            except:
+            except Exception:
                 await ctx.send(self.doneHelp())
         else:
             await ctx.send(self.doneHelp())
