@@ -1,0 +1,12 @@
+<!ELEMENT ordenadores (ordenador+)>
+<!ELEMENT ordenador (procesador, ram+, discoDuro+, tarjetaAmpliacion?)>
+<!ATTLIST ordenador marca CDATA #REQUIRED>
+<!ATTLIST ordenador precio CDATA #IMPLIED>
+<!ELEMENT procesador (nucleo+)>
+<!ATTLIST procesador modelo CDATA #REQUIRED>
+<!ELEMENT nucleo (#PCDATA)>
+<!ELEMENT ram (#PCDATA)>
+<!ATTLIST ram tipo CDATA #REQUIRED>
+<!ELEMENT discoDuro (#PCDATA)>
+<!ATTLIST discoDuro tipodisco CDATA #REQUIRED>
+<!ELEMENT tarjetaAmpliacion (#PCDATA)>

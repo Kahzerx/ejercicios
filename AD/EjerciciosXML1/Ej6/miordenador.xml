@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ordenadores SYSTEM 'ordenador.dtd'>
+<ordenadores>
+    <ordenador marca="Lenovo" precio="329€">
+        <procesador modelo="AMD 3020e">
+            <nucleo>2.6GHz</nucleo>
+            <nucleo>2.6GHz</nucleo>
+        </procesador>
+        <ram tipo="DDR4">8GB</ram>
+        <discoDuro tipodisco="SSD">256GB</discoDuro>
+    </ordenador>
+    <ordenador marca="PcCom" precio="785€">
+        <procesador modelo="AMD Ryzen 5 3600">
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+        </procesador>
+        <ram tipo="DDR4">8GB</ram>
+        <discoDuro tipodisco="SSD">256GB</discoDuro>
+        <discoDuro tipodisco="HDD">1TB</discoDuro>
+        <tarjetaAmpliacion>GTX 1650 SUPER</tarjetaAmpliacion>
+    </ordenador>
+    <ordenador marca="PcCom" precio="1487€">
+        <procesador modelo="AMD Ryzen 7 3700X">
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+            <nucleo>3.6GHz</nucleo>
+        </procesador>
+        <ram tipo="DDR4">8GB</ram>
+        <ram tipo="DDR4">8GB</ram>
+        <discoDuro tipodisco="SSD">500GB</discoDuro>
+        <discoDuro tipodisco="HDD">1TB</discoDuro>
+        <tarjetaAmpliacion>RTX 2060 Super</tarjetaAmpliacion>
+    </ordenador>
+</ordenadores>

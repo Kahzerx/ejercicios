@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE biblioteca [
+    <!ELEMENT biblioteca (libros, autores)>
+    <!ELEMENT libros (libro+)>
+    <!ELEMENT libro (titulo, editorial, edicion, isbn, nPaginas, autores_?)>
+    <!ATTLIST libro codigoL ID #REQUIRED>
+    <!ELEMENT titulo (#PCDATA)>
+    <!ELEMENT editorial (#PCDATA)>
+    <!ELEMENT edicion (#PCDATA)>
+    <!ELEMENT isbn (#PCDATA)>
+    <!ELEMENT nPaginas (#PCDATA)>
+    <!ELEMENT autores_ (autor_+)>
+    <!ELEMENT autor_ EMPTY>
+    <!ATTLIST autor_ codigoA IDREF #REQUIRED>
+    <!ELEMENT autores (autor+)>
+    <!ELEMENT autor (nombre, apellidos, fechaNac)>
+    <!ATTLIST autor codigoA ID #REQUIRED>
+    <!ELEMENT nombre (#PCDATA)>
+    <!ELEMENT apellidos (#PCDATA)>
+    <!ELEMENT fechaNac (#PCDATA)>
+]>
+<biblioteca>
+    <libros>
+        <libro codigoL="cl_1">
+            <titulo>Don Quijote de la Mancha</titulo>
+            <editorial>Juan de la Cuesta</editorial>
+            <edicion>3</edicion>
+            <isbn>9788466745840</isbn>
+            <nPaginas>176</nPaginas>
+            <autores_>
+                <autor_ codigoA="ca_1"/>
+            </autores_>
+        </libro>
+        <libro codigoL="cl_2">
+            <titulo>La Celestina</titulo>
+            <editorial>Maxtor</editorial>
+            <edicion>1</edicion>
+            <isbn>9788471664938</isbn>
+            <nPaginas>320</nPaginas>
+            <autores_>
+                <autor_ codigoA="ca_2"/>
+            </autores_>
+        </libro>
+        <libro codigoL="cl_3">
+            <titulo>Leyendas</titulo>
+            <editorial>Cátedra</editorial>
+            <edicion>21</edicion>
+            <isbn>9788439420244</isbn>
+            <nPaginas>416</nPaginas>
+            <autores_>
+                <autor_ codigoA="ca_3"/>
+            </autores_>
+        </libro>
+    </libros>
+    <autores>
+        <autor codigoA="ca_1">
+            <nombre>Miguel</nombre>
+            <apellidos>De Cervantes Saavedra</apellidos>
+            <fechaNac>29/09/1547</fechaNac>
+        </autor>
+        <autor codigoA="ca_2">
+            <nombre>Fernando</nombre>
+            <apellidos>De Rojas</apellidos>
+            <fechaNac>01/01/1470</fechaNac>
+        </autor>
+        <autor codigoA="ca_3">
+            <nombre>Gustavo</nombre>
+            <apellidos>Adolfo Becquer</apellidos>
+            <fechaNac>17/02/1836</fechaNac>
+        </autor>
+    </autores>
+</biblioteca>
