@@ -7,6 +7,20 @@
  * @author   Taylor Otwell <taylor@laravel.com>
  */
 
+// La base de datos
+
+// CREATE TABLE `yourpills`.`medicamento`(
+//     `ID` INT NOT NULL AUTO_INCREMENT,
+//     `Nombre` VARCHAR(45) NOT NULL,
+//     `Cantidad` INT NOT NULL,
+//     `Dias` INT NOT NULL,
+//     `Franja_Horas` INT NOT NULL,
+// PRIMARY KEY (`ID`));
+
+
+// Para crear la tabla escribir php artisan make:migration medicamento y luego php artisan migrate
+
+
 $uri = urldecode(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
 );

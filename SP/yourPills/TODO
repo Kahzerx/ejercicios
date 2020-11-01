@@ -1,0 +1,5 @@
+Notificaciones al presionar el botón notificando al usuario de si se ha realizado la acción.
+workaround para el margin-bottom del authbox que solo pasa en firefox :(.
+Sistema de usuarios adaptando las queries con los where correspondientes.
+No me gusta la forma de sacar el id para el update.
+Verificacion del usuario cuando haya por medio de crypt.

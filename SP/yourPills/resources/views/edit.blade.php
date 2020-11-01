@@ -1,18 +1,19 @@
 @extends('layouts.main')
 
 @section('content')
-<form action="submit" method="POST" class="authbox" id="form">
+<form action="/submitUpdate" method="POST" class="authbox" id="form">
     @csrf
-    <!-- Necesario para hacer post -->
+    @foreach ($row as $element)
+    <input type="hidden" name="id" value="{{ Crypt::encrypt($element -> id) }}">
     <div class="title">Usuario</div>
-    <div class="subTitle">Introduce los datos del medicamento</div>
+    <div class="subTitle">Actualiza los datos del medicamento</div>
     <h5 class="inputType">Nombre</h5>
-    <input class="input" type="text" name="nombre" maxlength="30" required>
+    <input class="input" type="text" name="nombre" maxlength="30" value="{{ $element -> Nombre }}" required>
     <h5 class="inputType">Cantidad de unidades</h5>
-    <input class="input" type="text" name="cantidad" oninput="this.value = onlyInt(this.value)" maxlength="9" required>
+    <input class="input" type="text" name="cantidad" oninput="this.value = onlyInt(this.value)" maxlength="9" value="{{ $element -> Cantidad }}" required>
     <h5 class="inputType">Dias de consumo</h5>
     <div class="checkboxDate">
-        <ul class="list">
+        <ul data-days="{{ $element -> Dias }}" class="list">
             <li class="list-item">
                 <h5>Lunes</h5>
                 <input type="checkbox" name="lunes" value="1">
@@ -44,16 +45,26 @@
         </ul>
     </div>
     <h5 class="inputType">Franja horaria (Cada cuántas horas)</h5>
-    <input class="input" type="text" name="horas" oninput="this.value = onlyIntAnd24(this.value)" required>
+    <input class="input" type="text" name="horas" value="{{ $element -> Franja_Horas }}" oninput="this.value = onlyIntAnd24(this.value)" required>
     <br><br><br>
     <div class="buttonContents">
-        <input type="submit" value="Cargar" class="submitButton">
+        <input type="submit" value="Actualizar" class="submitButton">
     </div>
-    <div class="redirect" id="caja_salida"><a style="text-decoration: none; color: #888;" href="{{ url('list')}}">Click aquí para ver la lista</a></div>
+    @endforeach
+    <div class="redirect" id="caja_salida"><a style="text-decoration: none; color: #888;" href="{{ url('list')}}">Click aquí volver a la lista</a></div>
 </form>
 
 <script type="text/javascript">
     $(document).ready(function() {
+        let numArray = $('.list').attr('data-days').split('').map(Number);
+        let form = document.getElementById('form');
+
+        for (let i = 0; i < form.elements.length; i++) {  // Restaurar el estado de todas las checkBox.
+            if (form.elements[i].type == 'checkbox' && numArray.includes(i - 3)) {
+                form.elements[i].checked = true;
+            }
+        }
+
         $('.submitButton').click(function() {
             checked = $("input[type=checkbox]:checked").length; /* Check de que al menos 1 checkbox está marcada. */
 
@@ -62,28 +73,6 @@
                 return false;
             }
 
-        });
-        $('#form').submit(function(e) {
-            /* Cancelar la acción de redirigir a subdominio pero si realizar el post. */
-            e.preventDefault();
-            $.ajax({
-                url: 'submit',
-                type: 'post',
-                data: $('#form').serialize(),
-                cache: false,
-                success: function() {
-                    let form = document.getElementById('form');
-                    for (let i = 0; i < form.elements.length; i++) {
-                        /* Resetear los elementos del formulario */
-                        if (form.elements[i].type == 'checkbox') {
-                            form.elements[i].checked = false;
-                        } else if (form.elements[i].type != 'submit' && form.elements[i].type != 'hidden') {
-                            form.elements[i].value = '';
-                            form.elements[i].selectedIndex = 0;
-                        }
-                    }
-                }
-            });
         });
     });
 </script>
