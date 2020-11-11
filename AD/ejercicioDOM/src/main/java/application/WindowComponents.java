@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class WindowComponents {
     public JFrame frame = new JFrame("Ejercicio de Acceso a Datos");
@@ -18,12 +19,18 @@ public class WindowComponents {
     private JLabel titleLabel;
     private JLabel authorLabel;
     private JLabel publishedLabel;
+    private JLabel titleUpdateLabel;
 
-    private JTextField titleAddField;
-    private JTextField authorAddField;
-    private JTextField publishedAddField;
+    private static JTextField titleAddField;
+    private static JTextField authorAddField;
+    private static JTextField publishedAddField;
+    private static JTextField titleUpdateField;
 
     private JButton addButton;
+    private JButton updateTitleButton;
+    private JButton saveFile;
+
+    private static JComboBox<String> titleComboBox;
 
     public WindowComponents() {
         createJPanel();
@@ -35,6 +42,8 @@ public class WindowComponents {
         createLabels();
 
         createFields();
+
+        createBox();
 
         addComponents();
 
@@ -87,6 +96,11 @@ public class WindowComponents {
                 ((JTextField) thing).setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
                 ((JTextField) thing).setFont(new Font("Arial", Font.PLAIN, 15));
                 break;
+            case 3:
+                thing = new JComboBox<>();
+                ((JComboBox) thing).setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+                ((JComboBox) thing).setFont(new Font("Arial", Font.PLAIN, 15));
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -94,30 +108,43 @@ public class WindowComponents {
     }
 
     private void createTopButtons() {
-        loadDOMButton = ((JButton) (createJThing(0, "Mostrar contenido del DOM", new int[] {30, 25, 200, 30})));
+        loadDOMButton = (JButton) createJThing(0, "Mostrar contenido del DOM", new int[] {30, 25, 200, 30});
         loadDOMButton.addActionListener(actionEvent -> ActionButtons.onOpenDOM());
 
-        loadSAXButton = ((JButton) (createJThing(0, "Mostrar contenido del SAX", new int[] {400, 25, 200, 30})));
+        loadSAXButton = (JButton) createJThing(0, "Mostrar contenido del SAX", new int[] {400, 25, 200, 30});
         loadSAXButton.setEnabled(false);
 
-        loadJAXBButton = ((JButton) (createJThing(0, "Mostrar contenido del JAXB", new int[] {770, 25, 200, 30})));
+        loadJAXBButton = (JButton) createJThing(0, "Mostrar contenido del JAXB", new int[] {770, 25, 200, 30});
         loadJAXBButton.setEnabled(false);
     }
 
     private void createSideButtons() {
-        addButton = ((JButton) (createJThing(0, "Añadir", new int[] {890, 145, 60, 50})));
+        addButton = (JButton) createJThing(0, "Añadir", new int[] {890, 145, 60, 50});
+        addButton.addActionListener(actionEvent -> ActionButtons.onAdd(publishedAddField.getText(), titleAddField.getText(), authorAddField.getText()));
+
+        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {840, 335, 130, 40});
+        updateTitleButton.addActionListener(actionEvent -> ActionButtons.onTitleUpdate(titleComboBox.getSelectedItem(), titleUpdateField.getText()));
+
+        saveFile = (JButton) createJThing(0, "Guardar", new int[] {700, 245, 130, 40});
+        saveFile.addActionListener(actionEvent -> ActionButtons.writeAndClose());
     }
 
     private void createLabels() {
-        titleLabel = ((JLabel) (createJThing(1, "Título", new int[] {550, 130, 50, 30})));
-        authorLabel = ((JLabel) (createJThing(1, "Autor", new int[] {550, 160, 50, 30})));
-        publishedLabel = ((JLabel) (createJThing(1, "Publicado en", new int[] {550, 190, 100, 30})));
+        titleLabel = (JLabel) createJThing(1, "Título", new int[] {550, 130, 50, 30});
+        authorLabel = (JLabel) createJThing(1, "Autor", new int[] {550, 160, 50, 30});
+        publishedLabel = (JLabel) createJThing(1, "Publicado en", new int[] {550, 190, 100, 30});
+        titleUpdateLabel = (JLabel) createJThing(1, "Actualizar título", new int[] {550, 300, 150, 30});
     }
 
     private void createFields() {
-        titleAddField = ((JTextField) (createJThing(2, "", new int[] {670, 130, 170, 25})));
-        authorAddField = ((JTextField) (createJThing(2, "", new int[] {670, 160, 170, 25})));
-        publishedAddField = ((JTextField) (createJThing(2, "", new int[] {670, 190, 170, 25})));
+        titleAddField = (JTextField) createJThing(2, "", new int[] {670, 130, 170, 25});
+        authorAddField = (JTextField) createJThing(2, "", new int[] {670, 160, 170, 25});
+        publishedAddField = (JTextField) createJThing(2, "", new int[] {670, 190, 170, 25});
+        titleUpdateField = (JTextField) createJThing(2, "", new int[] {550, 360, 201, 25});
+    }
+
+    private void createBox() {
+        titleComboBox = (JComboBox<String>) createJThing(3, "", new int[] {550, 330, 200, 25});
     }
 
     private void addComponents() {
@@ -127,18 +154,39 @@ public class WindowComponents {
         panel.add(loadSAXButton);
         panel.add(loadJAXBButton);
         panel.add(addButton);
+        panel.add(updateTitleButton);
+        panel.add(saveFile);
 
         panel.add(titleLabel);
         panel.add(authorLabel);
         panel.add(publishedLabel);
+        panel.add(titleUpdateLabel);
 
         panel.add(titleAddField);
         panel.add(authorAddField);
         panel.add(publishedAddField);
+        panel.add(titleUpdateField);
+
+        panel.add(titleComboBox);
     }
 
     private void onQuit() {
         frame.dispose();
         Runtime.getRuntime().halt(0);
+    }
+
+    public static void resetFields() {
+        titleAddField.setText("");
+        authorAddField.setText("");
+        publishedAddField.setText("");
+        titleUpdateField.setText("");
+    }
+
+    public static void updateBox(ArrayList<String[]> data) {
+        titleComboBox.removeAllItems();
+        titleComboBox.addItem("");
+        for (String[] row : data) {
+            titleComboBox.addItem(row[1]);
+        }
     }
 }
