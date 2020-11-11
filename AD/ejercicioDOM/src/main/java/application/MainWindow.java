@@ -1,5 +1,8 @@
 package application;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
+
 import java.util.ArrayList;
 
 public class MainWindow {
@@ -12,12 +15,30 @@ public class MainWindow {
             content.append("\n===========================\n");
         }
         WindowComponents.textArea.setText(content.toString());
+        printAsciiTable(info);
     }
 
     public static void update(ArrayList<String[]> info) {
         setText(info);
         WindowComponents.resetFields();
         WindowComponents.updateBox(info);
+    }
+
+    // Por probar en consola :P.
+    private static void printAsciiTable(ArrayList<String[]> info) {
+        AsciiTable table = new AsciiTable();
+        table.addRule();
+        table.addRow(null, null, String.format("%d Libros", info.size())).setTextAlignment(TextAlignment.CENTER);
+        table.addRule();
+        table.addRow("Título", "Autor", "Año").setTextAlignment(TextAlignment.CENTER);
+        for (String[] row : info) {
+            table.addRule();
+            table.addRow(row[1], row[2], row[0]);
+        }
+        table.addRule();
+
+        String render = table.render();
+        System.out.println(render);
     }
 
     public static void main(String[] args) {

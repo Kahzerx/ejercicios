@@ -34,6 +34,7 @@ public class WindowComponents {
 
     public WindowComponents() {
         createJPanel();
+
         createTextArea();
 
         createTopButtons();
