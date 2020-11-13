@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verbos Irregulares</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <script type="text/javascript" src="js/listaVerbos.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-5"></div>
+            <div class="col-2">
+                <p id="score"></p>
+            </div>
+            <div class="col-5"></div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="btn-group" role="group" aria-label="Basic example" id="verbs">
+                    <button type="button" class="btn btn-dark" onclick="getVerb()">Empezar</button>
+                </div>
+            </div>
+            <div class="col-3" id="next"></div>
+        </div>
+    </div>
+
+    <script>
+        var aux;
+        var i;
+        var isPlaying;
+        var marcador = 0;
+
+        function getVerb() {
+            isPlaying = true;
+            i = Math.floor((Math.random() * verbos.length) + 1);
+            aux = Math.floor((Math.random() * 3) + 1);
+
+            $('#verbs').html('');
+            $('#next').html('');
+            $('#score').text(`MARCADOR: ${marcador}`);
+
+            if (aux == 1) {
+                $('#verbs').append('<input type="text" id="answer"></input>');
+                $('#verbs').append(`<button type="button" class="btn btn-dark">${verbos[i][1]}</button>`);
+                $('#verbs').append(`<button type="button" class="btn btn-dark">${verbos[i][2]}</button>`);
+            }
+
+            else if (aux == 2) {
+                $('#verbs').append(`<button type="button" class="btn btn-dark">${verbos[i][0]}</button>`);
+                $('#verbs').append('<input type="text" id="answer"></input>');
+                $('#verbs').append(`<button type="button" class="btn" btn-dark>${verbos[i][2]}</button>`);
+            }
+
+            else {
+                $('#verbs').append(`<button type="button" class="btn btn-dark">${verbos[i][0]}</button>`);
+                $('#verbs').append(`<button type="button" class="btn btn-dark">${verbos[i][1]}</button>`);
+                $('#verbs').append('<input type="text" id="answer"></input>');
+            }
+            
+            $('#next').append('<button type="button" class="btn btn-secondary" onClick="checkResult()" id="check">Comprobar</button>');
+        }
+
+        function checkResult() {
+            if (isPlaying) {
+                let userInput = document.getElementById("answer").value;
+                let realAnswer = verbos[i][aux - 1];
+                marcador = userInput == realAnswer ? marcador + 1 : 0;
+                setResult(marcador != 0);
+                isPlaying = false;
+            }
+
+            else {
+                getVerb();
+            }
+        }
+
+        function setResult(isCorrect) {
+            $('#score').text(`MARCADOR: ${marcador}`);
+            $('#check').removeClass('btn-secondary');
+            $('#check').text('Next');
+            if (isCorrect) {
+                $('#check').addClass('btn-success');
+            }
+            else {
+                $('#check').addClass('btn-danger');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
