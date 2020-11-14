@@ -1,0 +1,19 @@
+El lenguaje de programación "Whitespace" fue creado el 1 de abril de 2003 a modo de april fools, la caracteristica principal es
+que se programa usando espacios " ", tabulaciones "    ", y saltos de linea, el resto de caracteres hacen absolutamente nada.
+
+Algunos navegadores no son capaces de gestionar bien tabuladores y espacios por lo que se aplican lentras para reemplazarlo.
+S -> spaces, T -> TAB, L -> Linefeed(Salto de linea).
+
+whitespace es capaz de gestionar el stack, mates basicas (+-*/%), acceso a heap, flow control e input/output (I/O).
+
+space == 0
+tab == 1
+se gestiona el stack usando binario, para introducir un nuevo numero simplemente, \n
+
+101 == TST
+al poner salto de linea, si pones un espacio duplicará el anterior, si pones un tab hará un swap, 2 tabs para descartar el valor.
+TSSS = suma
+TSST = resta
+TSS = mult
+TSTS = div
+TSTT = %
