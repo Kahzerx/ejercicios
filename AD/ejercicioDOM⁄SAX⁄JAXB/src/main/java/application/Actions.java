@@ -1,6 +1,7 @@
 package application;
 
 import XMLManagement.DOM;
+import XMLManagement.SAX;
 
 import javax.swing.*;
 
@@ -15,11 +16,18 @@ public class Actions {
                 DOM.onOpenDOM();
                 break;
             case 1:
-                System.out.println("WIP");
+                SAX.onOpenSAX();
                 break;
             case 2:
                 System.out.println("WIP");
                 break;
+        }
+        if (MainWindow.openFile != null) {
+            WindowComponents.updateGui(stat);
+        }
+        else {
+            m = -1;
+            WindowComponents.updateGui(m);
         }
     }
 

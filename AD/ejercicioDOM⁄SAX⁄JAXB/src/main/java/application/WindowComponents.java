@@ -12,23 +12,23 @@ public class WindowComponents {
 
     public static JTextArea textArea = new JTextArea();
 
-    private JButton loadDOMButton;
-    private JButton loadSAXButton;
-    private JButton loadJAXBButton;
+    private static JButton loadDOMButton;
+    private static JButton loadSAXButton;
+    private static JButton loadJAXBButton;
 
-    private JLabel titleLabel;
-    private JLabel authorLabel;
-    private JLabel publishedLabel;
-    private JLabel titleUpdateLabel;
+    private static JLabel titleLabel;
+    private static JLabel authorLabel;
+    private static JLabel publishedLabel;
+    private static JLabel titleUpdateLabel;
 
     private static JTextField titleAddField;
     private static JTextField authorAddField;
     private static JTextField publishedAddField;
     private static JTextField titleUpdateField;
 
-    private JButton addButton;
-    private JButton updateTitleButton;
-    private JButton saveFile;
+    private static JButton addButton;
+    private static JButton updateTitleButton;
+    private static JButton saveFile;
 
     private static JComboBox<String> titleComboBox;
 
@@ -116,6 +116,7 @@ public class WindowComponents {
         loadSAXButton.addActionListener(actionEvent -> Actions.open(1));
 
         loadJAXBButton = (JButton) createJThing(0, "Mostrar contenido del JAXB", new int[] {770, 25, 200, 30});
+        loadJAXBButton.setEnabled(false);
         loadJAXBButton.addActionListener(actionEvent -> Actions.open(2));
     }
 
@@ -188,6 +189,30 @@ public class WindowComponents {
         titleComboBox.addItem("");
         for (String[] row : data) {
             titleComboBox.addItem(row[1]);
+        }
+    }
+
+    public static void updateGui(int opt) {
+        loadDOMButton.setText("Mostrar contenido del DOM");
+        loadSAXButton.setText("Mostrar contenido del SAX");
+        switch (opt) {
+            case -1:
+                addButton.setEnabled(true);
+                saveFile.setEnabled(true);
+                updateTitleButton.setEnabled(true);
+                break;
+            case 0:  // Una vez abierto el DOM
+                addButton.setEnabled(true);
+                saveFile.setEnabled(true);
+                updateTitleButton.setEnabled(true);
+                loadDOMButton.setText("[Mostrar contenido del DOM]");
+                break;
+            case 1:  // Una vez abierto el SAX
+                addButton.setEnabled(false);
+                saveFile.setEnabled(false);
+                updateTitleButton.setEnabled(false);
+                loadSAXButton.setText("[Mostrar contenido del SAX]");
+                break;
         }
     }
 }
