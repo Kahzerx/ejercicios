@@ -1,5 +1,7 @@
 package fileManagement;
 
+import application.MainWindow;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
@@ -13,6 +15,7 @@ public class FileManagement {
         chooser.setFileFilter(filter);
         chooser.setDialogTitle("selecciona un archivo");
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION && chooser.getSelectedFile().exists()) {
+            MainWindow.openFile = chooser.getSelectedFile();
             return chooser.getSelectedFile();
         }
         return null;

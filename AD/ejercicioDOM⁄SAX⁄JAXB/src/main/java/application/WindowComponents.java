@@ -110,24 +110,24 @@ public class WindowComponents {
 
     private void createTopButtons() {
         loadDOMButton = (JButton) createJThing(0, "Mostrar contenido del DOM", new int[] {30, 25, 200, 30});
-        loadDOMButton.addActionListener(actionEvent -> ActionButtons.onOpenDOM());
+        loadDOMButton.addActionListener(actionEvent -> Actions.open(0));
 
         loadSAXButton = (JButton) createJThing(0, "Mostrar contenido del SAX", new int[] {400, 25, 200, 30});
-        loadSAXButton.setEnabled(false);
+        loadSAXButton.addActionListener(actionEvent -> Actions.open(1));
 
         loadJAXBButton = (JButton) createJThing(0, "Mostrar contenido del JAXB", new int[] {770, 25, 200, 30});
-        loadJAXBButton.setEnabled(false);
+        loadJAXBButton.addActionListener(actionEvent -> Actions.open(2));
     }
 
     private void createSideButtons() {
         addButton = (JButton) createJThing(0, "Añadir", new int[] {890, 145, 60, 50});
-        addButton.addActionListener(actionEvent -> ActionButtons.onAdd(publishedAddField.getText(), titleAddField.getText(), authorAddField.getText()));
-
-        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {840, 335, 130, 40});
-        updateTitleButton.addActionListener(actionEvent -> ActionButtons.onTitleUpdate(titleComboBox.getSelectedItem(), titleUpdateField.getText()));
+        addButton.addActionListener(actionEvent -> Actions.sideActions(0, new String[] {publishedAddField.getText(), titleAddField.getText(), authorAddField.getText()}));
 
         saveFile = (JButton) createJThing(0, "Guardar", new int[] {700, 245, 130, 40});
-        saveFile.addActionListener(actionEvent -> ActionButtons.writeAndClose());
+        saveFile.addActionListener(actionEvent -> Actions.sideActions(1, null));
+
+        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {840, 335, 130, 40});
+        updateTitleButton.addActionListener(actionEvent -> Actions.sideActions(2, new String[] {(String) titleComboBox.getSelectedItem(), titleUpdateField.getText()}));
     }
 
     private void createLabels() {

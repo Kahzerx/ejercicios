@@ -1,21 +1,28 @@
-package application;
+package XMLManagement;
 
+import application.MainWindow;
 import fileManagement.FileManagement;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ActionButtons {
+public class DOM {
     private static Document doc;
 
     // Se ejecuta al clickar el botón de abrir.
@@ -52,10 +59,10 @@ public class ActionButtons {
     }
 
     // Se ejecuta al clickar el botón de editar un título.
-    public static void onTitleUpdate(Object selectedItem, String text) {
+    public static void onTitleUpdate(String selectedItem, String text) {
         if (doc != null) {
             if (!selectedItem.equals("") && !text.equals("")) {
-                tryUpdate((String) selectedItem, text);
+                tryUpdate(selectedItem, text);
             } else
                 JOptionPane.showMessageDialog(null, "Completa todos los campos antes de continuar", "Incompleto", JOptionPane.ERROR_MESSAGE);
         } else JOptionPane.showMessageDialog(null, "Debes abrir un archivo antes", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -151,10 +158,10 @@ public class ActionButtons {
                     StreamResult result = new StreamResult(newFile.getAbsolutePath());
                     transformer.transform(src, result);
                 }
-                else JOptionPane.showMessageDialog(null, "No ha sido posible abrir el archivo", "ERROR", JOptionPane.ERROR_MESSAGE);
+                else JOptionPane.showMessageDialog(null, "No ha sido posible guardar el archivo", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             catch (TransformerException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "No ha sido posible guardar el archivo", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
         else JOptionPane.showMessageDialog(null, "Debes abrir un archivo antes", "ERROR", JOptionPane.ERROR_MESSAGE);

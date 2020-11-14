@@ -3,9 +3,12 @@ package application;
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainWindow {
+    public static File openFile;
+
     private static void setText(ArrayList<String[]> info) {
         StringBuilder content = new StringBuilder();
         for (String[] row : info) {
