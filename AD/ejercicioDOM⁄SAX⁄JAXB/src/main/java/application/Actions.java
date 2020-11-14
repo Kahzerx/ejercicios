@@ -13,6 +13,13 @@ public class Actions {
         switch (stat) {
             case 0:
                 DOM.onOpenDOM();
+                break;
+            case 1:
+                System.out.println("WIP");
+                break;
+            case 2:
+                System.out.println("WIP");
+                break;
         }
     }
 
@@ -20,9 +27,23 @@ public class Actions {
         if (m != -1) {
             switch (m) {
                 case 0:  // Acciones cuando has abierto DOM.
-                    if (val == 0) DOM.onAdd(par[0], par[1], par[2]);
-                    else if (val == 1) DOM.writeAndClose();
-                    else if (val == 2) DOM.onTitleUpdate(par[0], par[1]);
+                    switch (val) {
+                        case 0:
+                            DOM.onAdd(par[0], par[1], par[2]);
+                            break;
+                        case 1:
+                            DOM.writeAndClose();
+                            break;
+                        case 2:
+                            DOM.onTitleUpdate(par[0], par[1]);
+                            break;
+                    }
+                case 1:
+                    System.out.println("WIP");
+                    break;
+                case 2:
+                    System.out.println("WIP");
+                    break;
             }
         }
         else JOptionPane.showMessageDialog(null, "Debes abrir un archivo antes", "ERROR", JOptionPane.ERROR_MESSAGE);
