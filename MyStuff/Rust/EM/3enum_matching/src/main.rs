@@ -1,3 +1,4 @@
+#![allow(dead_code,unused_variables,unused_assignments)]
 fn main() {
     enum Color {  // Just custom types with predefined names and variants.
         _Red,
