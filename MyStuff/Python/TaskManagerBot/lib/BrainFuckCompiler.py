@@ -1,17 +1,17 @@
 if __name__ == "__main__":
-    program = '+>+>>++++++++[-[->+<]<<<[->>+>+<<<]>>>[-<<<+>>>]<<[->+>+<<]>>[-<<+>>]>]'
-    maxIters = 10000
+    program = '+>+>>++++++++++++++++++[-[->+<]<<<[->>+>+<<<]>>>[-<<<+>>>]<<[->+>+<<]>>[-<<+>>]>]'
+    maxIters = 1000000
     buffer = [0]
+    counter = 0
     pos = 0
     output = ''
     i = 0
-
 
     while i < len(program):
 
         j = program[i]
 
-        if i > maxIters:
+        if counter > maxIters:
             print('max iters')
             break
 
@@ -61,6 +61,7 @@ if __name__ == "__main__":
                     ind -= 1
 
         i += 1
+        counter += 1
 
     bufferString = ''
     for i, l in enumerate(buffer):
