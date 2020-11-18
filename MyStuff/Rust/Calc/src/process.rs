@@ -29,6 +29,7 @@ impl Calculator {
 
     fn div(&self) -> f64 {
         if self.num2 == "0" {
+            println!("\nHaha no");
             return "0".parse::<f64>().unwrap();
         }
         let res = (self.num1.parse::<f64>().unwrap() / self.num2.parse::<f64>().unwrap()).to_string();
@@ -60,8 +61,6 @@ pub fn calculate(calc: &Calculator) -> String {
         '/' => calc.div() as f64,
         _ => panic!("Error in operator")
     };
-
-    println!("\nHaha no");
 
     result.to_string()
 }
