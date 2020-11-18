@@ -30,7 +30,7 @@ impl Calculator {
     fn div(&self) -> f64 {
         if self.num2 == "0" {
             println!("\nHaha no");
-            return "0".parse::<f64>().unwrap();
+            return 0.0;
         }
         let res = (self.num1.parse::<f64>().unwrap() / self.num2.parse::<f64>().unwrap()).to_string();
         res[..14].parse::<f64>().unwrap()
