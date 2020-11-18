@@ -6,8 +6,8 @@ plugins {
 
 mainClassName = 'application.MainWindow'
 
-group 'org.DOM'
-version '1.0-SNAPSHOT'
+group 'org.DOMSAX'
+version '1.0'
 
 repositories {
     mavenCentral()
