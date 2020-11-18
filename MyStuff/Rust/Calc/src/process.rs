@@ -16,11 +16,11 @@ impl Calculator {
     }
 
     fn add(&self) -> f64 {
-        self.num1.parse::<f64>().unwrap() + self.num2.parse::<f64>().unwrap()
+        self.num1.parse::<f64>().unwrap() + self.num2.parse::<f64>().unwrap()  // Castear a f64 desde string.
     }
 
     fn sub(&self) -> f64 {
-        self.num1.parse::<f64>().unwrap() - self.num2.parse::<f64>().unwrap()
+        self.num1.parse::<f64>().unwrap() - self.num2.parse::<f64>().unwrap()  // La linea que no tiene ; == return.
     }
 
     fn mul(&self) -> f64 {
@@ -28,17 +28,17 @@ impl Calculator {
     }
 
     fn div(&self) -> f64 {
-        if self.num2 == "0" {
+        if self.num2 == "0" {  // Por si divide entre 0
             println!("\nHaha no");
             return 0.0;
         }
         let res = (self.num1.parse::<f64>().unwrap() / self.num2.parse::<f64>().unwrap()).to_string();
-        res[..14].parse::<f64>().unwrap()
+        res[..14].parse::<f64>().unwrap()  // Divisiones pueden dar mas decimales de los que caben en la pantalla :P
     }
 }
 
 pub fn num1(calc: &mut Calculator) -> &str{
-    calc.num1 = process_num(1);
+    calc.num1 = process_num(1);  // Función para sacar el input 1.
     calc.num1.as_str()
 }
 
@@ -54,11 +54,11 @@ pub fn operator(calc: &mut Calculator) {
 
 pub fn calculate(calc: &Calculator) -> String {
     let operator: char = calc.operator.trim().chars().next().unwrap();
-    let result = match operator {
+    let result = match operator {  // match es un switch fancy.
         '+' => calc.add(),
         '-' => calc.sub(),
         '*' => calc.mul(),
-        '/' => calc.div() as f64,
+        '/' => calc.div(),
         _ => panic!("Error in operator")
     };
 
@@ -90,8 +90,8 @@ fn process_num(i: i8) -> String {
     let mut is_num = false;
     while !is_num {
         s = "".parse().unwrap();
-        print!("\nCuál es el operador {}: ", i);
-        read(&mut s);
+        print!("\nCuál es el número {}: ", i);
+        read(&mut s);  // Por algún motivo lee los saltos de linea y eso, hay que hacer trim()
         if is_numeric_string(&s.trim()) && is_valid_length(&s.trim()) {
             is_num = true;
         }
@@ -120,12 +120,12 @@ fn process_operator() -> String {
     s.trim().to_string()
 }
 
-fn read(input: &mut String) {
+fn read(input: &mut String) {  // Read from console.
     stdout().flush().expect("Failed to flush");
     stdin().read_line(input).expect("Failed to read");
 }
 
-pub fn clear(mut calc: &mut Calculator) {
+pub fn clear(mut calc: &mut Calculator) {  // Resetear la instancia.
     calc.num1 = "".parse().unwrap();
     calc.num2 = "".parse().unwrap();
     calc.operator = "".parse().unwrap();
@@ -144,10 +144,10 @@ fn is_numeric_string(s: &str) -> bool {
     return true;
 }
 
-fn is_valid_length(s: &str) -> bool {
+fn is_valid_length(s: &str) -> bool {  // En la pantalla de mi dibujo no caben mas de 15 chars :(
     s.chars().count() <= 15
 }
 
-fn is_sn(s: &str) -> bool {
+fn is_sn(s: &str) -> bool {  // Validar si/no.
     s.trim().chars().count() == 1 && "sn".contains(s.chars().next().unwrap().to_ascii_lowercase())
 }

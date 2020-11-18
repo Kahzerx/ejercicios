@@ -35,7 +35,7 @@ pub fn draw(mut content: &str) {
     }
 }
 
-fn build_screen_content(new: &str) -> String {
+fn build_screen_content(new: &str) -> String {  // Adaptar el contenido de la pantalla al dibujo ascii.
     let mut updated = String::from("| | ");
     for _i in 0..15 - get_str_size(new) {
         updated.push_str(" ");
