@@ -75,14 +75,12 @@ public class DOM {
         NodeList nodeList = root.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             NodeList subNodes = nodeList.item(i).getChildNodes();
-            int k = 0;
             for (int j = 0; j < subNodes.getLength(); j++) {
                 temp = subNodes.item(j);
                 if (temp.getNodeType() == Node.ELEMENT_NODE) {
-                    if (k == 0 && temp.getFirstChild().getNodeValue().equals(item)) {
+                    if (temp.getNodeName().equals("Titulo") && temp.getFirstChild().getNodeValue().equals(item)) {
                         temp.setTextContent(text);
                     }
-                    k++;
                 }
             }
         }
