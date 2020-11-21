@@ -2,13 +2,16 @@
     <Libro publicado_en="1838">
         <Titulo>Oliver Twist</Titulo>
         <Autor>Charles Dickens</Autor>
+        <Editorial>Penguin Classics</Editorial>
     </Libro>
     <Libro publicado_en="2005">
         <Titulo>El mar</Titulo>
         <Autor>John Banville</Autor>
+        <Editorial>Guía de lectura</Editorial>
     </Libro>
     <Libro publicado_en="1946">
         <Titulo>El principito</Titulo>
         <Autor>Antoine de Saint-Exupéry</Autor>
+        <Editorial>Salamandra</Editorial>
     </Libro>
 </Libros>

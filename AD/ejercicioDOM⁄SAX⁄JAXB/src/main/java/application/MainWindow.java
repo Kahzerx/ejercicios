@@ -9,23 +9,24 @@ import java.util.ArrayList;
 public class MainWindow {
     public static File openFile;
 
-    private static void setText(ArrayList<String[]> info) {
+    private static void setText(ArrayList<String[]> info, String mode) {
         StringBuilder content = new StringBuilder();
         if (!info.isEmpty()) {
-            content.append("Se van a mostrar los libros de este documento\n\n");
+            content.append(String.format("Se van a mostrar los libros de este documento [%s]\n\n", mode));
         }
         for (String[] row : info) {
             content.append(String.format("Publicado en: %s", row[0]));
             content.append(String.format("\nEl título es: %s", row[1]));
             content.append(String.format("\nEl autor es: %s", row[2]));
+            content.append(String.format("\nLa editorial es: %s", row[3]));
             content.append("\n===========================\n");
         }
         WindowComponents.textArea.setText(content.toString());
         printAsciiTable(info);
     }
 
-    public static void update(ArrayList<String[]> info) {
-        setText(info);
+    public static void update(ArrayList<String[]> info, String mode) {
+        setText(info, mode);
         WindowComponents.resetFields();
         WindowComponents.updateBox(info);
     }
@@ -34,17 +35,22 @@ public class MainWindow {
     private static void printAsciiTable(ArrayList<String[]> info) {
         AsciiTable table = new AsciiTable();
         table.addRule();
-        table.addRow(null, null, String.format("%d Libros", info.size())).setTextAlignment(TextAlignment.CENTER);
+        table.addRow(null, null, null, String.format("%d Libros", info.size())).setTextAlignment(TextAlignment.CENTER);
         table.addRule();
-        table.addRow("Título", "Autor", "Año").setTextAlignment(TextAlignment.CENTER);
+        table.addRow("Título", "Autor", "Editorial", "Año").setTextAlignment(TextAlignment.CENTER);
         for (String[] row : info) {
             table.addRule();
-            table.addRow(row[1], row[2], row[0]);
+            table.addRow(row[1], row[2], row[3], row[0]);
         }
         table.addRule();
 
         String render = table.render();
         System.out.println(render);
+    }
+
+    public static void noFile() {
+        WindowComponents.textArea.setText("");
+        WindowComponents.updateGui(-1);
     }
 
     public static void main(String[] args) {

@@ -20,6 +20,7 @@ public class SAX {
     public static void onOpenSAX() {
         File f = FileManagement.chooseXMLFile();
         if (f == null) {
+            MainWindow.noFile();
             return;
         }
 
@@ -37,15 +38,15 @@ public class SAX {
     private static void getContent(File f) throws IOException, SAXException {
         sm.j = 0;
         sm.content.clear();
-        sm.data = new String[3];
+        sm.data = new String[4];
 
         parser.parse(f, sm);
-        MainWindow.update(sm.content);
+        MainWindow.update(sm.content, "SAX");
     }
 
     static class SAXMng extends DefaultHandler {
         ArrayList<String[]> content = new ArrayList<>();
-        String[] data = new String[3];
+        String[] data = new String[4];
         int j;
 
         @Override
@@ -57,9 +58,9 @@ public class SAX {
         @Override
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
-            if (qName.equals("Autor")) {
+            if (qName.equals("Editorial")) {
                 content.add(data);
-                data = new String[3];
+                data = new String[4];
                 j = 0;
             }
         }
@@ -72,7 +73,7 @@ public class SAX {
                 temp.append(ch[i]);
             }
             if (!temp.toString().trim().equals("")) {
-                data [j == 0 ? 1 : 2] = temp.toString().trim();
+                data[j + 1] = temp.toString().trim();
                 j++;
             }
         }

@@ -1,6 +1,7 @@
 package application;
 
 import XMLManagement.DOM;
+import XMLManagement.JAXB;
 import XMLManagement.SAX;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class Actions {
                 SAX.onOpenSAX();
                 break;
             case 2:
-                System.out.println("WIP");
+                JAXB.onOpenJAXB();
                 break;
         }
         if (MainWindow.openFile != null) {

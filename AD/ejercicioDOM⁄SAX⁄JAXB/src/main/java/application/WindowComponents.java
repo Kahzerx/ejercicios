@@ -116,18 +116,20 @@ public class WindowComponents {
         loadSAXButton.addActionListener(actionEvent -> Actions.open(1));
 
         loadJAXBButton = (JButton) createJThing(0, "Mostrar contenido del JAXB", new int[] {770, 25, 200, 30});
-        loadJAXBButton.setEnabled(false);
         loadJAXBButton.addActionListener(actionEvent -> Actions.open(2));
     }
 
     private void createSideButtons() {
         addButton = (JButton) createJThing(0, "Añadir", new int[] {890, 145, 60, 50});
+        addButton.setEnabled(false);
         addButton.addActionListener(actionEvent -> Actions.sideActions(0, new String[] {publishedAddField.getText(), titleAddField.getText(), authorAddField.getText()}));
 
         saveFile = (JButton) createJThing(0, "Guardar", new int[] {700, 245, 130, 40});
+        saveFile.setEnabled(false);
         saveFile.addActionListener(actionEvent -> Actions.sideActions(1, null));
 
         updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {840, 335, 130, 40});
+        updateTitleButton.setEnabled(false);
         updateTitleButton.addActionListener(actionEvent -> Actions.sideActions(2, new String[] {(String) titleComboBox.getSelectedItem(), titleUpdateField.getText()}));
     }
 
@@ -193,25 +195,18 @@ public class WindowComponents {
     }
 
     public static void updateGui(int opt) {
-        loadDOMButton.setText("Mostrar contenido del DOM");
-        loadSAXButton.setText("Mostrar contenido del SAX");
         switch (opt) {
-            case -1:
-                addButton.setEnabled(true);
-                saveFile.setEnabled(true);
-                updateTitleButton.setEnabled(true);
-                break;
-            case 0:  // Una vez abierto el DOM
-                addButton.setEnabled(true);
-                saveFile.setEnabled(true);
-                updateTitleButton.setEnabled(true);
-                loadDOMButton.setText("[Mostrar contenido del DOM]");
-                break;
-            case 1:  // Una vez abierto el SAX
+            case -1:  // Default.
+            case 1:  // Una vez abierto el SAX.
+            case 2:  // Una vez abierto el JAXB.
                 addButton.setEnabled(false);
                 saveFile.setEnabled(false);
                 updateTitleButton.setEnabled(false);
-                loadSAXButton.setText("[Mostrar contenido del SAX]");
+                break;
+            case 0:  // Una vez abierto el DOM.
+                addButton.setEnabled(true);
+                saveFile.setEnabled(true);
+                updateTitleButton.setEnabled(true);
                 break;
         }
     }

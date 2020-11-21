@@ -11,4 +11,5 @@ def getModified(content):
     sourceLang = translator.translate(content, dest='es').src
     for lang in languages:
         content = translator.translate(content, dest=lang).text
-    return translator.translate(content, dest=sourceLang).text
+    return translator.translate(content, dest='es').text
+    # return translator.translate(content, dest=sourceLang).text

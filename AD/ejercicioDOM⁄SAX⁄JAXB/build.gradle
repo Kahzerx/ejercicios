@@ -6,7 +6,7 @@ plugins {
 
 mainClassName = 'application.MainWindow'
 
-group 'org.DOMSAX'
+group 'org.DOMSAXJAXB'
 version '1.0'
 
 repositories {

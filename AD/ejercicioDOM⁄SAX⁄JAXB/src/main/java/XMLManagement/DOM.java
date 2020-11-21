@@ -30,6 +30,7 @@ public class DOM {
         doc = null;
         File f = FileManagement.chooseXMLFile();
         if (f == null) {
+            MainWindow.noFile();
             return;
         }
 
@@ -127,7 +128,7 @@ public class DOM {
 
     // Procesar libro a libro en array para el text area.
     private static String[] process(Node node) {
-        String[] data = new String[3];
+        String[] data = new String[4];
         Node temp;
         int acc = 1;
         data[0] = node.getAttributes().item(0).getNodeValue();
@@ -177,6 +178,6 @@ public class DOM {
 
     // Actualizar el text area, los fields y comboBox.
     private static void updateWindow() {
-        MainWindow.update(getContent(doc));
+        MainWindow.update(getContent(doc), "DOM");
     }
 }
