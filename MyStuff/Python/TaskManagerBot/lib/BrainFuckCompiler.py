@@ -40,6 +40,8 @@ def processCode(program):
         elif j == '[':
             if buffer[pos] == 0:
                 i += 1
+                if i >= len(program):
+                    return 'Instruction out of bounds'
                 while num > 0 or program[i] != ']':
                     if program[i] == '[':
                         num += 1
@@ -52,6 +54,8 @@ def processCode(program):
         elif j == ']':
             if buffer[pos] != 0:
                 i -= 1
+                if i < 0:
+                    return 'Instruction out of bounds'
                 while num > 0 or program[i] != '[':
                     if program[i] == ']':
                         num += 1
