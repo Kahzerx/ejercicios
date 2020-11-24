@@ -46,6 +46,8 @@ public class Actions {
                         case 2:
                             DOM.onTitleUpdate(par[0], par[1]);
                             break;
+                        case 3:
+                            System.out.println("WIP");
                     }
                     break;
                 case 1:

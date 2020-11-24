@@ -176,6 +176,16 @@ public class DOM {
         }
     }
 
+    public static void processQuery(String query) {
+        if (!query.equals("")) {
+            if (doc != null) {
+                XPATH.processQuery(doc, query);
+            }
+            else JOptionPane.showMessageDialog(null, "Debes abrir un archivo antes", "ERROR", JOptionPane.ERROR_MESSAGE);  // Won't happen but who knows ¯\_(ツ)_/¯.
+        }
+        else JOptionPane.showMessageDialog(null, "La consulta no puede estar vacia", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
     // Actualizar el text area, los fields y comboBox.
     private static void updateWindow() {
         MainWindow.update(getContent(doc), "DOM");

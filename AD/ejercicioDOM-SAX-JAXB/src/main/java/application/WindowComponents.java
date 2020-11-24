@@ -30,7 +30,8 @@ public class WindowComponents {
 
     private static JButton addButton;
     private static JButton updateTitleButton;
-    private static JButton saveFile;
+    private static JButton saveFileButton;
+    private static JButton doQueryButton;
 
     private static JComboBox<String> titleComboBox;
 
@@ -132,13 +133,17 @@ public class WindowComponents {
         addButton.setEnabled(false);
         addButton.addActionListener(actionEvent -> Actions.sideActions(0, new String[] {publishedAddField.getText(), titleAddField.getText(), authorAddField.getText()}));
 
-        saveFile = (JButton) createJThing(0, "Guardar", new int[] {700, 245, 130, 40});
-        saveFile.setEnabled(false);
-        saveFile.addActionListener(actionEvent -> Actions.sideActions(1, null));
+        saveFileButton = (JButton) createJThing(0, "Guardar", new int[] {700, 245, 130, 40});
+        saveFileButton.setEnabled(false);
+        saveFileButton.addActionListener(actionEvent -> Actions.sideActions(1, null));
 
-        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {840, 335, 130, 40});
+        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {860, 335, 130, 40});
         updateTitleButton.setEnabled(false);
         updateTitleButton.addActionListener(actionEvent -> Actions.sideActions(2, new String[] {(String) titleComboBox.getSelectedItem(), titleUpdateField.getText()}));
+
+        doQueryButton = (JButton) createJThing(0, "Consultar", new int[] {860, 430, 130, 40});
+        doQueryButton.setEnabled(false);
+        doQueryButton.addActionListener(actionEvent -> Actions.sideActions(3, new String[] {queryTextArea.getText()}));
     }
 
     private void createLabels() {
@@ -169,7 +174,8 @@ public class WindowComponents {
         panel.add(loadJAXBButton);
         panel.add(addButton);
         panel.add(updateTitleButton);
-        panel.add(saveFile);
+        panel.add(saveFileButton);
+        panel.add(doQueryButton);
 
         panel.add(titleLabel);
         panel.add(authorLabel);
@@ -211,13 +217,15 @@ public class WindowComponents {
             case 1:  // Una vez abierto el SAX.
             case 2:  // Una vez abierto el JAXB.
                 addButton.setEnabled(false);
-                saveFile.setEnabled(false);
+                saveFileButton.setEnabled(false);
                 updateTitleButton.setEnabled(false);
+                doQueryButton.setEnabled(false);
                 break;
             case 0:  // Una vez abierto el DOM.
                 addButton.setEnabled(true);
-                saveFile.setEnabled(true);
+                saveFileButton.setEnabled(true);
                 updateTitleButton.setEnabled(true);
+                doQueryButton.setEnabled(true);
                 break;
         }
     }
