@@ -1,10 +1,11 @@
 package XMLManagement;
 
-import application.MainWindow;
 import fileManagement.FileManagement;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import utils.Reset;
+import utils.Update;
 
 import javax.xml.parsers.*;
 import java.io.File;
@@ -20,7 +21,7 @@ public class SAX {
     public static void onOpenSAX() {
         File f = FileManagement.chooseXMLFile();
         if (f == null) {
-            MainWindow.noFile();
+            Reset.noFile();
             return;
         }
 
@@ -41,7 +42,7 @@ public class SAX {
         sm.data = new String[4];
 
         parser.parse(f, sm);
-        MainWindow.update(sm.content, "SAX");
+        Update.updateMainTextArea(sm.content, "SAX");
     }
 
     static class SAXMng extends DefaultHandler {

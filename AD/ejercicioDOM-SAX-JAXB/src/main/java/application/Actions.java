@@ -3,6 +3,7 @@ package application;
 import XMLManagement.DOM;
 import XMLManagement.JAXB;
 import XMLManagement.SAX;
+import fileManagement.FileManagement;
 
 import javax.swing.*;
 
@@ -23,7 +24,7 @@ public class Actions {
                 JAXB.onOpenJAXB();
                 break;
         }
-        if (MainWindow.openFile != null) {
+        if (FileManagement.openFile != null) {
             WindowComponents.updateGui(stat);
         }
         else {
@@ -38,7 +39,7 @@ public class Actions {
                 case 0:  // Acciones cuando has abierto DOM.
                     switch (val) {
                         case 0:
-                            DOM.onAdd(par[0], par[1], par[2]);
+                            DOM.onAdd(par[0], par[1], par[2], par[3]);
                             break;
                         case 1:
                             DOM.writeAndClose();
@@ -47,7 +48,7 @@ public class Actions {
                             DOM.onTitleUpdate(par[0], par[1]);
                             break;
                         case 3:
-                            System.out.println("WIP");
+                            DOM.processQuery(par[0]);
                     }
                     break;
                 case 1:

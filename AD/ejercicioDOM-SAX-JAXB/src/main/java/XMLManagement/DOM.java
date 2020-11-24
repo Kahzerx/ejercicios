@@ -1,12 +1,13 @@
 package XMLManagement;
 
-import application.MainWindow;
 import fileManagement.FileManagement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import utils.Reset;
+import utils.Update;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -30,7 +31,7 @@ public class DOM {
         doc = null;
         File f = FileManagement.chooseXMLFile();
         if (f == null) {
-            MainWindow.noFile();
+            Reset.noFile();
             return;
         }
 
@@ -47,11 +48,11 @@ public class DOM {
     }
 
     // Se ejecuta al clickar el botón de añadir.
-    public static void onAdd(String published, String title, String author) {
+    public static void onAdd(String published, String title, String author, String editorial) {
         if (doc != null) {
-            if (!title.equals("") && !published.equals("") && !author.equals("")) {
+            if (!title.equals("") && !published.equals("") && !author.equals("") && !editorial.equals("")) {
                 if (isInt(published)) {
-                    tryAppend(published, title, author);
+                    tryAppend(published, title, author, editorial);
                 } else
                     JOptionPane.showMessageDialog(null, "La fecha de publicación tiene que ser un número", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else
@@ -89,7 +90,7 @@ public class DOM {
     }
 
     // Intentar añadir el nuevo libro.
-    private static void tryAppend(String published, String title, String author) {
+    private static void tryAppend(String published, String title, String author, String editorial) {
         Element root = doc.getDocumentElement();
 
         Element newBook = doc.createElement("Libro");
@@ -102,6 +103,10 @@ public class DOM {
         Element newAuthor = doc.createElement("Autor");
         newAuthor.appendChild(doc.createTextNode(author));
         newBook.appendChild(newAuthor);
+
+        Element newEditorial = doc.createElement("Editorial");
+        newEditorial.appendChild(doc.createTextNode(editorial));
+        newBook.appendChild(newEditorial);
 
         root.appendChild(newBook);
 
@@ -188,6 +193,6 @@ public class DOM {
 
     // Actualizar el text area, los fields y comboBox.
     private static void updateWindow() {
-        MainWindow.update(getContent(doc), "DOM");
+        Update.updateMainTextArea(getContent(doc), "DOM");
     }
 }

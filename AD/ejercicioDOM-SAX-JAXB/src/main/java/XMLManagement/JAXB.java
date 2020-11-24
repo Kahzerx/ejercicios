@@ -1,8 +1,9 @@
 package XMLManagement;
 
-import application.MainWindow;
 import fileManagement.FileManagement;
 import generated.Libros;
+import utils.Reset;
+import utils.Update;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -19,7 +20,7 @@ public class JAXB {
     public static void onOpenJAXB() {
         File f = FileManagement.chooseXMLFile();
         if (f == null) {
-            MainWindow.noFile();
+            Reset.noFile();
             return;
         }
         try {
@@ -27,8 +28,7 @@ public class JAXB {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             myBooks = (Libros) unmarshaller.unmarshal(f);
 
-            MainWindow.update(getContent(), "JAXB");
-
+            Update.updateMainTextArea(getContent(), "JAXB");
         }
         catch (JAXBException e) {
             e.printStackTrace();

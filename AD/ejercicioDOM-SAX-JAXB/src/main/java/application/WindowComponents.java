@@ -11,7 +11,8 @@ public class WindowComponents {
     private final JPanel panel = new JPanel();
 
     public static JTextArea textArea;
-    private static JTextArea queryTextArea;
+    public static JTextArea queryTextArea;
+    public static JTextArea queryResultTextArea;
 
     private static JButton loadDOMButton;
     private static JButton loadSAXButton;
@@ -20,12 +21,15 @@ public class WindowComponents {
     private static JLabel titleLabel;
     private static JLabel authorLabel;
     private static JLabel publishedLabel;
+    private static JLabel editorialLabel;
     private static JLabel titleUpdateLabel;
     private static JLabel queryLabel;
+    private static JLabel queryResultLabel;
 
     private static JTextField titleAddField;
     private static JTextField authorAddField;
     private static JTextField publishedAddField;
+    private static JTextField editorialAddField;
     private static JTextField titleUpdateField;
 
     private static JButton addButton;
@@ -121,53 +125,65 @@ public class WindowComponents {
         loadJAXBButton.addActionListener(actionEvent -> Actions.open(2));
     }
 
+    private void createJScrollPane() {
+        JScrollPane scrollPane = new JScrollPane(textArea);
+    }
+
     private void createTextArea() {
         textArea = (JTextArea) createJThing(4, "", new int[]{10, 80, 500, 600});
         textArea.setEditable(false);
 
-        queryTextArea = (JTextArea) createJThing(4, "", new int[]{550, 430, 290, 40});
+        queryTextArea = (JTextArea) createJThing(4, "", new int[]{550, 430, 230, 40});
+        queryTextArea.setEditable(false);
+
+        queryResultTextArea = (JTextArea) createJThing(4, "", new int[] {550, 520, 420, 160});
+        queryResultTextArea.setEditable(false);
     }
 
     private void createSideButtons() {
-        addButton = (JButton) createJThing(0, "Añadir", new int[] {890, 145, 60, 50});
+        addButton = (JButton) createJThing(0, "Añadir", new int[] {890, 132, 60, 50});
         addButton.setEnabled(false);
-        addButton.addActionListener(actionEvent -> Actions.sideActions(0, new String[] {publishedAddField.getText(), titleAddField.getText(), authorAddField.getText()}));
+        addButton.addActionListener(actionEvent -> Actions.sideActions(0, new String[] {publishedAddField.getText(), titleAddField.getText(), authorAddField.getText(), editorialAddField.getText()}));
 
         saveFileButton = (JButton) createJThing(0, "Guardar", new int[] {700, 245, 130, 40});
         saveFileButton.setEnabled(false);
         saveFileButton.addActionListener(actionEvent -> Actions.sideActions(1, null));
 
-        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {860, 335, 130, 40});
+        updateTitleButton = (JButton) createJThing(0, "Actualizar", new int[] {840, 335, 130, 40});
         updateTitleButton.setEnabled(false);
         updateTitleButton.addActionListener(actionEvent -> Actions.sideActions(2, new String[] {(String) titleComboBox.getSelectedItem(), titleUpdateField.getText()}));
 
-        doQueryButton = (JButton) createJThing(0, "Consultar", new int[] {860, 430, 130, 40});
+        doQueryButton = (JButton) createJThing(0, "Consultar", new int[] {840, 430, 130, 40});
         doQueryButton.setEnabled(false);
         doQueryButton.addActionListener(actionEvent -> Actions.sideActions(3, new String[] {queryTextArea.getText()}));
     }
 
     private void createLabels() {
-        titleLabel = (JLabel) createJThing(1, "Título", new int[] {550, 130, 50, 30});
-        authorLabel = (JLabel) createJThing(1, "Autor", new int[] {550, 160, 50, 30});
-        publishedLabel = (JLabel) createJThing(1, "Publicado en", new int[] {550, 190, 100, 30});
+        titleLabel = (JLabel) createJThing(1, "Título", new int[] {550, 100, 50, 30});
+        authorLabel = (JLabel) createJThing(1, "Autor", new int[] {550, 130, 50, 30});
+        publishedLabel = (JLabel) createJThing(1, "Publicado en", new int[] {550, 160, 100, 30});
+        editorialLabel = (JLabel) createJThing(1, "Editorial", new int[] {550, 190, 100, 30});
         titleUpdateLabel = (JLabel) createJThing(1, "Actualizar título", new int[] {550, 300, 150, 30});
         queryLabel = (JLabel) createJThing(1, "Consulta", new int[] {550, 400, 150, 30});
+        queryResultLabel = (JLabel) createJThing(1, "Resultado", new int[] {550, 490, 150, 30});
     }
 
     private void createFields() {
-        titleAddField = (JTextField) createJThing(2, "", new int[] {670, 130, 170, 25});
-        authorAddField = (JTextField) createJThing(2, "", new int[] {670, 160, 170, 25});
-        publishedAddField = (JTextField) createJThing(2, "", new int[] {670, 190, 170, 25});
-        titleUpdateField = (JTextField) createJThing(2, "", new int[] {550, 360, 201, 25});
+        titleAddField = (JTextField) createJThing(2, "", new int[] {670, 100, 170, 25});
+        authorAddField = (JTextField) createJThing(2, "", new int[] {670, 130, 170, 25});
+        publishedAddField = (JTextField) createJThing(2, "", new int[] {670, 160, 170, 25});
+        editorialAddField = (JTextField) createJThing(2, "", new int[] {670, 190, 170, 25});
+        titleUpdateField = (JTextField) createJThing(2, "", new int[] {550, 360, 230, 25});
     }
 
     private void createBox() {
-        titleComboBox = (JComboBox<String>) createJThing(3, "", new int[] {550, 330, 200, 25});
+        titleComboBox = (JComboBox<String>) createJThing(3, "", new int[] {550, 330, 229, 25});
     }
 
     private void addComponents() {
         panel.add(textArea);
         panel.add(queryTextArea);
+        panel.add(queryResultTextArea);
 
         panel.add(loadDOMButton);
         panel.add(loadSAXButton);
@@ -180,12 +196,15 @@ public class WindowComponents {
         panel.add(titleLabel);
         panel.add(authorLabel);
         panel.add(publishedLabel);
+        panel.add(editorialLabel);
         panel.add(titleUpdateLabel);
         panel.add(queryLabel);
+        panel.add(queryResultLabel);
 
         panel.add(titleAddField);
         panel.add(authorAddField);
         panel.add(publishedAddField);
+        panel.add(editorialAddField);
         panel.add(titleUpdateField);
 
         panel.add(titleComboBox);
@@ -200,7 +219,14 @@ public class WindowComponents {
         titleAddField.setText("");
         authorAddField.setText("");
         publishedAddField.setText("");
+        editorialAddField.setText("");
         titleUpdateField.setText("");
+    }
+
+    public static void resetTextArea() {
+        textArea.setText("");
+        queryResultTextArea.setText("");
+        queryTextArea.setText("");
     }
 
     public static void updateBox(ArrayList<String[]> data) {
@@ -220,12 +246,14 @@ public class WindowComponents {
                 saveFileButton.setEnabled(false);
                 updateTitleButton.setEnabled(false);
                 doQueryButton.setEnabled(false);
+                queryTextArea.setEditable(false);
                 break;
             case 0:  // Una vez abierto el DOM.
                 addButton.setEnabled(true);
                 saveFileButton.setEnabled(true);
                 updateTitleButton.setEnabled(true);
                 doQueryButton.setEnabled(true);
+                queryTextArea.setEditable(true);
                 break;
         }
     }
