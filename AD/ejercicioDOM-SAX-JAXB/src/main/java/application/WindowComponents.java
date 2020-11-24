@@ -10,7 +10,8 @@ public class WindowComponents {
     public JFrame frame = new JFrame("Ejercicio de Acceso a Datos");
     private final JPanel panel = new JPanel();
 
-    public static JTextArea textArea = new JTextArea();
+    public static JTextArea textArea;
+    private static JTextArea queryTextArea;
 
     private static JButton loadDOMButton;
     private static JButton loadSAXButton;
@@ -20,6 +21,7 @@ public class WindowComponents {
     private static JLabel authorLabel;
     private static JLabel publishedLabel;
     private static JLabel titleUpdateLabel;
+    private static JLabel queryLabel;
 
     private static JTextField titleAddField;
     private static JTextField authorAddField;
@@ -70,12 +72,6 @@ public class WindowComponents {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     }
 
-    private void createTextArea() {
-        textArea.setBounds(10, 80, 500, 600);
-        textArea.setMargin(new Insets(10, 10, 10, 10));
-        textArea.setEditable(false);
-    }
-
     private Object createJThing(int type, String text, int[] bounds) {
         Object thing;
         switch (type) {
@@ -102,6 +98,11 @@ public class WindowComponents {
                 ((JComboBox) thing).setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
                 ((JComboBox) thing).setFont(new Font("Arial", Font.PLAIN, 15));
                 break;
+            case 4:
+                thing = new JTextArea();
+                ((JTextArea) thing).setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+                ((JTextArea) thing).setMargin(new Insets(10, 10, 10, 10));
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -117,6 +118,13 @@ public class WindowComponents {
 
         loadJAXBButton = (JButton) createJThing(0, "Mostrar contenido del JAXB", new int[] {770, 25, 200, 30});
         loadJAXBButton.addActionListener(actionEvent -> Actions.open(2));
+    }
+
+    private void createTextArea() {
+        textArea = (JTextArea) createJThing(4, "", new int[]{10, 80, 500, 600});
+        textArea.setEditable(false);
+
+        queryTextArea = (JTextArea) createJThing(4, "", new int[]{550, 430, 290, 40});
     }
 
     private void createSideButtons() {
@@ -138,6 +146,7 @@ public class WindowComponents {
         authorLabel = (JLabel) createJThing(1, "Autor", new int[] {550, 160, 50, 30});
         publishedLabel = (JLabel) createJThing(1, "Publicado en", new int[] {550, 190, 100, 30});
         titleUpdateLabel = (JLabel) createJThing(1, "Actualizar título", new int[] {550, 300, 150, 30});
+        queryLabel = (JLabel) createJThing(1, "Consulta", new int[] {550, 400, 150, 30});
     }
 
     private void createFields() {
@@ -153,6 +162,7 @@ public class WindowComponents {
 
     private void addComponents() {
         panel.add(textArea);
+        panel.add(queryTextArea);
 
         panel.add(loadDOMButton);
         panel.add(loadSAXButton);
@@ -165,6 +175,7 @@ public class WindowComponents {
         panel.add(authorLabel);
         panel.add(publishedLabel);
         panel.add(titleUpdateLabel);
+        panel.add(queryLabel);
 
         panel.add(titleAddField);
         panel.add(authorAddField);
