@@ -5,13 +5,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import utils.Update;
 
+import javax.swing.*;
 import javax.xml.xpath.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class XPATH {
     private static String[] data = new String[4];
-    private static ArrayList<String[]> content = new ArrayList<>();
+    private static final ArrayList<String[]> content = new ArrayList<>();
 
     public static void processQuery(Document doc, String query) {
         try {
@@ -24,7 +24,7 @@ public class XPATH {
             getContent(nodeList, 0);
             Update.updateQueryTextArea(content);
         } catch (XPathExpressionException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al procesar la consulta", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
