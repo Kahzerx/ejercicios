@@ -13,6 +13,7 @@ public class XPATH {
     private static String[] data = new String[4];
     private static final ArrayList<String[]> content = new ArrayList<>();
 
+    // Inicializo lo necesario para procesar la query.
     public static void processQuery(Document doc, String query) {
         try {
             XPath xPath = XPathFactory.newInstance().newXPath();
@@ -28,11 +29,12 @@ public class XPATH {
         }
     }
 
+    // Recursivamente saco el contenido que necesito tanto elementos como atributos.
     private static void getContent(NodeList list, int j) {
         Node temp;
         for (int i = 0; i < list.getLength(); i++) {
             temp = list.item(i);
-            if (temp.getNodeType() == Node.ELEMENT_NODE) {
+            if (temp.getNodeType() == Node.ELEMENT_NODE || temp.getNodeType() == Node.ATTRIBUTE_NODE) {
                 if (list.item(i).getFirstChild().getNodeValue().trim().equals("")) {
                     NodeList subNodes = list.item(i).getChildNodes();
                     if (temp.hasAttributes()) {

@@ -125,10 +125,6 @@ public class WindowComponents {
         loadJAXBButton.addActionListener(actionEvent -> Actions.open(2));
     }
 
-    private void createJScrollPane() {
-        JScrollPane scrollPane = new JScrollPane(textArea);
-    }
-
     private void createTextArea() {
         textArea = (JTextArea) createJThing(4, "", new int[]{10, 80, 500, 600});
         textArea.setEditable(false);

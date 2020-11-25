@@ -181,6 +181,7 @@ public class DOM {
         }
     }
 
+    // Chequeo y envio de la query a XPath.
     public static void processQuery(String query) {
         if (!query.equals("")) {
             if (doc != null) {
