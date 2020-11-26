@@ -82,7 +82,7 @@ pub fn confirmation(calc: &Calculator) -> bool {
             println!("\nIntroduce una respuesta correcta (s/n).");
         }
     }
-    return if "s" == ipt.trim().to_ascii_lowercase() { true } else { false }
+    "s" == ipt.trim().to_ascii_lowercase()
 }
 
 fn process_num(i: i8) -> String {
@@ -92,11 +92,16 @@ fn process_num(i: i8) -> String {
         s = "".parse().unwrap();
         print!("\nCuál es el número {}: ", i);
         read(&mut s);  // Por algún motivo lee los saltos de linea y eso, hay que hacer trim()
-        if is_numeric_string(&s.trim()) && is_valid_length(&s.trim()) {
-            is_num = true;
+        if s.trim().chars().count() > 0 {
+            if is_numeric_string(&s.trim()) && is_valid_length(&s.trim()) {
+                is_num = true;
+            }
+            else {
+                println!("\nIntroduce un número correcto (max length 15).");
+            }
         }
         else {
-            println!("\nIntroduce un número correcto (max length 15).");
+            println!("Introduce al menos un número.");
         }
     }
     s.trim().to_string()
@@ -150,4 +155,30 @@ fn is_valid_length(s: &str) -> bool {  // En la pantalla de mi dibujo no caben m
 
 fn is_sn(s: &str) -> bool {  // Validar si/no.
     s.trim().chars().count() == 1 && "sn".contains(s.chars().next().unwrap().to_ascii_lowercase())
+}
+
+pub fn validate(s1: &str, opt: Vec<&str>) -> bool {
+    let mut s = String::new();
+    let mut is_valid = false;
+
+    while !is_valid {
+        s = "".to_string();
+        print!("\n{} ({}): ", s1, opt.join("/"));
+        read(&mut s);
+        s = s.to_uppercase().trim().parse().unwrap();
+
+        if s == "" {
+            return true;
+        }
+
+        if s.chars().count() == 1 && opt.contains(&&*s) {
+            is_valid = true;
+        }
+
+        else {
+            println!("Introduce una opción correcta.");
+        }
+    }
+
+    s == opt[0].to_uppercase()
 }

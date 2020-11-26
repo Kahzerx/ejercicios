@@ -4,20 +4,24 @@ use std::process::Command;
 
 pub fn run() {
     clear_console();
-    let mut calc = process::Calculator::new();  // Creo una calculadora.
+    loop {
+        let mut calc = process::Calculator::new();  // Creo una calculadora.
 
-    create_calc::draw(process::num1(&mut calc));  // Proceso y dibujo el num1.
+        create_calc::draw(process::num1(&mut calc));  // Proceso y dibujo el num1.
 
-    process::operator(&mut calc);  // Proceso el operador.
+        process::operator(&mut calc);  // Proceso el operador.
 
-    create_calc::draw(process::num2(&mut calc));  // Proceso y dibujo el num2.
+        create_calc::draw(process::num2(&mut calc));  // Proceso y dibujo el num2.
 
-    if process::confirmation(&calc) {
-        create_calc::draw(&process::calculate(&calc));  // Calcular.
-        process::print_operation(&calc);
+        if process::confirmation(&calc) {
+            create_calc::draw(&process::calculate(&calc));  // Calcular.
+            process::print_operation(&calc);
+        }
+
+        if !process::validate("Quieres realizar otra operación?", vec!["S", "N"]) { break; }
+
+        process::clear(&mut calc);  // Resetear los valores.
     }
-
-    process::clear(&mut calc);  // Resetear los valores.
 }
 
 fn clear_console() {
