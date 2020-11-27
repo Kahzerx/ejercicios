@@ -4,10 +4,10 @@ use crate::utils::{Word, hyphen_writer, log, build_word};
 
 pub fn run() {
     let mut word = utils::Word::new();
+    utils::initialize(&mut word, vec!["CETYS", "TEST", "HOLA", "ADIOS", "BABYYODA"]);
 
     loop {
         clear_console();
-        utils::initialize(&mut word, vec!["CETYS", "TEST", "HOLA", "ADIOS", "BABYYODA"]);
 
         play(&mut word);
 

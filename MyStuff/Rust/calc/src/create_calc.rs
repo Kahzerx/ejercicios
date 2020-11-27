@@ -4,7 +4,7 @@ pub fn draw(mut content: &str) {
         content = "0";
     }
     else if get_str_size(content) >= 15 {
-        content = "OUT OF RANGE";
+        content = "RANGE ERROR";
     }
     let calc: &str = "
  _____________________

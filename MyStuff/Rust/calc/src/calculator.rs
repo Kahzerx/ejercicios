@@ -3,9 +3,9 @@ use crate::process;
 use std::process::Command;
 
 pub fn run() {
-    clear_console();
+    let mut calc = process::Calculator::new();  // Creo una calculadora.
     loop {
-        let mut calc = process::Calculator::new();  // Creo una calculadora.
+        clear_console();
 
         create_calc::draw(process::num1(&mut calc));  // Proceso y dibujo el num1.
 
