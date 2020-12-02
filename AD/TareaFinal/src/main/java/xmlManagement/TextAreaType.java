@@ -1,12 +1,10 @@
-package management;
+package xmlManagement;
 
-import java.util.ArrayList;
-
-public class SaxType {
+public class TextAreaType {
     public String[] content;
     public Object[] authors;
 
-    public SaxType(String[] content, Object[] authors) {
+    public TextAreaType(String[] content, Object[] authors) {
         this.content = content;
         this.authors = authors;
     }

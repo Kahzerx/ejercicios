@@ -1,5 +1,6 @@
-package management;
+package xmlManagement;
 
+import fileManagement.FileStuffs;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -12,18 +13,16 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class SAX {
     private static SAXParser parser;
     private static SAXMng sm;
 
-    public static void onOpenSax() {
-        File f = new File("logixs.xml");
+    public static boolean onOpenSax() {
+        File f = new File(FileStuffs.fileName);
         if (!f.exists()) {
             JOptionPane.showMessageDialog(null, "Archivo no encontrado", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -32,8 +31,9 @@ public class SAX {
 
             getContent(f);
         } catch (SAXException | ParserConfigurationException | IOException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     private static void getContent(File f) throws IOException, SAXException {
@@ -49,7 +49,7 @@ public class SAX {
 
     static class SAXMng extends DefaultHandler {
         ArrayList<String> authors = new ArrayList<>();
-        ArrayList<SaxType> content = new ArrayList<>();
+        ArrayList<TextAreaType> content = new ArrayList<>();
         String[] data = new String[9];
         boolean isAuthor = false;
         int j = 0;
@@ -71,7 +71,7 @@ public class SAX {
         public void endElement(String uri, String localName, String qName) throws SAXException {
             super.endElement(uri, localName, qName);
             if (qName.equals("num_system")) {
-                content.add(new SaxType(data, authors.toArray()));
+                content.add(new TextAreaType(data, authors.toArray()));
                 authors.clear();
                 data = new String[9];
                 j = 0;
