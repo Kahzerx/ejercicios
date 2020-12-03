@@ -10,11 +10,18 @@ import javax.swing.*;
 
 public class ButtonActions {
     public static void open(int stat) {
-        if (stat == 0) {
-            ResetText.resetAll();
-            if (SAX.onOpenSax()) {
-                JAXB.openJAXB();
-            }
+        switch (stat) {
+            case 0:
+                ResetText.resetAll();
+                if (SAX.onOpenSax()) {
+                    JAXB.openJAXB();
+                }
+                break;
+            case 2:
+                AddWindowComponents addWindowComponents = new AddWindowComponents();
+                addWindowComponents.frame.setVisible(true);
+                addWindowComponents.frame.setResizable(false);
+                break;
         }
     }
 

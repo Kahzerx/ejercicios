@@ -14,6 +14,7 @@ public class UpdateText {
         MainWindowComponents.CCAButton.setEnabled(true);
         MainWindowComponents.sevenButton.setEnabled(true);
         MainWindowComponents.EVButton.setEnabled(true);
+        MainWindowComponents.addButton.setEnabled(true);
     }
 
     private static void setText(ArrayList<TextAreaType> data) {

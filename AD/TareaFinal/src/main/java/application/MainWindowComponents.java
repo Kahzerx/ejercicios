@@ -27,6 +27,7 @@ public class MainWindowComponents {
     public static JButton EVButton;
     public static JButton CCAButton;
     public static JButton sevenButton;
+    public static JButton addButton;
 
     public MainWindowComponents() {
         createJTextArea();
@@ -106,21 +107,25 @@ public class MainWindowComponents {
         applyEdit1Button.addActionListener(actionEvent -> ButtonActions.edit(0, new String[] {String.valueOf(editWIdBox.getSelectedItem()), (String) editWCatBox.getSelectedItem()}));
         applyEdit1Button.setEnabled(false);
 
-        saveButton = (JButton) createJThing(1, "Guardar", new int[] {685, 180, 100, 40});
+        saveButton = (JButton) createJThing(1, "Guardar", new int[] {815, 240, 100, 40});
         saveButton.addActionListener(actionEvent -> ButtonActions.save());
         saveButton.setEnabled(false);
 
-        EVButton = (JButton) createJThing(1, "Consultar!", new int[] {685, 350, 100, 25});
+        EVButton = (JButton) createJThing(1, "Consultar!", new int[] {815, 350, 100, 25});
         EVButton.addActionListener(actionEvent -> ButtonActions.processQuery(0));
         EVButton.setEnabled(false);
 
-        CCAButton = (JButton) createJThing(1, "Consultar!", new int[] {685, 380, 100, 25});
+        CCAButton = (JButton) createJThing(1, "Consultar!", new int[] {815, 380, 100, 25});
         CCAButton.addActionListener(actionEvent -> ButtonActions.processQuery(1));
         CCAButton.setEnabled(false);
 
-        sevenButton = (JButton) createJThing(1, "Consultar!", new int[] {685, 410, 100, 25});
+        sevenButton = (JButton) createJThing(1, "Consultar!", new int[] {815, 410, 100, 25});
         sevenButton.addActionListener(actionEvent -> ButtonActions.processQuery(2));
         sevenButton.setEnabled(false);
+
+        addButton = (JButton) createJThing(1, "Añadir", new int[] {545, 240, 100, 40});
+        addButton.addActionListener(actionEvent -> ButtonActions.open(2));
+        addButton.setEnabled(false);
     }
 
     private void createLabels() {
@@ -134,11 +139,11 @@ public class MainWindowComponents {
         queryLabel = (JLabel) createJThing(2, "Consultas", new int[] {695, 300, 100, 30});
         queryLabel.setFont(new Font("Arial", Font.BOLD, 15));
 
-        EVQLabel = (JLabel) createJThing(2, "Types de EEVV", new int[] {480, 350, 290, 30});
+        EVQLabel = (JLabel) createJThing(2, "Types de EEVV", new int[] {545, 350, 290, 30});
 
-        CCACountLabel = (JLabel) createJThing(2, "Compatibles con CCA", new int[] {480, 380, 290, 30});
+        CCACountLabel = (JLabel) createJThing(2, "Compatibles con CCA", new int[] {545, 380, 290, 30});
 
-        moreThanSevenLabel = (JLabel) createJThing(2, "Con más de 7 bits", new int[] {480, 410, 290, 30});
+        moreThanSevenLabel = (JLabel) createJThing(2, "Con más de 7 bits", new int[] {545, 410, 290, 30});
     }
 
     private void createJComboBox() {
@@ -165,6 +170,7 @@ public class MainWindowComponents {
         frame.add(EVButton);
         frame.add(CCAButton);
         frame.add(sevenButton);
+        frame.add(addButton);
     }
 
     private void onQuit() {

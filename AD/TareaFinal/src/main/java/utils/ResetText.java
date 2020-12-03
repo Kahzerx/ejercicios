@@ -13,5 +13,6 @@ public class ResetText {
         MainWindowComponents.CCAButton.setEnabled(false);
         MainWindowComponents.sevenButton.setEnabled(false);
         MainWindowComponents.EVButton.setEnabled(false);
+        MainWindowComponents.addButton.setEnabled(false);
     }
 }
