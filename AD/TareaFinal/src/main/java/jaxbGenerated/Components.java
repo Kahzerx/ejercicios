@@ -70,7 +70,7 @@ public class Components {
      */
     public List<ComponentType> getComponent() {
         if (component == null) {
-            component = new ArrayList<ComponentType>();
+            component = new ArrayList<>();
         }
         return this.component;
     }

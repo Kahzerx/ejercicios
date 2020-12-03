@@ -4,12 +4,16 @@ import application.MainWindowComponents;
 import xmlManagement.TextAreaType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UpdateText {
     public static void updateMainTextArea(ArrayList<TextAreaType> content) {
         setText(content);
         MainWindowComponents.applyEdit1Button.setEnabled(true);
         MainWindowComponents.saveButton.setEnabled(true);
+        MainWindowComponents.CCAButton.setEnabled(true);
+        MainWindowComponents.sevenButton.setEnabled(true);
+        MainWindowComponents.EVButton.setEnabled(true);
     }
 
     private static void setText(ArrayList<TextAreaType> data) {
@@ -30,8 +34,22 @@ public class UpdateText {
             content.append(String.format("Sistema de numeración: %s\n", datum.content[8]));
             content.append("===========================\n");
         }
+        content.replace(content.length() - 2, content.length(), "");
 
         MainWindowComponents.setTextArea(content.toString());
+    }
+
+    public static void updateSideTextArea(int amount) {
+        String content = String.format("Hay %d componentes compatibles.", amount);
+        MainWindowComponents.sideTextArea.setText(opToggle(content) ? content : "");
+    }
+
+    public static void updateSideTextArea(int count, HashMap<String, Integer> stuffs) {
+        StringBuilder builder = new StringBuilder(String.format("Hay %d resultados.\n\n", count));
+        for (String key : stuffs.keySet()) {
+            builder.append(String.format("%d -> %s\n", stuffs.get(key), key));
+        }
+        MainWindowComponents.sideTextArea.setText(opToggle(builder.toString()) ? builder.toString() : "");
     }
 
     public static void updateComboBox1(ArrayList<Integer> content) {
@@ -41,5 +59,9 @@ public class UpdateText {
         for (String cat : ComponentCat.categories) {
             MainWindowComponents.editWCatBox.addItem(cat);
         }
+    }
+
+    private static boolean opToggle(String newContent) {
+        return !newContent.equals(MainWindowComponents.sideTextArea.getText());
     }
 }

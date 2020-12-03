@@ -18,6 +18,15 @@ public class MainWindowComponents {
     public static JComboBox<String> editWCatBox;
     public static JButton applyEdit1Button;
     public static JButton saveButton;
+    private JLabel queryLabel;
+    public static JTextArea sideTextArea;
+    private JScrollPane sideScrollPane;
+    private JLabel EVQLabel;
+    private JLabel CCACountLabel;
+    private JLabel moreThanSevenLabel;
+    public static JButton EVButton;
+    public static JButton CCAButton;
+    public static JButton sevenButton;
 
     public MainWindowComponents() {
         createJTextArea();
@@ -76,38 +85,71 @@ public class MainWindowComponents {
     private void createJScrollPane() {
         mainScrollPane = new JScrollPane(mainTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         mainScrollPane.setBounds(10, 60, 450, 620);
+
+        sideScrollPane = new JScrollPane(sideTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        sideScrollPane.setBounds(470, 450, 520, 230);
     }
 
     private void createJTextArea() {
         mainTextArea = (JTextArea) createJThing(0, "", new int[] {10, 10, 10, 10});
         mainTextArea.setEditable(false);
+
+        sideTextArea = (JTextArea) createJThing(0, "", new int[] {10, 10, 10, 10});
+        sideTextArea.setEditable(false);
     }
 
     private void createButtons() {
         loadButton = (JButton) createJThing(1, "Mostrar Contenido", new int[] {130, 17, 200, 30});
         loadButton.addActionListener(actionEvent -> ButtonActions.open(0));
-        applyEdit1Button = (JButton) createJThing(1, "Aplicar", new int[] {850, 130, 130, 30});
+
+        applyEdit1Button = (JButton) createJThing(1, "Aplicar", new int[] {850, 100, 130, 30});
         applyEdit1Button.addActionListener(actionEvent -> ButtonActions.edit(0, new String[] {String.valueOf(editWIdBox.getSelectedItem()), (String) editWCatBox.getSelectedItem()}));
         applyEdit1Button.setEnabled(false);
+
         saveButton = (JButton) createJThing(1, "Guardar", new int[] {685, 180, 100, 40});
         saveButton.addActionListener(actionEvent -> ButtonActions.save());
         saveButton.setEnabled(false);
+
+        EVButton = (JButton) createJThing(1, "Consultar!", new int[] {685, 350, 100, 25});
+        EVButton.addActionListener(actionEvent -> ButtonActions.processQuery(0));
+        EVButton.setEnabled(false);
+
+        CCAButton = (JButton) createJThing(1, "Consultar!", new int[] {685, 380, 100, 25});
+        CCAButton.addActionListener(actionEvent -> ButtonActions.processQuery(1));
+        CCAButton.setEnabled(false);
+
+        sevenButton = (JButton) createJThing(1, "Consultar!", new int[] {685, 410, 100, 25});
+        sevenButton.addActionListener(actionEvent -> ButtonActions.processQuery(2));
+        sevenButton.setEnabled(false);
     }
 
     private void createLabels() {
-        editLabel = (JLabel) createJThing(2, "Editar", new int[] {710, 50, 50, 30});
+        editLabel = (JLabel) createJThing(2, "Editar", new int[] {710, 10, 50, 30});
         editLabel.setFont(new Font("Arial", Font.BOLD, 15));
-        editWId1Label = (JLabel) createJThing(2, "Categoría del elemento con ID", new int[] {480, 90, 290, 30});
-        editWA1Label = (JLabel) createJThing(2, "a", new int[] {780, 90, 20, 30});
+
+        editWId1Label = (JLabel) createJThing(2, "Categoría del elemento con ID", new int[] {480, 60, 290, 30});
+
+        editWA1Label = (JLabel) createJThing(2, "a", new int[] {780, 60, 20, 30});
+
+        queryLabel = (JLabel) createJThing(2, "Consultas", new int[] {695, 300, 100, 30});
+        queryLabel.setFont(new Font("Arial", Font.BOLD, 15));
+
+        EVQLabel = (JLabel) createJThing(2, "Types de EEVV", new int[] {480, 350, 290, 30});
+
+        CCACountLabel = (JLabel) createJThing(2, "Compatibles con CCA", new int[] {480, 380, 290, 30});
+
+        moreThanSevenLabel = (JLabel) createJThing(2, "Con más de 7 bits", new int[] {480, 410, 290, 30});
     }
 
     private void createJComboBox() {
-        editWIdBox = (JComboBox<Integer>) createJThing(3, "", new int[] {710, 90, 60, 30});
-        editWCatBox = (JComboBox<String>) createJThing(3, "", new int[] {800, 90, 180, 30});
+        editWIdBox = (JComboBox<Integer>) createJThing(3, "", new int[] {710, 60, 60, 30});
+
+        editWCatBox = (JComboBox<String>) createJThing(3, "", new int[] {800, 60, 180, 30});
     }
 
     private void addStuff() {
         frame.add(mainScrollPane);
+        frame.add(sideScrollPane);
         frame.add(loadButton);
         frame.add(editLabel);
         frame.add(editWId1Label);
@@ -116,6 +158,13 @@ public class MainWindowComponents {
         frame.add(editWCatBox);
         frame.add(applyEdit1Button);
         frame.add(saveButton);
+        frame.add(queryLabel);
+        frame.add(EVQLabel);
+        frame.add(CCACountLabel);
+        frame.add(moreThanSevenLabel);
+        frame.add(EVButton);
+        frame.add(CCAButton);
+        frame.add(sevenButton);
     }
 
     private void onQuit() {
