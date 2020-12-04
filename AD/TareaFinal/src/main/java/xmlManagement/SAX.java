@@ -12,6 +12,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class SAX {
@@ -36,7 +37,7 @@ public class SAX {
         return true;
     }
 
-    private static void getContent(File f) throws IOException, SAXException {
+    public static void getContent(File f) throws IOException, SAXException {
         sm.data = new String[9];
         sm.authors.clear();
         sm.content.clear();
@@ -45,6 +46,18 @@ public class SAX {
 
         parser.parse(f, sm);
         UpdateText.updateMainTextArea(sm.content);
+    }
+
+    public static void getContent(String s) throws IOException, SAXException {
+        sm.data = new String[9];
+        sm.authors.clear();
+        sm.content.clear();
+        sm.isAuthor = false;
+        sm.j = 0;
+        System.out.println(s);
+
+        // parser.parse(s, sm);
+        // UpdateText.updateMainTextArea(sm.content);
     }
 
     static class SAXMng extends DefaultHandler {

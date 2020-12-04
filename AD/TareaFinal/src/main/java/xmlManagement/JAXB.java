@@ -4,17 +4,19 @@ import fileManagement.FileStuffs;
 import jaxbGenerated.ComponentType;
 import jaxbGenerated.Components;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 import utils.UpdateText;
 
 import javax.swing.*;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,28 +63,16 @@ public class JAXB {
     }
 
     public static void getContent() {
-        List<ComponentType> componentTypes = myComponents.getComponent();
-        String[] data = new String[9];
-        ArrayList<String> authors = new ArrayList<>();
-        ArrayList<TextAreaType> content = new ArrayList<>();
-
-        for (ComponentType component : componentTypes) {
-            data[0] = String.valueOf(component.getId());
-            data[1] = component.getDate();
-            data[2] = component.getCompArch();
-            data[3] = component.getType();
-            data[4] = String.valueOf(component.getSpeed());
-            data[5] = component.getCategory();
-            data[6] = component.getOrientation();
-            data[7] = String.valueOf(component.getBits());
-            data[8] = component.getNumSystem();
-            authors.addAll(component.getAuthors().getAuthor());
-            content.add(new TextAreaType(data, authors.toArray()));
-            data = new String[9];
-            authors.clear();
+        try {
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            DOMResult result = new DOMResult();
+            marshaller.marshal(myComponents, result);
+            System.out.println(result);
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
-
-        UpdateText.updateMainTextArea(content);
         marshalToDom();
     }
 
