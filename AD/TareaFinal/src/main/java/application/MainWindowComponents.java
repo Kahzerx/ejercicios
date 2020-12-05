@@ -9,25 +9,29 @@ import java.awt.event.WindowEvent;
 public class MainWindowComponents {
     public JFrame frame = new JFrame("Práctica Final Acceso a Datos");
     public static JTextArea mainTextArea;
+    public static JTextArea sideTextArea;
     private JScrollPane mainScrollPane;
+    private JScrollPane sideScrollPane;
+
     private JButton loadButton;
-    private JLabel editLabel;
-    private JLabel editWId1Label;
-    private JLabel editWA1Label;
-    public static JComboBox<Integer> editWIdBox;
-    public static JComboBox<String> editWCatBox;
     public static JButton applyEdit1Button;
     public static JButton saveButton;
-    private JLabel queryLabel;
-    public static JTextArea sideTextArea;
-    private JScrollPane sideScrollPane;
-    private JLabel EVQLabel;
-    private JLabel CCACountLabel;
-    private JLabel moreThanSevenLabel;
     public static JButton EVButton;
     public static JButton CCAButton;
     public static JButton sevenButton;
     public static JButton addButton;
+
+    private JLabel editLabel;
+    private JLabel editWId1Label;
+    private JLabel editWA1Label;
+    private JLabel queryLabel;
+    private JLabel EVQLabel;
+    private JLabel CCACountLabel;
+    private JLabel moreThanSevenLabel;
+
+    public static JComboBox<Integer> editWIdBox;
+    public static JComboBox<String> editWCatBox;
+
 
     public MainWindowComponents() {
         createJTextArea();
@@ -155,22 +159,25 @@ public class MainWindowComponents {
     private void addStuff() {
         frame.add(mainScrollPane);
         frame.add(sideScrollPane);
+
         frame.add(loadButton);
-        frame.add(editLabel);
-        frame.add(editWId1Label);
-        frame.add(editWIdBox);
-        frame.add(editWA1Label);
-        frame.add(editWCatBox);
         frame.add(applyEdit1Button);
         frame.add(saveButton);
-        frame.add(queryLabel);
-        frame.add(EVQLabel);
-        frame.add(CCACountLabel);
-        frame.add(moreThanSevenLabel);
         frame.add(EVButton);
         frame.add(CCAButton);
         frame.add(sevenButton);
         frame.add(addButton);
+
+        frame.add(editLabel);
+        frame.add(editWId1Label);
+        frame.add(editWA1Label);
+        frame.add(queryLabel);
+        frame.add(EVQLabel);
+        frame.add(CCACountLabel);
+        frame.add(moreThanSevenLabel);
+
+        frame.add(editWIdBox);
+        frame.add(editWCatBox);
     }
 
     private void onQuit() {

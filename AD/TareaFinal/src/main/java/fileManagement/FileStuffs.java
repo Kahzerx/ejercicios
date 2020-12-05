@@ -5,7 +5,6 @@ import java.io.File;
 
 public class FileStuffs {
     public static String fileName = "logixs.xml";
-    public static File updated = new File("aaa");
 
     // Seleccionar archivo para guardar.
     public static File createAndSave() {

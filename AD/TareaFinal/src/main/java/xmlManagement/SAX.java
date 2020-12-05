@@ -2,17 +2,16 @@ package xmlManagement;
 
 import fileManagement.FileStuffs;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import utils.UpdateText;
 
 import javax.swing.*;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 public class SAX {
@@ -54,10 +53,9 @@ public class SAX {
         sm.content.clear();
         sm.isAuthor = false;
         sm.j = 0;
-        System.out.println(s);
 
-        // parser.parse(s, sm);
-        // UpdateText.updateMainTextArea(sm.content);
+        parser.parse(new InputSource(new StringReader(s)), sm);
+        UpdateText.updateMainTextArea(sm.content);
     }
 
     static class SAXMng extends DefaultHandler {

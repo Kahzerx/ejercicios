@@ -12,11 +12,9 @@ import javax.xml.bind.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class JAXB {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             myComponents = (Components) unmarshaller.unmarshal(f);
             UpdateText.updateComboBox1(getBox1Content());
-            marshalToDom();
+            syncDom();
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -51,6 +49,15 @@ public class JAXB {
             ids.add(component.getId());
         }
         return ids;
+    }
+
+    public static int getId() {
+        List<ComponentType> componentTypes = myComponents.getComponent();
+        int id = 0;
+        for (ComponentType component : componentTypes) {
+            id = component.getId();
+        }
+        return id + 1;
     }
 
     public static void updateCat(int id, String newValue) {
@@ -67,13 +74,13 @@ public class JAXB {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            DOMResult result = new DOMResult();
-            marshaller.marshal(myComponents, result);
-            System.out.println(result);
-        } catch (JAXBException e) {
+            StringWriter sw = new StringWriter();
+            marshaller.marshal(myComponents, sw);
+            SAX.getContent(sw.toString());
+            syncDom();
+        } catch (JAXBException | SAXException | IOException e) {
             e.printStackTrace();
         }
-        marshalToDom();
     }
 
     public static void saveJaxb() {
@@ -92,7 +99,7 @@ public class JAXB {
         }
     }
 
-    private static void marshalToDom() {
+    private static void syncDom() {
         try {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
@@ -105,6 +112,17 @@ public class JAXB {
             marshaller.marshal(myComponents, document);
             DOM.doc = document;
         } catch (JAXBException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void syncJaxb(Document doc) {
+        try {
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            myComponents = (Components) unmarshaller.unmarshal(doc);
+            UpdateText.updateComboBox1(getBox1Content());
+            getContent();
+        } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
