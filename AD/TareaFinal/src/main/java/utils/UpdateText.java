@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UpdateText {
-    public static void updateMainTextArea(ArrayList<TextAreaType> content) {
+    public static void updateMainTextArea(ArrayList<TextAreaType> content) {  // Actualiza el textArea principal y activa los inputs/botones.
         setText(content);
         MainWindowComponents.applyEdit1Button.setEnabled(true);
         MainWindowComponents.saveButton.setEnabled(true);
@@ -17,6 +17,7 @@ public class UpdateText {
         MainWindowComponents.addButton.setEnabled(true);
     }
 
+    // Recibe la información colocada correctamente por el SAX.
     private static void setText(ArrayList<TextAreaType> data) {
         StringBuilder content = new StringBuilder();
         for (TextAreaType datum : data) {
@@ -40,11 +41,13 @@ public class UpdateText {
         MainWindowComponents.setTextArea(content.toString());
     }
 
+    // Actualiza el textArea de abajo para la query de count con XPath.
     public static void updateSideTextArea(int amount) {
         String content = String.format("Hay %d componentes compatibles.", amount);
         MainWindowComponents.sideTextArea.setText(opToggle(content) ? content : "");
     }
 
+    // Esta vez con información que requiere ser parseada.
     public static void updateSideTextArea(int count, HashMap<String, Integer> stuffs) {
         StringBuilder builder = new StringBuilder(String.format("Hay %d resultados.\n\n", count));
         for (String key : stuffs.keySet()) {
@@ -53,15 +56,17 @@ public class UpdateText {
         MainWindowComponents.sideTextArea.setText(opToggle(builder.toString()) ? builder.toString() : "");
     }
 
+    // Los comboBox de editar categoría.
     public static void updateComboBox1(ArrayList<Integer> content) {
         for (int i : content) {
             MainWindowComponents.editWIdBox.addItem(i);
         }
-        for (String cat : ComponentCat.categories) {
+        for (String cat : new String[] {"Small_gates", "Large_arithmetic", "Graphical_processing", "Memory", "Small_arithmetic", "Converters", "Control_logic", "Processing_unit", "Others"}) {
             MainWindowComponents.editWCatBox.addItem(cat);
         }
     }
 
+    // Toggle para ocultar la información.
     private static boolean opToggle(String newContent) {
         return !newContent.equals(MainWindowComponents.sideTextArea.getText());
     }

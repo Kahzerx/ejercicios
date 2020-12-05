@@ -30,18 +30,20 @@ public class JAXB {
         }
     }
 
+    // Unmarshaller desde el archivo.
     public static void openJAXB() {
         File f = new File(FileStuffs.fileName);
         try {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             myComponents = (Components) unmarshaller.unmarshal(f);
             UpdateText.updateComboBox1(getBox1Content());
-            syncDom();
+            syncDom();  // Sincronizar el JAXB con el DOM.
         } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
 
+    // Extraer los IDs
     private static ArrayList<Integer> getBox1Content() {
         ArrayList<Integer> ids = new ArrayList<>();
         List<ComponentType> componentTypes = myComponents.getComponent();
@@ -51,6 +53,7 @@ public class JAXB {
         return ids;
     }
 
+    // Conseguir el último id para añadir nuevo componente.
     public static int getId() {
         List<ComponentType> componentTypes = myComponents.getComponent();
         int id = 0;
@@ -60,6 +63,7 @@ public class JAXB {
         return id + 1;
     }
 
+    // Setter para actualizar la categoría.
     public static void updateCat(int id, String newValue) {
         List<ComponentType> componentTypes = myComponents.getComponent();
         for (ComponentType component : componentTypes) {
@@ -69,6 +73,7 @@ public class JAXB {
         }
     }
 
+    // Formateo el objeto para hacerlo compatible con el SAX.
     public static void getContent() {
         try {
             Marshaller marshaller = context.createMarshaller();
@@ -83,6 +88,7 @@ public class JAXB {
         }
     }
 
+    // Guardar el objeto en un archivo.
     public static void saveJaxb() {
         File f = FileStuffs.createAndSave();
         if (f == null) {
@@ -99,6 +105,7 @@ public class JAXB {
         }
     }
 
+    // Función para sincronizar el JAXB con el DOM, ya que va en memoria.
     private static void syncDom() {
         try {
             Marshaller marshaller = context.createMarshaller();
@@ -116,6 +123,7 @@ public class JAXB {
         }
     }
 
+    // Función para sincronizar el DOM con el JAXB.
     public static void syncJaxb(Document doc) {
         try {
             Unmarshaller unmarshaller = context.createUnmarshaller();

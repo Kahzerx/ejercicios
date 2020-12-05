@@ -3,6 +3,7 @@ package utils;
 import application.MainWindowComponents;
 
 public class ResetText {
+    // Clase para resetear los botones, comboBox y textareas.
     public static void resetAll() {
         MainWindowComponents.mainTextArea.setText("");
         MainWindowComponents.sideTextArea.setText("");

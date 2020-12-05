@@ -36,6 +36,7 @@ public class SAX {
         return true;
     }
 
+    // Extraer el contenido del archivo usando SAX.
     public static void getContent(File f) throws IOException, SAXException {
         sm.data = new String[9];
         sm.authors.clear();
@@ -47,6 +48,7 @@ public class SAX {
         UpdateText.updateMainTextArea(sm.content);
     }
 
+    // Extraer el contenido de un formato string usando SAX.
     public static void getContent(String s) throws IOException, SAXException {
         sm.data = new String[9];
         sm.authors.clear();
@@ -60,7 +62,7 @@ public class SAX {
 
     static class SAXMng extends DefaultHandler {
         ArrayList<String> authors = new ArrayList<>();
-        ArrayList<TextAreaType> content = new ArrayList<>();
+        ArrayList<TextAreaType> content = new ArrayList<>();  // Arraylist con un type custom.
         String[] data = new String[9];
         boolean isAuthor = false;
         int j = 0;

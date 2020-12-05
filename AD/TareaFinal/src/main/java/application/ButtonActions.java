@@ -15,11 +15,12 @@ public class ButtonActions {
         switch (stat) {
             case 0:
                 ResetText.resetAll();
-                if (SAX.onOpenSax()) {
+                if (SAX.onOpenSax()) {  // Abrir archivo usando SAX y creando objeto JAXB.
                     JAXB.openJAXB();
                 }
                 break;
             case 2:
+                // Inicializar la ventana de añadir componente.
                 addWindowComponents = new AddWindowComponents();
                 addWindowComponents.frame.setVisible(true);
                 addWindowComponents.frame.setResizable(false);
@@ -28,7 +29,7 @@ public class ButtonActions {
         }
     }
 
-    public static void edit(int opt, String[] info) {
+    public static void edit(int opt, String[] info) {  // Se ejecuta al presionar el botón de editar categoría.
         if (opt == 0) {  // Edit category
             if (StringUtils.stringCheck(info[0], info[1])) {
                 JAXB.updateCat(Integer.parseInt(info[0]), info[1]);
@@ -39,10 +40,10 @@ public class ButtonActions {
     }
 
     public static void save() {
-        JAXB.saveJaxb();
+        JAXB.saveJaxb();  // Guardar desde el objecto JAXB.
     }
 
-    public static void processQuery(int query) {
+    public static void processQuery(int query) {  // Cada una de las queries para XPath.
         switch (query) {
             case 0:
                 XPATH.processQuery("//type[../authors/author='EEVV']");
@@ -56,7 +57,7 @@ public class ButtonActions {
         }
     }
 
-    public static void addAuthor(String actualContent, String newAuthor) {
+    public static void addAuthor(String actualContent, String newAuthor) {  // Añadir autores para nuevo componente.
         if (!StringUtils.stringCheck(newAuthor)) {
             JOptionPane.showMessageDialog(null, "Introduce algún autor", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -65,16 +66,17 @@ public class ButtonActions {
         AddWindowComponents.authorField.setText("");
     }
 
+    // Check de si las variables necesarias para añadir un nuevo componente son correctas.
     public static void add(String[] date, String arch, String type, String speed, String category, String orientation, String bits, String numSys, String author) {
-        if (!StringUtils.stringCheck(type, author, speed, bits)) {
+        if (!StringUtils.stringCheck(type, author, speed, bits)) {  // Si has dejado algún campo sin completar.
             JOptionPane.showMessageDialog(null, "Asegúrate de completar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        else if (!StringUtils.isInt(speed, bits)) {
+        else if (!StringUtils.isInt(speed, bits)) {  // Si los campos que deberían tener números no los tienen.
             JOptionPane.showMessageDialog(null, "Asegúrate de que la velocidad y bits son integers", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         else {
             int[] d = new int[] {Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2])};
-            addWindowComponents.frame.dispose();
+            addWindowComponents.frame.dispose();  // Finalizar la ventana de añadir componentes.
             DOM.addComponent(JAXB.getId(), d, arch, type, speed, category, orientation, bits, numSys, author);
         }
     }

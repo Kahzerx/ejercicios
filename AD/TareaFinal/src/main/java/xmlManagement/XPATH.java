@@ -9,12 +9,13 @@ import javax.xml.xpath.*;
 import java.util.HashMap;
 
 public class XPATH {
+    // Procesar la query.
     public static void processQuery(String query) {
         Document doc = DOM.doc;
         try {
             XPath xPath = XPathFactory.newInstance().newXPath();
             XPathExpression expression = xPath.compile(query);
-            if (query.startsWith("count")) {
+            if (query.startsWith("count")) {  // Código específico para el count.
                 Double result = (Double) expression.evaluate(doc, XPathConstants.NUMBER);
                 UpdateText.updateSideTextArea(result.intValue());
             }
@@ -28,6 +29,7 @@ public class XPATH {
         }
     }
 
+    // Preparo los datos en un hashMap para adaptarlo a la función que lo saca en el textarea.
     private static void getContent(NodeList list) {
         int counter = 0;
         HashMap<String, Integer> content = new HashMap<>();

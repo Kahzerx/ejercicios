@@ -107,7 +107,7 @@ public class MainWindowComponents {
         loadButton = (JButton) createJThing(1, "Mostrar Contenido", new int[] {130, 17, 200, 30});
         loadButton.addActionListener(actionEvent -> ButtonActions.open(0));
 
-        applyEdit1Button = (JButton) createJThing(1, "Aplicar", new int[] {850, 100, 130, 30});
+        applyEdit1Button = (JButton) createJThing(1, "Aplicar", new int[] {850, 160, 130, 30});
         applyEdit1Button.addActionListener(actionEvent -> ButtonActions.edit(0, new String[] {String.valueOf(editWIdBox.getSelectedItem()), (String) editWCatBox.getSelectedItem()}));
         applyEdit1Button.setEnabled(false);
 
@@ -133,12 +133,12 @@ public class MainWindowComponents {
     }
 
     private void createLabels() {
-        editLabel = (JLabel) createJThing(2, "Editar", new int[] {710, 10, 50, 30});
+        editLabel = (JLabel) createJThing(2, "Editar", new int[] {710, 60, 50, 30});
         editLabel.setFont(new Font("Arial", Font.BOLD, 15));
 
-        editWId1Label = (JLabel) createJThing(2, "Categoría del elemento con ID", new int[] {480, 60, 290, 30});
+        editWId1Label = (JLabel) createJThing(2, "Categoría del componente con ID", new int[] {475, 120, 290, 30});
 
-        editWA1Label = (JLabel) createJThing(2, "a", new int[] {780, 60, 20, 30});
+        editWA1Label = (JLabel) createJThing(2, "a", new int[] {785, 120, 20, 30});
 
         queryLabel = (JLabel) createJThing(2, "Consultas", new int[] {695, 300, 100, 30});
         queryLabel.setFont(new Font("Arial", Font.BOLD, 15));
@@ -151,9 +151,9 @@ public class MainWindowComponents {
     }
 
     private void createJComboBox() {
-        editWIdBox = (JComboBox<Integer>) createJThing(3, "", new int[] {710, 60, 60, 30});
+        editWIdBox = (JComboBox<Integer>) createJThing(3, "", new int[] {720, 120, 60, 30});
 
-        editWCatBox = (JComboBox<String>) createJThing(3, "", new int[] {800, 60, 180, 30});
+        editWCatBox = (JComboBox<String>) createJThing(3, "", new int[] {800, 120, 180, 30});
     }
 
     private void addStuff() {

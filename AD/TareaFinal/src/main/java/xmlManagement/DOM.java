@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 public class DOM {
     public static Document doc;
 
+    // Añado usando el DOM.
     public static void addComponent(int id, int[] date, String arch, String type, String speed, String category, String orientation, String bits, String numSys, String authors) {
         Element root = doc.getDocumentElement();
 

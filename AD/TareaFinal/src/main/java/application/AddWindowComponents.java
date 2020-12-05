@@ -1,7 +1,5 @@
 package application;
 
-import utils.ComponentCat;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -131,7 +129,7 @@ public class AddWindowComponents {
         typeLabel = (JLabel) createJThing(2, "Tipo", new int[] {10, 90, 200, 30});
         speedLabel = (JLabel) createJThing(2, "Velocidad (rticks)", new int[] {10, 130, 200, 30});
         categoryLabel = (JLabel) createJThing(2, "Categoría", new int[] {10, 170, 200, 30});
-        orientationLabel = (JLabel) createJThing(2, "Orientación", new int[] {10, 210, 200, 30});
+        orientationLabel = (JLabel) createJThing(2, "Disposición", new int[] {10, 210, 200, 30});
         bitsLabel = (JLabel) createJThing(2, "Bits", new int[] {10, 250, 200, 30});
         numSysLabel = (JLabel) createJThing(2, "Sistema de numeración", new int[] {10, 290, 200, 30});
         authorLabel = (JLabel) createJThing(2, "Autor", new int[] {10, 330, 200, 30});
@@ -189,6 +187,7 @@ public class AddWindowComponents {
     }
 
     private void initializeComboBox() {
+        // Inicializo las checkbox de la fecha.
         for (int i = 1; i <= 31; i++) {
             String e = i < 10 ? "0" + i : String.valueOf(i);
             dd.addItem(e);
@@ -196,18 +195,22 @@ public class AddWindowComponents {
             if (i < 21) yy.addItem(e);
         }
 
+        // Arquitecturas compatibles.
         for (String arch : new String[] {"CCA", "ICA", "RCA"}) {
             this.arch.addItem(arch);
         }
 
-        for (String cat : ComponentCat.categories) {
+        // Categorías.
+        for (String cat : new String[] {"Small_gates", "Large_arithmetic", "Graphical_processing", "Memory", "Small_arithmetic", "Converters", "Control_logic", "Processing_unit", "Others"}) {
             category.addItem(cat);
         }
 
+        // Disposición.
         for (String orientation : new String[] {"Vertical", "Diagonal", "Horizontal"}) {
             this.orientation.addItem(orientation);
         }
 
+        // Sistema de numeración.
         for (String numSys : new String[] {"Binary", "Hexadecimal"}) {
             this.numSys.addItem(numSys);
         }
