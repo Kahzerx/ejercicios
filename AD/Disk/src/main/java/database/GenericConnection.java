@@ -1,22 +1,12 @@
 package database;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DBConnection {
+public class GenericConnection {
 
-    Connection connection;
-
-    public DBConnection(String user, String pass) {
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/discografica?serverTimezone=UTC", user, pass);
-            System.out.println("Conexión establecida.");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+    public Connection connection;
 
     public void deleteTables() {
         try {
@@ -63,6 +53,7 @@ public class DBConnection {
     public void close() {
         try {
             connection.close();
+            System.out.printf("Conexión %s cerrada.%n", this.getClass().getSimpleName());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
