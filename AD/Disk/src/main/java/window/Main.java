@@ -16,6 +16,7 @@ public class Main {
         DriverManagerConnection driverManagerConnection = new DriverManagerConnection(url, "root", "root");
         driverManagerConnection.deleteTables();
         driverManagerConnection.createTables();
+        driverManagerConnection.addRows();
         driverManagerConnection.close();
     }
 
@@ -23,6 +24,7 @@ public class Main {
         BasicDataSourceConnection dataSourceConnection = new BasicDataSourceConnection(url, "root", "root");
         dataSourceConnection.deleteTables();
         dataSourceConnection.createTables();
+        dataSourceConnection.addRows();
         dataSourceConnection.close();
     }
 }
