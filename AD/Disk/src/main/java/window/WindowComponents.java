@@ -14,6 +14,8 @@ import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class WindowComponents extends JFrame{
+    private JScrollPane scrollPane;
+
     private JButton connectButton;
     private JButton disconnectButton;
 
@@ -26,6 +28,7 @@ public class WindowComponents extends JFrame{
 
     public WindowComponents(String url, String user, String pass) {
         logger = new TextAreaLogger();
+        scrollPane = new JScrollPane(logger);
         createJButton();
         createComboBox();
 
@@ -94,7 +97,7 @@ public class WindowComponents extends JFrame{
 
     private void addStuff() {
         add(connectButton);
-        add(logger);
+        add(scrollPane);
         add(disconnectButton);
 
         add(connectionTypeBox);
@@ -109,7 +112,7 @@ public class WindowComponents extends JFrame{
 
         connectionTypeBox.setBounds((int) (width - (int) (width / 20) - (int) (width / 5.2)), (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
 
-        logger.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) + 40, (int) (width - (int) ((width / 5.2) * 1.8)), (int) (height - ((height / 24) * 6)));
+        scrollPane.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) + 40, (int) (width - (int) ((width / 5.2) * 1.8)), (int) (height - ((height / 24) * 6)));
     }
 
     private Object createJThing(int type, String text) {
