@@ -82,7 +82,6 @@ public class GenericConnection {
     public void close() {
         try {
             connection.close();
-            System.out.printf("Conexión %s cerrada.%n", this.getClass().getSimpleName());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -18,7 +18,6 @@ public class DriverManagerConnection extends GenericConnection {
     public void connect() {
         try {
             connection = DriverManager.getConnection(url, user, pass);
-            System.out.printf("Conexión %s establecida.%n", this.getClass().getSimpleName());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

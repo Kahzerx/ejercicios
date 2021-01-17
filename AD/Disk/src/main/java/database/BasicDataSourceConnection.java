@@ -17,7 +17,6 @@ public class BasicDataSourceConnection extends GenericConnection {
     public void connect() {
         try {
             connection = dataSource.getConnection();
-            System.out.printf("Conexión %s establecida.%n", this.getClass().getSimpleName());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -2,6 +2,8 @@ package window;
 
 import database.BasicDataSourceConnection;
 import database.DriverManagerConnection;
+import utils.LogLevel;
+import utils.TextAreaLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +15,9 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 public class WindowComponents extends JFrame{
     private JButton connectButton;
-    private JButton disconnect;
+    private JButton disconnectButton;
+
+    private final TextAreaLogger logger;
 
     private JComboBox<String> connectionTypeBox;
 
@@ -21,6 +25,7 @@ public class WindowComponents extends JFrame{
     private final BasicDataSourceConnection dataSourceConnection;
 
     public WindowComponents(String url, String user, String pass) {
+        logger = new TextAreaLogger();
         createJButton();
         createComboBox();
 
@@ -53,8 +58,8 @@ public class WindowComponents extends JFrame{
         connectButton = (JButton) createJThing(2, "Conectar");
         connectButton.addActionListener(actionEvent -> connect());
 
-        disconnect = (JButton) createJThing(2, "Desconectar");
-        disconnect.addActionListener(actionEvent -> disconnect());
+        disconnectButton = (JButton) createJThing(2, "Desconectar");
+        disconnectButton.addActionListener(actionEvent -> disconnect());
     }
 
     private void connect() {
@@ -89,7 +94,8 @@ public class WindowComponents extends JFrame{
 
     private void addStuff() {
         add(connectButton);
-        add(disconnect);
+        add(logger);
+        add(disconnectButton);
 
         add(connectionTypeBox);
     }
@@ -99,24 +105,16 @@ public class WindowComponents extends JFrame{
         float height = getHeight();
 
         connectButton.setBounds((int) (width / 20), (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
-        disconnect.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
+        disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
 
         connectionTypeBox.setBounds((int) (width - (int) (width / 20) - (int) (width / 5.2)), (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
+
+        logger.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) + 40, (int) (width - (int) ((width / 5.2) * 1.8)), (int) (height - ((height / 24) * 6)));
     }
 
     private Object createJThing(int type, String text) {
         Object thing;
         switch (type) {
-            case 0:
-                thing = new JTextField();
-                ((JTextField) thing).setFont(new Font("Arial", Font.PLAIN, 15));
-                ((JTextField) thing).setMargin(new Insets(1, 1, 1, 1));
-                break;
-            case 1:
-                thing = new JLabel();
-                ((JLabel) thing).setFont(new Font("Arial", Font.BOLD, 15));
-                ((JLabel) thing).setText(text);
-                break;
             case 2:
                 thing = new JButton();
                 ((JButton) thing).setFont(new Font("Arial", Font.BOLD, 15));
@@ -133,27 +131,61 @@ public class WindowComponents extends JFrame{
     }
 
     private void connectAndCreateDriverManager() {
+        logger.log(LogLevel.INFORMATION, "Estableciendo conexión...");
         driverManagerConnection.connect();
+        if (driverManagerConnection.connection == null) {
+            logger.log(LogLevel.ERROR, "Error al establecer conexión.");
+            return;
+        } else {
+            logger.log(LogLevel.SUCCESS, "Conexión establecida.");
+        }
+
+        logger.log(LogLevel.INFORMATION, "Eliminando Bases de datos anteriores...");
         driverManagerConnection.deleteTables();
+        logger.log(LogLevel.SUCCESS, "Tablas eliminadas.");
+
+        logger.log(LogLevel.INFORMATION, "Creando tablas...");
         driverManagerConnection.createTables();
+        logger.log(LogLevel.SUCCESS, "Tablas creadas.");
+
+        logger.log(LogLevel.INFORMATION, "Añadiendo nuevos datos...");
         driverManagerConnection.addRows();
+        logger.log(LogLevel.SUCCESS, "Datos añadidos.");
     }
 
     private void connectAndCreateBasicDataSource() {
+        logger.log(LogLevel.INFORMATION, "Estableciendo conexión...");
         dataSourceConnection.connect();
+        if (dataSourceConnection.connection == null) {
+            logger.log(LogLevel.ERROR, "Error al establecer conexión.");
+            return;
+        } else {
+            logger.log(LogLevel.SUCCESS, "Conexión establecida.");
+        }
+
+        logger.log(LogLevel.INFORMATION, "Eliminando Bases de datos anteriores...");
         dataSourceConnection.deleteTables();
+        logger.log(LogLevel.SUCCESS, "Tablas eliminadas.");
+
+        logger.log(LogLevel.INFORMATION, "Creando tablas...");
         dataSourceConnection.createTables();
+        logger.log(LogLevel.SUCCESS, "Tablas creadas.");
+
+        logger.log(LogLevel.INFORMATION, "Añadiendo nuevos datos...");
         dataSourceConnection.addRows();
+        logger.log(LogLevel.SUCCESS, "Datos añadidos.");
     }
 
     private void shouldClose(int type) throws SQLException {
         if (type == 0 && driverManagerConnection.connection != null && !driverManagerConnection.connection.isClosed()) {
-            System.out.println("Cerrando DriverManagerConnection");
+            logger.log(LogLevel.INFORMATION, "Cerrando DriverManagerConnection...");
             closeDriverManager();
+            logger.log(LogLevel.SUCCESS, "DriverManagerConnection cerrado.");
         }
         else if (type == 1 && dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
-            System.out.println("Cerrando BasicDataSourceConnection");
+            logger.log(LogLevel.INFORMATION, "Cerrando BasicDataSourceConnection...");
             closeBasicDataSource();
+            logger.log(LogLevel.SUCCESS, "BasicDataSourceConnection cerrado.");
         }
     }
 
