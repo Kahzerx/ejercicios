@@ -182,20 +182,12 @@ public class WindowComponents extends JFrame {
     private void shouldClose(int type) throws SQLException {
         if (type == 0 && driverManagerConnection.connection != null && !driverManagerConnection.connection.isClosed()) {
             logger.log("DM", LogLevel.INFORMATION, "Cerrando conexión...");
-            closeDriverManager();
+            driverManagerConnection.close();
             logger.log("DM", LogLevel.SUCCESS, "conexión cerrada.");
         } else if (type == 1 && dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
             logger.log("BDS", LogLevel.INFORMATION, "Cerrando conexión...");
-            closeBasicDataSource();
+            dataSourceConnection.close();
             logger.log("BDS", LogLevel.SUCCESS, "Conexión cerrada.");
         }
-    }
-
-    private void closeDriverManager() {
-        driverManagerConnection.close();
-    }
-
-    private void closeBasicDataSource() {
-        dataSourceConnection.close();
     }
 }
