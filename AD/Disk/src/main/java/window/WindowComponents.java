@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public class WindowComponents extends JFrame{
-    private JScrollPane scrollPane;
+public class WindowComponents extends JFrame {
+    private final JScrollPane scrollPane;
 
     private JButton connectButton;
     private JButton disconnectButton;
@@ -134,61 +134,60 @@ public class WindowComponents extends JFrame{
     }
 
     private void connectAndCreateDriverManager() {
-        logger.log(LogLevel.INFORMATION, "Estableciendo conexión...");
+        logger.log("DM", LogLevel.INFORMATION, "Estableciendo conexión...");
         driverManagerConnection.connect();
         if (driverManagerConnection.connection == null) {
-            logger.log(LogLevel.ERROR, "Error al establecer conexión.");
+            logger.log("DM", LogLevel.ERROR, "Error al establecer conexión.");
             return;
         } else {
-            logger.log(LogLevel.SUCCESS, "Conexión establecida.");
+            logger.log("DM", LogLevel.SUCCESS, "Conexión establecida.");
         }
 
-        logger.log(LogLevel.INFORMATION, "Eliminando Bases de datos anteriores...");
+        logger.log("DM", LogLevel.INFORMATION, "Eliminando Bases de datos anteriores...");
         driverManagerConnection.deleteTables();
-        logger.log(LogLevel.SUCCESS, "Tablas eliminadas.");
+        logger.log("DM", LogLevel.SUCCESS, "Tablas eliminadas.");
 
-        logger.log(LogLevel.INFORMATION, "Creando tablas...");
+        logger.log("DM", LogLevel.INFORMATION, "Creando tablas...");
         driverManagerConnection.createTables();
-        logger.log(LogLevel.SUCCESS, "Tablas creadas.");
+        logger.log("DM", LogLevel.SUCCESS, "Tablas creadas.");
 
-        logger.log(LogLevel.INFORMATION, "Añadiendo nuevos datos...");
+        logger.log("DM", LogLevel.INFORMATION, "Añadiendo nuevos datos...");
         driverManagerConnection.addRows();
-        logger.log(LogLevel.SUCCESS, "Datos añadidos.");
+        logger.log("DM", LogLevel.SUCCESS, "Datos añadidos.");
     }
 
     private void connectAndCreateBasicDataSource() {
-        logger.log(LogLevel.INFORMATION, "Estableciendo conexión...");
+        logger.log("BDS", LogLevel.INFORMATION, "Estableciendo conexión...");
         dataSourceConnection.connect();
         if (dataSourceConnection.connection == null) {
-            logger.log(LogLevel.ERROR, "Error al establecer conexión.");
+            logger.log("BDS", LogLevel.ERROR, "Error al establecer conexión.");
             return;
         } else {
-            logger.log(LogLevel.SUCCESS, "Conexión establecida.");
+            logger.log("BDS", LogLevel.SUCCESS, "Conexión establecida.");
         }
 
-        logger.log(LogLevel.INFORMATION, "Eliminando Bases de datos anteriores...");
+        logger.log("BDS", LogLevel.INFORMATION, "Eliminando Bases de datos anteriores...");
         dataSourceConnection.deleteTables();
-        logger.log(LogLevel.SUCCESS, "Tablas eliminadas.");
+        logger.log("BDS", LogLevel.SUCCESS, "Tablas eliminadas.");
 
-        logger.log(LogLevel.INFORMATION, "Creando tablas...");
+        logger.log("BDS", LogLevel.INFORMATION, "Creando tablas...");
         dataSourceConnection.createTables();
-        logger.log(LogLevel.SUCCESS, "Tablas creadas.");
+        logger.log("BDS", LogLevel.SUCCESS, "Tablas creadas.");
 
-        logger.log(LogLevel.INFORMATION, "Añadiendo nuevos datos...");
+        logger.log("BDS", LogLevel.INFORMATION, "Añadiendo nuevos datos...");
         dataSourceConnection.addRows();
-        logger.log(LogLevel.SUCCESS, "Datos añadidos.");
+        logger.log("BDS", LogLevel.SUCCESS, "Datos añadidos.");
     }
 
     private void shouldClose(int type) throws SQLException {
         if (type == 0 && driverManagerConnection.connection != null && !driverManagerConnection.connection.isClosed()) {
-            logger.log(LogLevel.INFORMATION, "Cerrando DriverManagerConnection...");
+            logger.log("DM", LogLevel.INFORMATION, "Cerrando conexión...");
             closeDriverManager();
-            logger.log(LogLevel.SUCCESS, "DriverManagerConnection cerrado.");
-        }
-        else if (type == 1 && dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
-            logger.log(LogLevel.INFORMATION, "Cerrando BasicDataSourceConnection...");
+            logger.log("DM", LogLevel.SUCCESS, "conexión cerrada.");
+        } else if (type == 1 && dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
+            logger.log("BDS", LogLevel.INFORMATION, "Cerrando conexión...");
             closeBasicDataSource();
-            logger.log(LogLevel.SUCCESS, "BasicDataSourceConnection cerrado.");
+            logger.log("BDS", LogLevel.SUCCESS, "Conexión cerrada.");
         }
     }
 

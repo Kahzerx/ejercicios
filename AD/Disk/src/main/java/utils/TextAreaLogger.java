@@ -5,14 +5,14 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TextAreaLogger extends JTextPane {
+public class TextAreaLogger extends JTextArea {
     public TextAreaLogger() {
         setMargin(new Insets(10, 10, 10, 10));
         setEditable(false);
     }
 
-    public void log(LogLevel level, String content) {
-        this.setText(String.format("%s [%s] %s: %s%n", getText(), getTime(), level.getLevel(), content));
+    public void log(String connType, LogLevel level, String content) {
+        this.setText(String.format("%s [%s] [%s] %s: %s%n", getText(), connType, getTime(), level.getLevel(), content));
     }
 
     private String getTime() {

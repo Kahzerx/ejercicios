@@ -14,6 +14,7 @@ public class BasicDataSourceConnection extends GenericConnection {
         dataSource.setUsername(user);
         dataSource.setPassword(pass);
     }
+
     public void connect() {
         try {
             connection = dataSource.getConnection();

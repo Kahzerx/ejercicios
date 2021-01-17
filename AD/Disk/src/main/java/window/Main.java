@@ -1,8 +1,5 @@
 package window;
 
-import database.BasicDataSourceConnection;
-import database.DriverManagerConnection;
-
 public class Main {
 
     public static String url = "jdbc:mysql://localhost:3306/discografica?serverTimezone=UTC";

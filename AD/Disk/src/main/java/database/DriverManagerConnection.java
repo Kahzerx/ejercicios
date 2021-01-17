@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 public class DriverManagerConnection extends GenericConnection {
 
-    private String url;
-    private String user;
-    private String pass;
+    private final String url;
+    private final String user;
+    private final String pass;
 
     public DriverManagerConnection(String url, String user, String pass) {
         this.url = url;
@@ -21,29 +21,5 @@ public class DriverManagerConnection extends GenericConnection {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public String getPass() {
-        return pass;
     }
 }

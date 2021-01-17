@@ -1,25 +1,17 @@
 package utils;
 
-import java.awt.*;
-
 public enum LogLevel {
-    INFORMATION("[INFO]", Color.BLUE),
-    ERROR("[ERROR]", Color.RED),
-    SUCCESS("[SUCCESS]", Color.GREEN);
+    INFORMATION("[INFO]"),
+    ERROR("[ERROR]"),
+    SUCCESS("[SUCCESS]");
 
     private final String level;
-    private final Color color;
 
-    LogLevel(String level, Color color) {
+    LogLevel(String level) {
         this.level = level;
-        this.color = color;
     }
 
     public String getLevel() {
         return level;
-    }
-
-    public Color getColor() {
-        return color;
     }
 }
