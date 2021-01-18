@@ -3,7 +3,7 @@ package window;
 import database.BasicDataSourceConnection;
 import database.DriverManagerConnection;
 import utils.LogLevel;
-import utils.TextAreaLogger;
+import utils.TextPaneLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +12,9 @@ import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
 import java.util.Objects;
 
+/**
+ * JFrame principal con botón de {@code connectButton} y {@code disconnectButton}, y el {@code logger}.
+ */
 @SuppressWarnings("unchecked")
 public class WindowComponents extends JFrame {
     private final JScrollPane scrollPane;
@@ -19,7 +22,7 @@ public class WindowComponents extends JFrame {
     private JButton connectButton;
     private JButton disconnectButton;
 
-    private final TextAreaLogger logger;
+    private final TextPaneLogger logger;
 
     private JComboBox<String> connectionTypeBox;
 
@@ -27,7 +30,7 @@ public class WindowComponents extends JFrame {
     private final BasicDataSourceConnection dataSourceConnection;
 
     public WindowComponents(String url, String user, String pass) {
-        logger = new TextAreaLogger();
+        logger = new TextPaneLogger();
         scrollPane = new JScrollPane(logger);
         createJButton();
         createComboBox();
@@ -42,6 +45,9 @@ public class WindowComponents extends JFrame {
         dataSourceConnection = new BasicDataSourceConnection(url, user, pass);
     }
 
+    /**
+     * Frame con dimensiones mínimas hardcodeadas.
+     */
     private void createJFrame() {
         setBounds(100, 100, 800, 720);
         setLayout(new GroupLayout(getContentPane()));
@@ -57,6 +63,9 @@ public class WindowComponents extends JFrame {
         });
     }
 
+    /**
+     * Botones de conexión.
+     */
     private void createJButton() {
         connectButton = (JButton) createJThing(2, "Conectar");
         connectButton.addActionListener(actionEvent -> connect());
@@ -65,9 +74,13 @@ public class WindowComponents extends JFrame {
         disconnectButton.addActionListener(actionEvent -> disconnect());
     }
 
+    /**
+     * Conectarse dependiendo del método que quieras usar.
+     */
     private void connect() {
         int type = Objects.equals(connectionTypeBox.getSelectedItem(), "BasicDataSource") ? 0 : 1;
         try {
+            // Check de si debería cerrar la conexión porque ya está abierta con otro método.
             shouldClose(type);
             if (type == 0 && (dataSourceConnection.connection == null || dataSourceConnection.connection.isClosed())) {
                 connectAndCreateBasicDataSource();
@@ -80,6 +93,9 @@ public class WindowComponents extends JFrame {
         }
     }
 
+    /**
+     * Cierro la conexión con el close() de {@link database.GenericConnection}.
+     */
     private void disconnect() {
         int type = Objects.equals(connectionTypeBox.getSelectedItem(), "BasicDataSource") ? 1 : 0;
         try {
@@ -89,12 +105,18 @@ public class WindowComponents extends JFrame {
         }
     }
 
+    /**
+     * Menú desplegable de distintos métodos de establecer conexión.
+     */
     private void createComboBox() {
         connectionTypeBox = (JComboBox<String>) createJThing(3, "");
         connectionTypeBox.addItem("BasicDataSource");
         connectionTypeBox.addItem("DriverManager");
     }
 
+    /**
+     * Añado los componentes al Frame
+     */
     private void addStuff() {
         add(connectButton);
         add(scrollPane);
@@ -103,6 +125,9 @@ public class WindowComponents extends JFrame {
         add(connectionTypeBox);
     }
 
+    /**
+     * Hago que la ventana se pueda redimensionar.
+     */
     private void componentBounds() {
         float width = getWidth();
         float height = getHeight();
@@ -115,6 +140,12 @@ public class WindowComponents extends JFrame {
         scrollPane.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) + 40, (int) (width - (int) ((width / 5.2) * 1.8)), (int) (height - ((height / 24) * 6)));
     }
 
+    /**
+     * Conseguir los objetos de los componentes fácilmente.
+     * @param type tipo de objeto que necesito.
+     * @param text texto que quiero que aparezca en el botón por ejemplo.
+     * @return objeto preparado para castear.
+     */
     private Object createJThing(int type, String text) {
         Object thing;
         switch (type) {
@@ -133,6 +164,9 @@ public class WindowComponents extends JFrame {
         return thing;
     }
 
+    /**
+     * Conexión con la base de datos y queries genéricas usando {@link java.sql.DriverManager}.
+     */
     private void connectAndCreateDriverManager() {
         logger.log("DM", LogLevel.INFORMATION, "Estableciendo conexión...");
         driverManagerConnection.connect();
@@ -156,6 +190,9 @@ public class WindowComponents extends JFrame {
         logger.log("DM", LogLevel.SUCCESS, "Datos añadidos.");
     }
 
+    /**
+     * Conexión con la base de datos y queries genéricas usando {@link org.apache.commons.dbcp.BasicDataSource}.
+     */
     private void connectAndCreateBasicDataSource() {
         logger.log("BDS", LogLevel.INFORMATION, "Estableciendo conexión...");
         dataSourceConnection.connect();
@@ -179,6 +216,11 @@ public class WindowComponents extends JFrame {
         logger.log("BDS", LogLevel.SUCCESS, "Datos añadidos.");
     }
 
+    /**
+     * Cerrar la conexión.
+     * @param type tipo de conexión que quieres cerrar.
+     * @throws SQLException Puede que intentes cerrar una conexión que ya esté cerrada o que sea null.
+     */
     private void shouldClose(int type) throws SQLException {
         if (type == 0 && driverManagerConnection.connection != null && !driverManagerConnection.connection.isClosed()) {
             logger.log("DM", LogLevel.INFORMATION, "Cerrando conexión...");

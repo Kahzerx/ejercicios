@@ -5,9 +5,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GenericConnection {
-
+    /**
+     * <p>
+     *     Aquí guardo la conexión, esta es la clase de la que extiendo en las otras para los 2 tipos de conexión que se puede hacer.
+     * </p>
+     * <p>
+     *     Reseteo las tablas e inserto los datos de nuevo por posibles cambios que haya en alguna row.
+     * </p>
+     */
     public Connection connection;
 
+    // Elimino las tablas con las que trabajo si existen.
     public void deleteTables() {
         try {
             Statement stmt = connection.createStatement();
@@ -27,6 +35,7 @@ public class GenericConnection {
         }
     }
 
+    // Creo las tablas eliminadas previamente por si hubiera habido algún cambio.
     public void createTables() {
         try {
             Statement stmt = connection.createStatement();
@@ -68,6 +77,7 @@ public class GenericConnection {
         }
     }
 
+    // Añado las rows correspondientes con cada tabla.
     public void addRows() {
         try {
             addAlbums();
@@ -79,6 +89,7 @@ public class GenericConnection {
         }
     }
 
+    // Cerrar la conexión.
     public void close() {
         try {
             connection.close();
@@ -87,6 +98,7 @@ public class GenericConnection {
         }
     }
 
+    // Inserto 2 grupos.
     private void addAlbums() throws SQLException {
         String addAlbum = "INSERT INTO `album`(title) VALUES (?);";
         PreparedStatement stmt = connection.prepareStatement(addAlbum);
@@ -97,6 +109,7 @@ public class GenericConnection {
         stmt.executeUpdate();
     }
 
+    // Inserto canciones para cada album usando PreparedStatements.
     private void addSongs() throws SQLException {
         String addSong = "INSERT INTO `songs`(title,album,duration,year) VALUES (?,?,?,?)";
 
@@ -129,6 +142,7 @@ public class GenericConnection {
         stmt.executeUpdate();
     }
 
+    // Añado autores para la tabla de autores usando PreparedStatements.
     private void addAuthors() throws SQLException {
         String addAuthor = "INSERT INTO `authors`(name,album) VALUES (?,?)";
         PreparedStatement stmt = connection.prepareStatement(addAuthor);
@@ -157,6 +171,7 @@ public class GenericConnection {
         stmt.executeUpdate();
     }
 
+    // Saber cuantas canciones tiene cada album a modo de prueba de hacer queries.
     private void updateSongCount() throws SQLException {
         Statement stmt = connection.createStatement();
         String getCount = "SELECT COUNT(s.album) as amount,s.album as album FROM discografica.songs as s group by s.album;";
