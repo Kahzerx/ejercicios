@@ -16,7 +16,7 @@ public class GenericConnection {
     public Connection connection;
 
     // Elimino las tablas con las que trabajo si existen.
-    public void deleteTables() {
+    public boolean deleteTables() {
         try {
             Statement stmt = connection.createStatement();
 
@@ -30,13 +30,15 @@ public class GenericConnection {
             stmt.executeUpdate(deleteAlbum);
 
             stmt.close();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
     }
 
     // Creo las tablas eliminadas previamente por si hubiera habido algún cambio.
-    public void createTables() {
+    public boolean createTables() {
         try {
             Statement stmt = connection.createStatement();
 
@@ -72,20 +74,24 @@ public class GenericConnection {
             // Debug with InnoDB: mysql -> show engine innodb status;
 
             stmt.close();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
     }
 
     // Añado las rows correspondientes con cada tabla.
-    public void addRows() {
+    public boolean addRows() {
         try {
             addAlbums();
             addSongs();
             addAuthors();
             updateSongCount();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
     }
 
