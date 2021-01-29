@@ -41,7 +41,6 @@ public class DBUtils {
         return JOptionPane.showConfirmDialog(null, msg) == JOptionPane.YES_OPTION;
     }
 
-
     /**
      * Cerrar la conexión.
      * @param dataSourceConnection objeto de la conexión.
@@ -61,7 +60,12 @@ public class DBUtils {
      */
     private static void connectBasicDataSource(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger) throws SQLException {
         logger.log(LogLevel.INFORMATION, "Estableciendo conexión...");
-        dataSourceConnection.connect();
+
+        if (!dataSourceConnection.connect()) {
+            logger.log(LogLevel.ERROR, "Error al establecer conexión.");
+            return;
+        }
+
         if (dataSourceConnection.connection != null) {
             if (dataSourceConnection.connection.isClosed()) {
                 logger.log(LogLevel.ERROR, "Error al establecer conexión.");
@@ -70,6 +74,17 @@ public class DBUtils {
             logger.log(LogLevel.SUCCESS, "Conexión establecida.");
         } else {
             logger.log(LogLevel.ERROR, "Error al establecer conexión.");
+        }
+
+        if (!dataSourceConnection.tryCreateDatabase()) {
+            logger.log(LogLevel.ERROR, "Error al crear la base de datos!");
+            return;
+        }
+
+
+        if (!dataSourceConnection.tryCreateTables()) {
+            logger.log(LogLevel.ERROR, "Error al crear tablas.");
+            dataSourceConnection.close();
         }
     }
 }

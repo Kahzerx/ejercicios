@@ -30,6 +30,10 @@ public class TextPaneLogger extends JTextPane {
         // this.setText(String.format("%s [%s] [%s] %s: %s%n", getText(), connType, getTime(), level.getLevel(), content));
     }
 
+    public void clearLog() {
+        setText("");
+    }
+
     /**
      * Extraer la hora actual con ms.
      * @return Hora formateada.

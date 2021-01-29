@@ -6,14 +6,25 @@ import java.util.Map;
 
 public class GenericConnection {
     /**
-     * <p>
-     *     Aquí guardo la conexión, esta es la clase de la que extiendo en las otras para los 2 tipos de conexión que se puede hacer.
-     * </p>
-     * <p>
-     *     Reseteo las tablas e inserto los datos de nuevo por posibles cambios que haya en alguna row.
-     * </p>
+     *   Aquí guardo la conexión, esta es la clase de la que extiendo en las otras para los 2 tipos de conexión que se puede hacer.
+     *   Reseteo las tablas e inserto los datos de nuevo por posibles cambios que haya en alguna row.
      */
     public Connection connection;
+
+    public boolean createDatabase(String name) {
+        try {
+            Statement stmt = connection.createStatement();
+            String createTable = String.format("CREATE DATABASE IF NOT EXISTS %s;", name);
+            stmt.executeUpdate(createTable);
+
+            String use = String.format("USE %s;", name);
+            stmt.executeUpdate(use);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
     // Elimino las tablas con las que trabajo si existen.
     public boolean deleteTables() {

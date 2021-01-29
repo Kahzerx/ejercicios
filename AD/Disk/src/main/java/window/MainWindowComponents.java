@@ -8,23 +8,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 /**
  * JFrame principal con botón de {@code connectButton} y {@code disconnectButton}, y el {@code logger}.
  */
-public class WindowComponents extends JFrame {
+public class MainWindowComponents extends JFrame {
+    int WIDTH = 900;
+    int HEIGHT = 720;
+
     private final JScrollPane scrollPane;
 
     private JButton connectButton;
     private JButton disconnectButton;
+    private JButton clearLogButton;
 
     private final TextPaneLogger logger;
 
     private final BasicDataSourceConnection dataSourceConnection;
 
-    public WindowComponents(String url, String user, String pass) {
+    public MainWindowComponents(String url, String name, String user, String pass) {
         logger = new TextPaneLogger();
         scrollPane = new JScrollPane(logger);
+        dataSourceConnection = new BasicDataSourceConnection(url, name, user, pass);
         createJButton();
 
         addStuff();
@@ -32,24 +40,40 @@ public class WindowComponents extends JFrame {
         createJFrame();
 
         componentBounds();
-
-        dataSourceConnection = new BasicDataSourceConnection(url, user, pass);
     }
 
     /**
      * Frame con dimensiones mínimas hardcodeadas.
      */
-    private void createJFrame() {
-        setBounds(100, 100, 720, 800);
+    public void createJFrame() {
+        setBounds(100, 100, WIDTH, HEIGHT);
         setLayout(new GroupLayout(getContentPane()));
         setTitle("Ejercicio de Acceso a Datos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(720, 800));
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        getContentPane().setBackground(Color.WHITE);
+        
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
                 super.componentResized(componentEvent);
                 componentBounds();
+            }
+        });
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                super.windowClosing(windowEvent);
+                try {
+                    if (dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
+                        dataSourceConnection.close();
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                dispose();
+                Runtime.getRuntime().halt(0);
             }
         });
     }
@@ -63,6 +87,9 @@ public class WindowComponents extends JFrame {
 
         disconnectButton = (JButton) createJThing(2, "Desconectar");
         disconnectButton.addActionListener(actionEvent -> DBUtils.disconnect(dataSourceConnection, logger));
+
+        clearLogButton = (JButton) createJThing(2, "Limpiar log");
+        clearLogButton.addActionListener(actionEvent -> logger.clearLog());
     }
 
     /**
@@ -72,6 +99,7 @@ public class WindowComponents extends JFrame {
         add(connectButton);
         add(disconnectButton);
         add(scrollPane);
+        add(clearLogButton);
     }
 
     /**
@@ -84,7 +112,8 @@ public class WindowComponents extends JFrame {
         connectButton.setBounds((int) (width / 20), (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
         disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 20), (int) (width / 5.2), (int) (height / 24));
 
-        scrollPane.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) * 18, (int) (width - (int) (width / 5.2 / 2)), (int) (height - ((height / 24) * 21)));
+        scrollPane.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) * 18, (int) (width - (int) (width / 5.2 / 2) * 3), (int) (height - ((height / 24) * 21)));
+        clearLogButton.setBounds((int) ((width / 20) * 15.5), (int) (height / 20) + (int) (height / 24) * 19, (int) (width / 5.2), (int) (height / 24));
     }
 
     /**
