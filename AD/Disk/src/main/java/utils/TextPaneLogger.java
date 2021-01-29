@@ -14,11 +14,11 @@ public class TextPaneLogger extends JTextPane {
     }
 
     // Loggear información.
-    public void log(String connType, LogLevel level, String content) {
+    public void log(LogLevel level, String content) {
         try {
             StyledDocument doc = getStyledDocument();
             Style style = addStyle("", null);
-            doc.insertString(doc.getLength(), String.format("[%s] [%s] [", connType, getTime()), style);  // Digo qué tipo de conexión corresponde con esta linea y la hora.
+            doc.insertString(doc.getLength(), String.format("[%s] [", getTime()), style);  // Digo qué tipo de conexión corresponde con esta linea y la hora.
             StyleConstants.setForeground(style, level.getColor());
             doc.insertString(doc.getLength(), String.format("%s", level.getLevel()), style);  // Cambio el color al del enum del LogLevel y añado el tipo de log que es.
             StyleConstants.setForeground(style, Color.BLACK);

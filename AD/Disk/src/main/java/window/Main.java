@@ -2,7 +2,7 @@ package window;
 
 public class Main {
     /**
-     * Datos de conexión para la base de datos con {@link database.BasicDataSourceConnection} y {@link database.DriverManagerConnection}
+     * Datos de conexión para la base de datos con {@link database.BasicDataSourceConnection}.
      */
     public static String url = "jdbc:mysql://localhost:3306/discografica?serverTimezone=UTC";
     public static String user = "root";

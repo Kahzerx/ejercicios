@@ -108,8 +108,6 @@ public class GenericConnection {
     private void addAlbums() throws SQLException {
         String addAlbum = "INSERT INTO `album`(title) VALUES (?);";
         PreparedStatement stmt = connection.prepareStatement(addAlbum);
-        stmt.setString(1, "tallyhall");
-        stmt.executeUpdate();
 
         stmt.setString(1, "test");
         stmt.executeUpdate();
@@ -120,27 +118,6 @@ public class GenericConnection {
         String addSong = "INSERT INTO `songs`(title,album,duration,year) VALUES (?,?,?,?)";
 
         PreparedStatement stmt = connection.prepareStatement(addSong);
-        stmt.setString(1, "The Binding");
-        stmt.setString(2, "tallyhall");
-        stmt.setDouble(3, 2.41);
-        stmt.setInt(4, 2015);
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addSong);
-        stmt.setString(1, "Ruler of Everything");
-        stmt.setString(2, "tallyhall");
-        stmt.setDouble(3, 3.43);
-        stmt.setInt(4, 2010);
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addSong);
-        stmt.setString(1, "Banana man");
-        stmt.setString(2, "tallyhall");
-        stmt.setDouble(3, 4.42);
-        stmt.setInt(4, 2010);
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addSong);
         stmt.setString(1, "test2");
         stmt.setString(2, "test");
         stmt.setDouble(3, 4.42);
@@ -152,28 +129,8 @@ public class GenericConnection {
     private void addAuthors() throws SQLException {
         String addAuthor = "INSERT INTO `authors`(name,album) VALUES (?,?)";
         PreparedStatement stmt = connection.prepareStatement(addAuthor);
-        stmt.setString(1, "Rob Cantor");
-        stmt.setString(2, "tallyhall");
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addAuthor);
-        stmt.setString(1, "Ross Federman");
-        stmt.setString(2, "tallyhall");
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addAuthor);
-        stmt.setString(1, "Joe Hawley");
-        stmt.setString(2, "tallyhall");
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addAuthor);
-        stmt.setString(1, "Andrew Horowitz");
-        stmt.setString(2, "tallyhall");
-        stmt.executeUpdate();
-
-        stmt = connection.prepareStatement(addAuthor);
-        stmt.setString(1, "Zubin Sedghi");
-        stmt.setString(2, "tallyhall");
+        stmt.setString(1, "awd");
+        stmt.setString(2, "test");
         stmt.executeUpdate();
     }
 
