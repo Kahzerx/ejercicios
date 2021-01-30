@@ -2,7 +2,7 @@ package window;
 
 import database.BasicDataSourceConnection;
 import utils.DBUtils;
-import utils.TextPaneLogger;
+import components.TextPaneLogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +52,7 @@ public class MainWindowComponents extends JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
         getContentPane().setBackground(Color.WHITE);
-        
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
@@ -65,6 +65,7 @@ public class MainWindowComponents extends JFrame {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
                 super.windowClosing(windowEvent);
+
                 try {
                     if (dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
                         dataSourceConnection.close();
@@ -72,6 +73,7 @@ public class MainWindowComponents extends JFrame {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+
                 dispose();
                 Runtime.getRuntime().halt(0);
             }
@@ -82,13 +84,13 @@ public class MainWindowComponents extends JFrame {
      * Botones de conexión.
      */
     private void createJButton() {
-        connectButton = (JButton) createJThing(2, "Conectar");
+        connectButton = (JButton) createJThing(0, "Conectar");
         connectButton.addActionListener(actionEvent -> DBUtils.connect(dataSourceConnection, logger));
 
-        disconnectButton = (JButton) createJThing(2, "Desconectar");
+        disconnectButton = (JButton) createJThing(0, "Desconectar");
         disconnectButton.addActionListener(actionEvent -> DBUtils.disconnect(dataSourceConnection, logger));
 
-        clearLogButton = (JButton) createJThing(2, "Limpiar log");
+        clearLogButton = (JButton) createJThing(0, "Limpiar log");
         clearLogButton.addActionListener(actionEvent -> logger.clearLog());
     }
 
@@ -125,12 +127,12 @@ public class MainWindowComponents extends JFrame {
     private Object createJThing(int type, String text) {
         Object thing;
         switch (type) {
-            case 2:
+            case 0:
                 thing = new JButton();
                 ((JButton) thing).setFont(new Font("Arial", Font.BOLD, 15));
                 ((JButton) thing).setText(text);
                 break;
-            case 3:
+            case 1:
                 thing = new JComboBox<>();
                 ((JComboBox<?>) thing).setFont(new Font("Arial", Font.PLAIN, 15));
                 break;

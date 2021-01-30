@@ -1,4 +1,6 @@
-package utils;
+package components;
+
+import utils.LogLevel;
 
 import javax.swing.*;
 import javax.swing.text.*;

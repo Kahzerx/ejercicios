@@ -1,5 +1,7 @@
 package utils;
 
+import components.TextPaneLogger;
+
 import java.awt.*;
 
 /**

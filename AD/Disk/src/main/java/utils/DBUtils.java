@@ -1,5 +1,6 @@
 package utils;
 
+import components.TextPaneLogger;
 import database.BasicDataSourceConnection;
 
 import javax.swing.*;
@@ -80,7 +81,6 @@ public class DBUtils {
             logger.log(LogLevel.ERROR, "Error al crear la base de datos!");
             return;
         }
-
 
         if (!dataSourceConnection.tryCreateTables()) {
             logger.log(LogLevel.ERROR, "Error al crear tablas.");

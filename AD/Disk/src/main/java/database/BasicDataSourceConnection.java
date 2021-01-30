@@ -1,16 +1,12 @@
 package database;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import utils.LogLevel;
-import utils.TextPaneLogger;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 
 // Hago un extends ya que hay métodos que comparte ambas formas de conexión.
 public class BasicDataSourceConnection extends GenericConnection {
     private final BasicDataSource dataSource;
-    private String url;
     private final String name;
 
     // Constructor para tener un objeto para conectarme.
@@ -19,7 +15,6 @@ public class BasicDataSourceConnection extends GenericConnection {
         dataSource.setUrl(url);
         dataSource.setUsername(user);
         dataSource.setPassword(pass);
-        this.url = url;
         this.name = name;
     }
 
@@ -40,10 +35,5 @@ public class BasicDataSourceConnection extends GenericConnection {
 
     public boolean tryCreateTables() {
         return createTables();
-    }
-
-    private void setUrl(String url) {
-        this.url = url;
-        dataSource.setUrl(url);
     }
 }

@@ -26,28 +26,6 @@ public class GenericConnection {
         return true;
     }
 
-    // Elimino las tablas con las que trabajo si existen.
-    public boolean deleteTables() {
-        try {
-            Statement stmt = connection.createStatement();
-
-            String deleteSong = "DROP TABLE IF EXISTS `songs`;";
-            stmt.executeUpdate(deleteSong);
-
-            String deleteAuthors = "DROP TABLE IF EXISTS `authors`;";
-            stmt.executeUpdate(deleteAuthors);
-
-            String deleteAlbum = "DROP TABLE IF EXISTS `album`;";
-            stmt.executeUpdate(deleteAlbum);
-
-            stmt.close();
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
-
     // Creo las tablas eliminadas previamente por si hubiera habido algún cambio.
     public boolean createTables() {
         try {
@@ -56,6 +34,7 @@ public class GenericConnection {
             String album = "CREATE TABLE IF NOT EXISTS `album` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`title` VARCHAR(30) NOT NULL," +
+                    "`date` VARCHAR(20) DEFAULT NULL," +
                     "`nSongs` INT DEFAULT NULL," +
                     "PRIMARY KEY (`id`)," +
                     "UNIQUE KEY `title`(`title`))" +
@@ -92,20 +71,6 @@ public class GenericConnection {
         }
     }
 
-    // Añado las rows correspondientes con cada tabla.
-    public boolean addRows() {
-        try {
-            addAlbums();
-            addSongs();
-            addAuthors();
-            updateSongCount();
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
-    }
-
     // Cerrar la conexión.
     public void close() {
         try {
@@ -113,36 +78,6 @@ public class GenericConnection {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    // Inserto 2 grupos.
-    private void addAlbums() throws SQLException {
-        String addAlbum = "INSERT INTO `album`(title) VALUES (?);";
-        PreparedStatement stmt = connection.prepareStatement(addAlbum);
-
-        stmt.setString(1, "test");
-        stmt.executeUpdate();
-    }
-
-    // Inserto canciones para cada album usando PreparedStatements.
-    private void addSongs() throws SQLException {
-        String addSong = "INSERT INTO `songs`(title,album,duration,year) VALUES (?,?,?,?)";
-
-        PreparedStatement stmt = connection.prepareStatement(addSong);
-        stmt.setString(1, "test2");
-        stmt.setString(2, "test");
-        stmt.setDouble(3, 4.42);
-        stmt.setInt(4, 2010);
-        stmt.executeUpdate();
-    }
-
-    // Añado autores para la tabla de autores usando PreparedStatements.
-    private void addAuthors() throws SQLException {
-        String addAuthor = "INSERT INTO `authors`(name,album) VALUES (?,?)";
-        PreparedStatement stmt = connection.prepareStatement(addAuthor);
-        stmt.setString(1, "awd");
-        stmt.setString(2, "test");
-        stmt.executeUpdate();
     }
 
     // Saber cuantas canciones tiene cada album a modo de prueba de hacer queries.
