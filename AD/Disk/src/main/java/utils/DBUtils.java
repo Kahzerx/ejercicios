@@ -1,5 +1,6 @@
 package utils;
 
+import components.tables.AlbumTable;
 import components.TextPaneLogger;
 import database.BasicDataSourceConnection;
 
@@ -10,12 +11,16 @@ public class DBUtils {
     /**
      * Conectarse dependiendo del método que quieras usar.
      */
-    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger) {
+    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable) {
         try {
             // Check de si debería cerrar la conexión porque ya está abierta con otro método.
             shouldClose(dataSourceConnection, logger);
+            albumTable.onClosed();
             if (dataSourceConnection.connection == null || dataSourceConnection.connection.isClosed()) {
                 connectBasicDataSource(dataSourceConnection, logger);
+                albumTable.onConnect(dataSourceConnection.connection);
+            } else {
+                albumTable.onDisconnect();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -25,9 +30,11 @@ public class DBUtils {
     /**
      * Cierro la conexión con el close() de {@link database.GenericConnection}.
      */
-    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger) {
+    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable) {
         try {
             shouldClose(dataSourceConnection, logger);
+            albumTable.onClosed();
+            albumTable.onDisconnect();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

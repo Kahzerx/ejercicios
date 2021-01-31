@@ -1,8 +1,6 @@
 package database;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GenericConnection {
     /**
@@ -78,27 +76,5 @@ public class GenericConnection {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    // Saber cuantas canciones tiene cada album a modo de prueba de hacer queries.
-    private void updateSongCount() throws SQLException {
-        Statement stmt = connection.createStatement();
-        String getCount = "SELECT COUNT(s.album) as amount,s.album as album FROM discografica.songs as s group by s.album;";
-        ResultSet rs = stmt.executeQuery(getCount);
-        Map<String,Integer> album = new HashMap<>();
-        while (rs.next()) {
-            album.put(rs.getString("album"), rs.getInt("amount"));
-        }
-        rs.close();
-
-        album.forEach((title, amount) -> {
-            try {
-                String updateSongs = String.format("UPDATE album SET nSongs = %d WHERE title LIKE '%s';", amount, title);
-                stmt.executeUpdate(updateSongs);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        });
-        stmt.close();
     }
 }
