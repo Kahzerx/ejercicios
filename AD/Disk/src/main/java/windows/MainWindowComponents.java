@@ -4,13 +4,12 @@ import components.tables.AlbumTable;
 import components.tables.AuthorTable;
 import components.tables.SongTable;
 import database.BasicDataSourceConnection;
+import helpers.ResizeThread;
 import utils.DBUtils;
 import components.TextPaneLogger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -76,22 +75,24 @@ public class MainWindowComponents extends JFrame {
         setLayout(new GroupLayout(getContentPane()));
         setTitle("Ejercicio de Acceso a Datos");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setMinimumSize(new Dimension(WIDTH - 300, HEIGHT - 220));
         getContentPane().setBackground(Color.WHITE);
 
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent componentEvent) {
-                super.componentResized(componentEvent);
-                componentBounds();
-            }
-        });
+        ResizeThread resize = new ResizeThread("resizeComponents", true, this);
+        resize.start();
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
                 super.windowClosing(windowEvent);
-
+                resize.isRunning = false;
+                if (resize.isAlive()) {
+                    try {
+                        resize.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 try {
                     if (dataSourceConnection.connection != null && !dataSourceConnection.connection.isClosed()) {
                         dataSourceConnection.close();
@@ -145,7 +146,7 @@ public class MainWindowComponents extends JFrame {
     /**
      * Hago que la ventana se pueda redimensionar.
      */
-    private void componentBounds() {
+    public void componentBounds() {
         float width = getWidth();
         float height = getHeight();
 
