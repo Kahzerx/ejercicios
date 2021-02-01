@@ -75,7 +75,7 @@ public class MainWindowComponents extends JFrame {
         setLayout(new GroupLayout(getContentPane()));
         setTitle("Ejercicio de Acceso a Datos");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new Dimension(WIDTH - 300, HEIGHT - 220));
+        setMinimumSize(new Dimension(WIDTH - 400, HEIGHT - 210));
         getContentPane().setBackground(Color.WHITE);
 
         ResizeThread resize = new ResizeThread("resizeComponents", true, this);
@@ -151,7 +151,7 @@ public class MainWindowComponents extends JFrame {
         float height = getHeight();
 
         connectButton.setBounds((int) (width / 20), (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
-        disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
+        disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2) + 25, (int) (height / 24));
 
         albumLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
