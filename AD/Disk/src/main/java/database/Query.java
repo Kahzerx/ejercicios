@@ -86,4 +86,31 @@ public class Query {
         stmt.close();
         return new CustomTableFormat(columns, rows);
     }
+
+    public static CustomTableFormat getAuthors(Connection connection, String id) throws SQLException {
+        Statement stmt = connection.createStatement();
+        String getAlbumColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'authors';";
+        ResultSet rs = stmt.executeQuery(getAlbumColumns);
+
+        ArrayList<String> columns = new ArrayList<>();
+        while (rs.next()) {
+            columns.add(rs.getString("COLUMN_NAME"));
+        }
+
+        String getRows = String.format("SELECT * FROM discografica.authors WHERE album LIKE '%s';", id);
+        rs = stmt.executeQuery(getRows);
+        String[] row = new String[columns.size()];
+        ArrayList<String[]> rows = new ArrayList<>();
+        while (rs.next()) {
+            for (int i = 0; i < columns.size(); i++) {
+                String placeHolder = rs.getString(columns.get(i));
+                row[i] = placeHolder == null ? "NULL" : placeHolder;
+            }
+            rows.add(row);
+            row = new String[columns.size()];
+        }
+        rs.close();
+        stmt.close();
+        return new CustomTableFormat(columns, rows);
+    }
 }

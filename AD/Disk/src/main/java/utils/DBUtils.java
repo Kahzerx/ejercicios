@@ -2,6 +2,7 @@ package utils;
 
 import components.tables.AlbumTable;
 import components.TextPaneLogger;
+import components.tables.AuthorTable;
 import components.tables.SongTable;
 import database.BasicDataSourceConnection;
 
@@ -12,19 +13,23 @@ public class DBUtils {
     /**
      * Conectarse dependiendo del método que quieras usar.
      */
-    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable) {
+    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable, AuthorTable authorTable) {
         try {
             // Check de si debería cerrar la conexión porque ya está abierta con otro método.
             shouldClose(dataSourceConnection, logger);
             albumTable.onClosed();
             songTable.onClosed();
+            authorTable.onClosed();
 
             if (dataSourceConnection.connection == null || dataSourceConnection.connection.isClosed()) {
                 connectBasicDataSource(dataSourceConnection, logger);
-                albumTable.onConnect(dataSourceConnection.connection, songTable);
+                albumTable.songTable = songTable;
+                albumTable.authorTable = authorTable;
+                albumTable.onConnect(dataSourceConnection.connection, null);
             } else {
                 albumTable.onDisconnect();
                 songTable.onDisconnect();
+                authorTable.onDisconnect();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -34,14 +39,16 @@ public class DBUtils {
     /**
      * Cierro la conexión con el close() de {@link database.GenericConnection}.
      */
-    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable) {
+    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable, AuthorTable authorTable) {
         try {
             shouldClose(dataSourceConnection, logger);
             albumTable.onClosed();
             songTable.onClosed();
+            authorTable.onClosed();
 
             albumTable.onDisconnect();
             songTable.onDisconnect();
+            authorTable.onDisconnect();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
