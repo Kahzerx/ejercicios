@@ -2,6 +2,7 @@ package utils;
 
 import components.tables.AlbumTable;
 import components.TextPaneLogger;
+import components.tables.SongTable;
 import database.BasicDataSourceConnection;
 
 import javax.swing.*;
@@ -11,16 +12,19 @@ public class DBUtils {
     /**
      * Conectarse dependiendo del método que quieras usar.
      */
-    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable) {
+    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable) {
         try {
             // Check de si debería cerrar la conexión porque ya está abierta con otro método.
             shouldClose(dataSourceConnection, logger);
             albumTable.onClosed();
+            songTable.onClosed();
+
             if (dataSourceConnection.connection == null || dataSourceConnection.connection.isClosed()) {
                 connectBasicDataSource(dataSourceConnection, logger);
-                albumTable.onConnect(dataSourceConnection.connection);
+                albumTable.onConnect(dataSourceConnection.connection, songTable);
             } else {
                 albumTable.onDisconnect();
+                songTable.onDisconnect();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -30,11 +34,14 @@ public class DBUtils {
     /**
      * Cierro la conexión con el close() de {@link database.GenericConnection}.
      */
-    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable) {
+    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable) {
         try {
             shouldClose(dataSourceConnection, logger);
             albumTable.onClosed();
+            songTable.onClosed();
+
             albumTable.onDisconnect();
+            songTable.onDisconnect();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

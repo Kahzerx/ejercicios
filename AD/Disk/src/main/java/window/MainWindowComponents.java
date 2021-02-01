@@ -1,6 +1,7 @@
 package window;
 
 import components.tables.AlbumTable;
+import components.tables.SongTable;
 import database.BasicDataSourceConnection;
 import utils.DBUtils;
 import components.TextPaneLogger;
@@ -22,6 +23,7 @@ public class MainWindowComponents extends JFrame {
 
     private final JScrollPane scrollPane;
     private final JScrollPane albumScrollPane;
+    private final JScrollPane songScrollPane;
 
     private JButton connectButton;
     private JButton disconnectButton;
@@ -30,6 +32,7 @@ public class MainWindowComponents extends JFrame {
     private final TextPaneLogger logger;
 
     private final AlbumTable albumTable;
+    private final SongTable songTable;
 
     private final BasicDataSourceConnection dataSourceConnection;
 
@@ -39,6 +42,9 @@ public class MainWindowComponents extends JFrame {
 
         albumTable = new AlbumTable();
         albumScrollPane = new JScrollPane(albumTable);
+
+        songTable = new SongTable();
+        songScrollPane = new JScrollPane(songTable);
 
         dataSourceConnection = new BasicDataSourceConnection(url, name, user, pass);
         createJButton();
@@ -93,10 +99,10 @@ public class MainWindowComponents extends JFrame {
      */
     private void createJButton() {
         connectButton = (JButton) createJThing(0, "Conectar");
-        connectButton.addActionListener(actionEvent -> DBUtils.connect(dataSourceConnection, logger, albumTable));
+        connectButton.addActionListener(actionEvent -> DBUtils.connect(dataSourceConnection, logger, albumTable, songTable));
 
         disconnectButton = (JButton) createJThing(0, "Desconectar");
-        disconnectButton.addActionListener(actionEvent -> DBUtils.disconnect(dataSourceConnection, logger, albumTable));
+        disconnectButton.addActionListener(actionEvent -> DBUtils.disconnect(dataSourceConnection, logger, albumTable, songTable));
 
         clearLogButton = (JButton) createJThing(0, "Limpiar log");
         clearLogButton.addActionListener(actionEvent -> logger.clearLog());
@@ -110,6 +116,7 @@ public class MainWindowComponents extends JFrame {
         add(disconnectButton);
         add(scrollPane);
         add(albumScrollPane);
+        add(songScrollPane);
         add(clearLogButton);
     }
 
@@ -124,6 +131,7 @@ public class MainWindowComponents extends JFrame {
         disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
 
         albumScrollPane.setBounds((int) (width / 20), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
+        songScrollPane.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
 
         scrollPane.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) * 18, (int) (width - (int) (width / 5.2 / 2) * 3), (int) (height - ((height / 24) * 21)));
 
