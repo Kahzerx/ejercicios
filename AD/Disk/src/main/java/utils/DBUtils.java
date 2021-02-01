@@ -1,10 +1,8 @@
 package utils;
 
-import components.tables.AlbumTable;
 import components.TextPaneLogger;
-import components.tables.AuthorTable;
-import components.tables.SongTable;
 import database.BasicDataSourceConnection;
+import windows.MainWindow;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -13,23 +11,24 @@ public class DBUtils {
     /**
      * Conectarse dependiendo del método que quieras usar.
      */
-    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable, AuthorTable authorTable) {
+    public static void connect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, MainWindow windowComponents) {
         try {
             // Check de si debería cerrar la conexión porque ya está abierta con otro método.
             shouldClose(dataSourceConnection, logger);
-            albumTable.onClosed();
-            songTable.onClosed();
-            authorTable.onClosed();
+            windowComponents.albumTable.onClosed();
+            windowComponents.songTable.onClosed();
+            windowComponents.authorTable.onClosed();
 
             if (dataSourceConnection.connection == null || dataSourceConnection.connection.isClosed()) {
                 connectBasicDataSource(dataSourceConnection, logger);
-                albumTable.songTable = songTable;
-                albumTable.authorTable = authorTable;
-                albumTable.onConnect(dataSourceConnection.connection, null);
+                windowComponents.albumTable.songTable = windowComponents.songTable;
+                windowComponents.albumTable.authorTable = windowComponents.authorTable;
+                windowComponents.albumTable.onConnect(dataSourceConnection.connection, null);
+                windowComponents.insertAlbum.setEnabled(true);
             } else {
-                albumTable.onDisconnect();
-                songTable.onDisconnect();
-                authorTable.onDisconnect();
+                windowComponents.albumTable.onDisconnect();
+                windowComponents.songTable.onDisconnect();
+                windowComponents.authorTable.onDisconnect();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -39,16 +38,17 @@ public class DBUtils {
     /**
      * Cierro la conexión con el close() de {@link database.GenericConnection}.
      */
-    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, AlbumTable albumTable, SongTable songTable, AuthorTable authorTable) {
+    public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, MainWindow windowComponents) {
         try {
             shouldClose(dataSourceConnection, logger);
-            albumTable.onClosed();
-            songTable.onClosed();
-            authorTable.onClosed();
+            windowComponents.insertAlbum.setEnabled(false);
+            windowComponents.albumTable.onClosed();
+            windowComponents.songTable.onClosed();
+            windowComponents.authorTable.onClosed();
 
-            albumTable.onDisconnect();
-            songTable.onDisconnect();
-            authorTable.onDisconnect();
+            windowComponents.albumTable.onDisconnect();
+            windowComponents.songTable.onDisconnect();
+            windowComponents.authorTable.onDisconnect();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

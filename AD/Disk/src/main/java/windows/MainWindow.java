@@ -17,7 +17,7 @@ import java.sql.SQLException;
 /**
  * JFrame principal con botón de {@code connectButton} y {@code disconnectButton}, y el {@code logger}.
  */
-public class MainWindowComponents extends JFrame {
+public class MainWindow extends JFrame {
     int WIDTH = 1100;
     int HEIGHT = 720;
 
@@ -29,20 +29,22 @@ public class MainWindowComponents extends JFrame {
     private JButton connectButton;
     private JButton disconnectButton;
     private JButton clearLogButton;
+    public JButton insertAlbum;
 
     private final TextPaneLogger logger;
 
-    private final AlbumTable albumTable;
-    private final SongTable songTable;
-    private final AuthorTable authorTable;
+    public final AlbumTable albumTable;
+    public final SongTable songTable;
+    public final AuthorTable authorTable;
 
     private JLabel albumLabel;
     private JLabel songLabel;
     private JLabel authorLabel;
+    public JLabel insertSongLabel;
 
     private final BasicDataSourceConnection dataSourceConnection;
 
-    public MainWindowComponents(String url, String name, String user, String pass) {
+    public MainWindow(String url, String name, String user, String pass) {
         logger = new TextPaneLogger();
         scrollPane = new JScrollPane(logger);
 
@@ -112,19 +114,27 @@ public class MainWindowComponents extends JFrame {
      */
     private void createJButton() {
         connectButton = (JButton) createJThing(0, "Conectar");
-        connectButton.addActionListener(actionEvent -> DBUtils.connect(dataSourceConnection, logger, albumTable, songTable, authorTable));
+        connectButton.addActionListener(actionEvent -> DBUtils.connect(dataSourceConnection, logger, this));
 
         disconnectButton = (JButton) createJThing(0, "Desconectar");
-        disconnectButton.addActionListener(actionEvent -> DBUtils.disconnect(dataSourceConnection, logger, albumTable, songTable, authorTable));
+        disconnectButton.addActionListener(actionEvent -> DBUtils.disconnect(dataSourceConnection, logger, this));
 
         clearLogButton = (JButton) createJThing(0, "Limpiar log");
         clearLogButton.addActionListener(actionEvent -> logger.clearLog());
+
+        insertAlbum = (JButton) createJThing(0, "Insertar Album");
+        insertAlbum.setEnabled(false);
+        insertAlbum.addActionListener(actionEvent -> {
+            insertAlbum.setEnabled(false);
+        });
     }
 
     private void createJLabel() {
         albumLabel = (JLabel) createJThing(2, "Álbumes");
         songLabel = (JLabel) createJThing(2, "Canciones");
         authorLabel = (JLabel) createJThing(2, "Autores");
+
+        insertSongLabel = (JLabel) createJThing(2, "Insertar cancion en awdawd");
     }
 
     /**
@@ -141,6 +151,8 @@ public class MainWindowComponents extends JFrame {
         add(albumLabel);
         add(songLabel);
         add(authorLabel);
+        add(insertSongLabel);
+        add(insertAlbum);
     }
 
     /**
@@ -152,10 +164,13 @@ public class MainWindowComponents extends JFrame {
 
         connectButton.setBounds((int) (width / 20), (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
         disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2) + 25, (int) (height / 24));
+        insertAlbum.setBounds((int) (width / 20 * 12), (int) (height / 27), (int) (width / 5.2 * 1.5), (int) (height / 24));
 
         albumLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         authorLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 10.8), (int) (width / 5.2), (int) (height / 24));
+
+        insertSongLabel.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 11.5), (int) (width / 5.2 * 3), (int) (height / 24));
 
         albumScrollPane.setBounds((int) (width / 20), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
         songScrollPane.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
@@ -186,7 +201,7 @@ public class MainWindowComponents extends JFrame {
                 break;
             case 2:
                 thing = new JLabel();
-                ((JLabel) thing).setFont(new Font("Arial", Font.BOLD, 15));
+                ((JLabel) thing).setFont(new Font("Arial", Font.BOLD, 14));
                 ((JLabel) thing).setText(text);
                 break;
             default:

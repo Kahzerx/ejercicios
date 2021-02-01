@@ -1,4 +1,4 @@
-import windows.MainWindowComponents;
+import windows.MainWindow;
 
 public class Main {
     /**
@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         // Inicio los componentes.
-        MainWindowComponents mainWindowComponents = new MainWindowComponents(url, databaseName, user, pass);
-        mainWindowComponents.setVisible(true);
+        MainWindow mainWindow = new MainWindow(url, databaseName, user, pass);
+        mainWindow.setVisible(true);
     }
 }

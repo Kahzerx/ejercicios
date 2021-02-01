@@ -28,8 +28,8 @@ public class AlbumTable extends GenericTable {
 
             if (super.model.getRowCount() > 0) {
                 super.selectFirst();
-                songTable.onConnect(connection, this);
                 authorTable.onConnect(connection, this);
+                songTable.onConnect(connection, this);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
