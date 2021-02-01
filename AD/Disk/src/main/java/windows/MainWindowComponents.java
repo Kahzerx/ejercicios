@@ -1,4 +1,4 @@
-package window;
+package windows;
 
 import components.tables.AlbumTable;
 import components.tables.AuthorTable;
@@ -37,6 +37,10 @@ public class MainWindowComponents extends JFrame {
     private final SongTable songTable;
     private final AuthorTable authorTable;
 
+    private JLabel albumLabel;
+    private JLabel songLabel;
+    private JLabel authorLabel;
+
     private final BasicDataSourceConnection dataSourceConnection;
 
     public MainWindowComponents(String url, String name, String user, String pass) {
@@ -54,6 +58,8 @@ public class MainWindowComponents extends JFrame {
 
         dataSourceConnection = new BasicDataSourceConnection(url, name, user, pass);
         createJButton();
+
+        createJLabel();
 
         addStuff();
 
@@ -114,6 +120,12 @@ public class MainWindowComponents extends JFrame {
         clearLogButton.addActionListener(actionEvent -> logger.clearLog());
     }
 
+    private void createJLabel() {
+        albumLabel = (JLabel) createJThing(2, "Álbumes");
+        songLabel = (JLabel) createJThing(2, "Canciones");
+        authorLabel = (JLabel) createJThing(2, "Autores");
+    }
+
     /**
      * Añado los componentes al Frame
      */
@@ -125,6 +137,9 @@ public class MainWindowComponents extends JFrame {
         add(songScrollPane);
         add(authorScrollPane);
         add(clearLogButton);
+        add(albumLabel);
+        add(songLabel);
+        add(authorLabel);
     }
 
     /**
@@ -136,6 +151,10 @@ public class MainWindowComponents extends JFrame {
 
         connectButton.setBounds((int) (width / 20), (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
         disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
+
+        albumLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
+        songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
+        authorLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 10.8), (int) (width / 5.2), (int) (height / 24));
 
         albumScrollPane.setBounds((int) (width / 20), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
         songScrollPane.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
@@ -163,6 +182,11 @@ public class MainWindowComponents extends JFrame {
             case 1:
                 thing = new JComboBox<>();
                 ((JComboBox<?>) thing).setFont(new Font("Arial", Font.PLAIN, 15));
+                break;
+            case 2:
+                thing = new JLabel();
+                ((JLabel) thing).setFont(new Font("Arial", Font.BOLD, 15));
+                ((JLabel) thing).setText(text);
                 break;
             default:
                 throw new IllegalStateException(String.format("Unexpected value %d", type));

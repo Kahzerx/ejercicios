@@ -1,4 +1,4 @@
-import window.MainWindowComponents;
+import windows.MainWindowComponents;
 
 public class Main {
     /**
