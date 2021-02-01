@@ -2,10 +2,7 @@ package database;
 
 import utils.CustomTableFormat;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +11,7 @@ public class Query {
     // Saber cuantas canciones tiene cada album a modo de prueba de hacer queries.
     public static void updateSongCount(Connection connection) throws SQLException {
         Statement stmt = connection.createStatement();
-        String getCount = "SELECT COUNT(s.album) as amount,s.album as album FROM discografica.songs as s group by s.album;";
+        String getCount = "SELECT (SELECT COUNT(*) FROM discografica.songs s WHERE a.title LIKE s.album) amount, a.title album FROM discografica.album a;";
         ResultSet rs = stmt.executeQuery(getCount);
         Map<String,Integer> album = new HashMap<>();
         while (rs.next()) {
@@ -31,6 +28,20 @@ public class Query {
             }
         });
         stmt.close();
+    }
+
+    public static boolean insertAlbum(Connection connection, String title, String date) {
+        try {
+            String insertAlbum = "INSERT INTO discografica.album(title, date) VALUES(?,?);";
+            PreparedStatement stmt = connection.prepareStatement(insertAlbum);
+            stmt.setString(1, title);
+            stmt.setString(2, date);
+            stmt.executeUpdate();
+            updateSongCount(connection);
+        } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
     }
 
     public static CustomTableFormat getAlbums(Connection connection) throws SQLException {

@@ -26,12 +26,12 @@ public class MainWindow extends JFrame {
     private final JScrollPane songScrollPane;
     private final JScrollPane authorScrollPane;
 
-    private JButton connectButton;
-    private JButton disconnectButton;
+    public JButton connectButton;
+    public JButton disconnectButton;
     private JButton clearLogButton;
-    public JButton insertAlbum;
+    public JButton insertAlbumButton;
 
-    private final TextPaneLogger logger;
+    public final TextPaneLogger logger;
 
     public final AlbumTable albumTable;
     public final SongTable songTable;
@@ -42,7 +42,7 @@ public class MainWindow extends JFrame {
     private JLabel authorLabel;
     public JLabel insertSongLabel;
 
-    private final BasicDataSourceConnection dataSourceConnection;
+    public final BasicDataSourceConnection dataSourceConnection;
 
     public MainWindow(String url, String name, String user, String pass) {
         logger = new TextPaneLogger();
@@ -77,7 +77,7 @@ public class MainWindow extends JFrame {
         setLayout(new GroupLayout(getContentPane()));
         setTitle("Ejercicio de Acceso a Datos");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new Dimension(WIDTH - 400, HEIGHT - 210));
+        setMinimumSize(new Dimension(WIDTH - 350, HEIGHT - 190));
         getContentPane().setBackground(Color.WHITE);
 
         ResizeThread resize = new ResizeThread("resizeComponents", true, this);
@@ -122,10 +122,14 @@ public class MainWindow extends JFrame {
         clearLogButton = (JButton) createJThing(0, "Limpiar log");
         clearLogButton.addActionListener(actionEvent -> logger.clearLog());
 
-        insertAlbum = (JButton) createJThing(0, "Insertar Album");
-        insertAlbum.setEnabled(false);
-        insertAlbum.addActionListener(actionEvent -> {
-            insertAlbum.setEnabled(false);
+        insertAlbumButton = (JButton) createJThing(0, "Insertar Album");
+        insertAlbumButton.setEnabled(false);
+        insertAlbumButton.addActionListener(actionEvent -> {
+            InsertAlbumWindow albumWindow = new InsertAlbumWindow(this);
+            insertAlbumButton.setEnabled(false);
+            connectButton.setEnabled(false);
+            disconnectButton.setEnabled(false);
+            albumWindow.setVisible(true);
         });
     }
 
@@ -152,7 +156,7 @@ public class MainWindow extends JFrame {
         add(songLabel);
         add(authorLabel);
         add(insertSongLabel);
-        add(insertAlbum);
+        add(insertAlbumButton);
     }
 
     /**
@@ -164,7 +168,7 @@ public class MainWindow extends JFrame {
 
         connectButton.setBounds((int) (width / 20), (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
         disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2) + 25, (int) (height / 24));
-        insertAlbum.setBounds((int) (width / 20 * 12), (int) (height / 27), (int) (width / 5.2 * 1.5), (int) (height / 24));
+        insertAlbumButton.setBounds((int) (width / 20 * 12), (int) (height / 27), (int) (width / 5.2 * 1.5), (int) (height / 24));
 
         albumLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
@@ -187,7 +191,7 @@ public class MainWindow extends JFrame {
      * @param text texto que quiero que aparezca en el botón por ejemplo.
      * @return objeto preparado para castear.
      */
-    private Object createJThing(int type, String text) {
+    public Object createJThing(int type, String text) {
         Object thing;
         switch (type) {
             case 0:
@@ -203,6 +207,11 @@ public class MainWindow extends JFrame {
                 thing = new JLabel();
                 ((JLabel) thing).setFont(new Font("Arial", Font.BOLD, 14));
                 ((JLabel) thing).setText(text);
+                break;
+            case 3:
+                thing = new JTextArea();
+                ((JTextArea) thing).setFont(new Font("Arial", Font.PLAIN, 14));
+                ((JTextArea) thing).setMargin(new Insets(6, 6, 6, 6));
                 break;
             default:
                 throw new IllegalStateException(String.format("Unexpected value %d", type));

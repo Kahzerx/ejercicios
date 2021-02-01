@@ -33,7 +33,7 @@ public class GenericConnection {
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`title` VARCHAR(30) NOT NULL," +
                     "`date` VARCHAR(20) DEFAULT NULL," +
-                    "`nSongs` INT DEFAULT NULL," +
+                    "`nSongs` INT DEFAULT 0," +
                     "PRIMARY KEY (`id`)," +
                     "UNIQUE KEY `title`(`title`))" +
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
@@ -44,7 +44,7 @@ public class GenericConnection {
                     "`name` VARCHAR(40) DEFAULT NULL," +
                     "`album` VARCHAR(30) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
-                    "CONSTRAINT `album_author_fk` FOREIGN KEY (`album`) REFERENCES `album`(`title`) ON DELETE NO ACTION)" +
+                    "CONSTRAINT `album_author_fk` FOREIGN KEY (`album`) REFERENCES `album`(`title`) ON DELETE CASCADE)" +
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
             stmt.executeUpdate(authors);
 
@@ -55,7 +55,7 @@ public class GenericConnection {
                     "`duration` DECIMAL(6,2) DEFAULT 0," +
                     "`year` INT DEFAULT NULL," +
                     "PRIMARY KEY (`id`)," +
-                    "CONSTRAINT `album_title_fk` FOREIGN KEY (`album`) REFERENCES `album`(`title`) ON DELETE NO ACTION)" +
+                    "CONSTRAINT `album_title_fk` FOREIGN KEY (`album`) REFERENCES `album`(`title`) ON DELETE CASCADE)" +
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
             stmt.executeUpdate(song);
 

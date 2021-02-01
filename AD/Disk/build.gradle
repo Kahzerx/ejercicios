@@ -16,6 +16,7 @@ dependencies {
     compile 'commons-dbcp:commons-dbcp:1.4'
     compile 'commons-logging:commons-logging:1.1.1'
     compile 'commons-pool:commons-pool:1.4'
+    compile 'org.swinglabs:swingx:1.6.1'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

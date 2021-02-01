@@ -24,7 +24,7 @@ public class DBUtils {
                 windowComponents.albumTable.songTable = windowComponents.songTable;
                 windowComponents.albumTable.authorTable = windowComponents.authorTable;
                 windowComponents.albumTable.onConnect(dataSourceConnection.connection, null);
-                windowComponents.insertAlbum.setEnabled(true);
+                windowComponents.insertAlbumButton.setEnabled(true);
             } else {
                 windowComponents.albumTable.onDisconnect();
                 windowComponents.songTable.onDisconnect();
@@ -41,7 +41,7 @@ public class DBUtils {
     public static void disconnect(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, MainWindow windowComponents) {
         try {
             shouldClose(dataSourceConnection, logger);
-            windowComponents.insertAlbum.setEnabled(false);
+            windowComponents.insertAlbumButton.setEnabled(false);
             windowComponents.albumTable.onClosed();
             windowComponents.songTable.onClosed();
             windowComponents.authorTable.onClosed();
@@ -52,6 +52,10 @@ public class DBUtils {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static void refresh(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, MainWindow windowComponents) {
+        connect(dataSourceConnection, logger, windowComponents);
     }
 
     /**
