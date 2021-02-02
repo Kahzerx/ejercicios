@@ -75,7 +75,7 @@ public class ComponentUtils {
             case 3:
                 switch (action) {
                     case 1:
-                        System.out.println("editar autor");
+                        editAuthor(mainWindow);
                         break;
                     case 2:
                         deleteAuthor(mainWindow);
@@ -233,5 +233,28 @@ public class ComponentUtils {
             DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
         }
         mainWindow.switchB(true);
+    }
+
+    public static void editAuthor(MainWindow mainWindow) {
+        String sid;
+        String name;
+        String album;
+        try {
+            sid = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("id").getModelIndex());
+            name = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("name").getModelIndex());
+            album = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("album").getModelIndex());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if ((sid == null || !StringUtils.isInt(sid)) || (name == null || name.equals("")) || (album == null || album.equals(""))) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int id = Integer.parseInt(sid);
+        EditAuthorWindow authorWindow = new EditAuthorWindow(mainWindow, id, name, album);
+        mainWindow.switchB(false);
+        authorWindow.setVisible(true);
     }
 }

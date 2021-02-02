@@ -1,47 +1,45 @@
 package windows;
 
 import database.Query;
-import org.jdesktop.swingx.JXDatePicker;
 import utils.DBUtils;
 import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.List;
 
-public class EditAlbumWindow extends JFrame {
+@SuppressWarnings("unchecked")
+public class EditAuthorWindow extends JFrame {
     private final MainWindow mainWindow;
     private final int id;
-    private final String title;
-    private final String date;
+    private final String name;
+    private final String album;
 
     private JLabel idLabel;
-    private JLabel titleLabel;
-    private JLabel dateLabel;
+    private JLabel nameLabel;
+    private JLabel albumLabel;
 
     private JTextArea idTextArea;
-    private JTextArea titleTextArea;
-
-    private JXDatePicker datePicker;
+    private JTextArea nameTextArea;
 
     private JButton submitButton;
 
-    public EditAlbumWindow(MainWindow mainWindow, int id, String title, String date) {
+    private JComboBox<String> albumList;
+
+    public EditAuthorWindow(MainWindow mainWindow, int id, String name, String album) {
         this.mainWindow = mainWindow;
         this.id = id;
-        this.title = title;
-        this.date = date;
+        this.name = name;
+        this.album = album;
 
         createJLabel();
 
         createJTextArea();
 
-        createDatePicker();
-
         createJButton();
+
+        createJComboBox();
 
         addStuff();
 
@@ -51,7 +49,7 @@ public class EditAlbumWindow extends JFrame {
     public void createJFrame() {
         setBounds(100, 100, 300, 250);
         setLayout(new GroupLayout(getContentPane()));
-        setTitle("Editar Album");
+        setTitle("Editar Autor");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -67,10 +65,10 @@ public class EditAlbumWindow extends JFrame {
     private void createJLabel() {
         idLabel = (JLabel) mainWindow.createJThing(2, "ID");
         idLabel.setBounds(20, 20, 80, 30);
-        titleLabel = (JLabel) mainWindow.createJThing(2, "Título");
-        titleLabel.setBounds(20, 70, 80, 30);
-        dateLabel = (JLabel) mainWindow.createJThing(2, "Fecha");
-        dateLabel.setBounds(20, 120, 60, 30);
+        nameLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
+        nameLabel.setBounds(20, 70, 80, 30);
+        albumLabel = (JLabel) mainWindow.createJThing(2, "Álbum");
+        albumLabel.setBounds(20, 120, 80, 30);
     }
 
     private void createJTextArea() {
@@ -78,34 +76,22 @@ public class EditAlbumWindow extends JFrame {
         idTextArea.setText(String.valueOf(this.id));
         idTextArea.setBounds(100, 20, 170, 30);
         idTextArea.setEditable(false);
-
-        titleTextArea = (JTextArea) mainWindow.createJThing(3, "");
-        titleTextArea.setText(this.title);
-        titleTextArea.setBounds(100, 70, 170, 30);
-    }
-
-    private void createDatePicker() {
-        datePicker = new JXDatePicker();
-        datePicker.setFormats(new SimpleDateFormat("dd-MM-yyyy"));
-        try {
-            datePicker.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(this.date));
-        } catch (ParseException e) {
-            datePicker.setDate(Calendar.getInstance().getTime());
-        }
-        datePicker.setBounds(100, 120, 170, 30);
+        nameTextArea = (JTextArea) mainWindow.createJThing(3, "");
+        nameTextArea.setText(this.name);
+        nameTextArea.setBounds(100, 70, 170, 30);
     }
 
     private void createJButton() {
         submitButton = (JButton) mainWindow.createJThing(0, "Editar");
         submitButton.setBounds(100, 170, 110, 30);
         submitButton.addActionListener(actionEvent -> {
-            if (StringUtils.isEmpty(titleTextArea.getText())) {
+            if (StringUtils.isEmpty(nameTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                String title = titleTextArea.getText().trim();
-                SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd-MM-yyyy");
-                String date = dateTimeFormatter.format(datePicker.getDate());
-                if (!Query.updateAlbum(mainWindow.dataSourceConnection.connection, this.id, title, date)) {
+                String name = nameTextArea.getText().trim();
+                String album = (String) albumList.getSelectedItem();
+
+                if (!Query.updateAuthor(mainWindow.dataSourceConnection.connection, id, name, album)) {
                     JOptionPane.showMessageDialog(null, "Error al editar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
@@ -114,17 +100,28 @@ public class EditAlbumWindow extends JFrame {
         });
     }
 
+    private void createJComboBox() {
+        albumList = (JComboBox<String>) mainWindow.createJThing(1, "");
+        albumList.setBounds(100, 120, 170, 30);
+        List<String> albums = Query.getAlbumNames(mainWindow.dataSourceConnection.connection);
+        assert albums != null;
+        for (String album : albums) {
+            albumList.addItem(album);
+        }
+        albumList.setSelectedItem(this.album);
+    }
+
     private void addStuff() {
         add(idLabel);
-        add(titleLabel);
-        add(dateLabel);
+        add(nameLabel);
+        add(albumLabel);
 
         add(idTextArea);
-        add(titleTextArea);
-
-        add(datePicker);
+        add(nameTextArea);
 
         add(submitButton);
+
+        add(albumList);
     }
 
     private void close() {
