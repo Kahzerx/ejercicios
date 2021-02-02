@@ -2,6 +2,7 @@ package utils;
 
 import database.Query;
 import windows.InsertAlbumWindow;
+import windows.InsertAuthorWindow;
 import windows.InsertSongWindow;
 import windows.MainWindow;
 
@@ -83,7 +84,7 @@ public class ComponentUtils {
                         System.out.println("eliminar autor");
                         break;
                     case 3:
-                        System.out.println("insertar autor");
+                        insertAuthor(mainWindow);
                         break;
                 }
                 break;
@@ -117,5 +118,11 @@ public class ComponentUtils {
         InsertSongWindow songWindow = new InsertSongWindow(mainWindow);
         mainWindow.switchB(false);
         songWindow.setVisible(true);
+    }
+
+    public static void insertAuthor(MainWindow mainWindow) {
+        InsertAuthorWindow authorWindow = new InsertAuthorWindow(mainWindow);
+        mainWindow.switchB(false);
+        authorWindow.setVisible(true);
     }
 }

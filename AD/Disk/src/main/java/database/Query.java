@@ -64,6 +64,22 @@ public class Query {
         return true;
     }
 
+    public static boolean insertAuthor(Connection connection, String name, String album) {
+        try {
+            String insertAlbum = "INSERT INTO discografica.authors(name,album) VALUES(?,?);";
+            PreparedStatement stmt = connection.prepareStatement(insertAlbum);
+            stmt.setString(1, name);
+            stmt.setString(2, album);
+            stmt.executeUpdate();
+            stmt.close();
+            updateSongCount(connection);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public static boolean deleteAlbum(Connection connection, int id) {
         try {
             String deleteAlbum = String.format("DELETE FROM discografica.album WHERE id = %d;", id);
