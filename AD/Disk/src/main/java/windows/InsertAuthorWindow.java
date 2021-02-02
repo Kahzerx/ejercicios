@@ -74,7 +74,7 @@ public class InsertAuthorWindow extends JFrame {
             if (StringUtils.isEmpty(nameTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                String name = nameTextArea.getText();
+                String name = nameTextArea.getText().trim();
                 String album = (String) albumList.getSelectedItem();
 
                 if (!Query.insertAuthor(mainWindow.dataSourceConnection.connection, name, album)) {
@@ -91,7 +91,6 @@ public class InsertAuthorWindow extends JFrame {
         albumList.setBounds(100, 70, 170, 30);
         List<String> albums = Query.getAlbumNames(mainWindow.dataSourceConnection.connection);
         assert albums != null;
-        Collections.reverse(albums);
         for (String album : albums) {
             albumList.addItem(album);
         }

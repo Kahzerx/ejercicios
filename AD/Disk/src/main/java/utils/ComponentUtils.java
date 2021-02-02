@@ -1,10 +1,7 @@
 package utils;
 
 import database.Query;
-import windows.InsertAlbumWindow;
-import windows.InsertAuthorWindow;
-import windows.InsertSongWindow;
-import windows.MainWindow;
+import windows.*;
 
 import javax.swing.*;
 
@@ -52,7 +49,7 @@ public class ComponentUtils {
             case 1:
                 switch (action) {
                     case 1:
-                        System.out.println("editar album");
+                        editAlbum(mainWindow);
                         break;
                     case 2:
                         deleteAlbum(mainWindow);
@@ -120,6 +117,29 @@ public class ComponentUtils {
             DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
         }
         mainWindow.switchB(true);
+    }
+
+    public static void editAlbum(MainWindow mainWindow) {
+        String sid;
+        String title;
+        String date;
+        try {
+            sid = (String) mainWindow.albumTable.getValueAt(mainWindow.albumTable.getSelectedRow(), mainWindow.albumTable.getColumn("id").getModelIndex());
+            title = (String) mainWindow.albumTable.getValueAt(mainWindow.albumTable.getSelectedRow(), mainWindow.albumTable.getColumn("title").getModelIndex());
+            date = (String) mainWindow.albumTable.getValueAt(mainWindow.albumTable.getSelectedRow(), mainWindow.albumTable.getColumn("date").getModelIndex());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if ((sid == null || !StringUtils.isInt(sid)) || (title == null || title.equals("")) || (date == null || date.equals(""))) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int id = Integer.parseInt(sid);
+        EditAlbumWindow editAlbumWindow = new EditAlbumWindow(mainWindow, id, title, date);
+        mainWindow.switchB(false);
+        editAlbumWindow.setVisible(true);
     }
 
     public static void insertSong(MainWindow mainWindow) {

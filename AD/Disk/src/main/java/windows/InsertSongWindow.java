@@ -106,12 +106,12 @@ public class InsertSongWindow extends JFrame{
                 JOptionPane.showMessageDialog(null, "Pon solo números en la duración!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                String title = titleTextArea.getText();
+                String title = titleTextArea.getText().trim();
                 SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy");
                 int year = Integer.parseInt(dateTimeFormatter.format(datePicker.getDate()));
                 String album = (String) albumList.getSelectedItem();
-                int min = Integer.parseInt(minuteTextArea.getText());
-                int sec = Integer.parseInt(secondTextArea.getText());
+                int min = Integer.parseInt(minuteTextArea.getText().trim());
+                int sec = Integer.parseInt(secondTextArea.getText().trim());
                 if (sec >= 60) {
                     JOptionPane.showMessageDialog(null, "Demasiados segundos...", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -135,7 +135,6 @@ public class InsertSongWindow extends JFrame{
         albumList.setBounds(100, 70, 170, 30);
         List<String> albums = Query.getAlbumNames(mainWindow.dataSourceConnection.connection);
         assert albums != null;
-        Collections.reverse(albums);
         for (String album : albums) {
             albumList.addItem(album);
         }

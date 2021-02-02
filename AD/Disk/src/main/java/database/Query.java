@@ -12,7 +12,7 @@ public class Query {
     // Saber cuantas canciones tiene cada album a modo de prueba de hacer queries.
     public static void updateSongCount(Connection connection) throws SQLException {
         Statement stmt = connection.createStatement();
-        String getCount = "SELECT (SELECT COUNT(*) FROM discografica.songs s WHERE a.title LIKE s.album) amount, a.title album FROM discografica.album a;";
+        String getCount = "SELECT (SELECT COUNT(*) FROM songs s WHERE a.title LIKE s.album) amount, a.title album FROM album a;";
         ResultSet rs = stmt.executeQuery(getCount);
         Map<String,Integer> album = new HashMap<>();
         while (rs.next()) {
@@ -33,7 +33,7 @@ public class Query {
 
     public static boolean insertAlbum(Connection connection, String title, String date) {
         try {
-            String insertAlbum = "INSERT INTO discografica.album(title, date) VALUES(?,?);";
+            String insertAlbum = "INSERT INTO album(title, date) VALUES(?,?);";
             PreparedStatement stmt = connection.prepareStatement(insertAlbum);
             stmt.setString(1, title);
             stmt.setString(2, date);
@@ -48,7 +48,7 @@ public class Query {
 
     public static boolean insertSong(Connection connection, String title, String album, float duration, int year) {
         try {
-            String insertSong = "INSERT INTO discografica.songs(title, album, duration, year) VALUES(?,?,?,?);";
+            String insertSong = "INSERT INTO songs(title, album, duration, year) VALUES(?,?,?,?);";
             PreparedStatement stmt = connection.prepareStatement(insertSong);
             stmt.setString(1, title);
             stmt.setString(2, album);
@@ -66,7 +66,7 @@ public class Query {
 
     public static boolean insertAuthor(Connection connection, String name, String album) {
         try {
-            String insertAuthor = "INSERT INTO discografica.authors(name,album) VALUES(?,?);";
+            String insertAuthor = "INSERT INTO authors(name,album) VALUES(?,?);";
             PreparedStatement stmt = connection.prepareStatement(insertAuthor);
             stmt.setString(1, name);
             stmt.setString(2, album);
@@ -82,7 +82,7 @@ public class Query {
 
     public static boolean deleteAlbum(Connection connection, int id) {
         try {
-            String deleteAlbum = String.format("DELETE FROM discografica.album WHERE id = %d;", id);
+            String deleteAlbum = String.format("DELETE FROM album WHERE id = %d;", id);
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteAlbum);
             stmt.close();
@@ -94,7 +94,7 @@ public class Query {
 
     public static boolean deleteSong(Connection connection, int id) {
         try {
-            String deleteSong = String.format("DELETE FROM discografica.songs WHERE id = %d;", id);
+            String deleteSong = String.format("DELETE FROM songs WHERE id = %d;", id);
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteSong);
             stmt.close();
@@ -107,9 +107,25 @@ public class Query {
 
     public static boolean deleteAuthor(Connection connection, int id) {
         try {
-            String deleteAuthor = String.format("DELETE FROM discografica.authors WHERE id = %d;", id);
+            String deleteAuthor = String.format("DELETE FROM authors WHERE id = %d;", id);
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteAuthor);
+            stmt.close();
+            updateSongCount(connection);
+        } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean updateAlbum(Connection connection, int id, String title, String date) {
+        try {
+            String updateAlbum = "UPDATE album SET title = ?, date = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(updateAlbum);
+            stmt.setString(1, title);
+            stmt.setString(2, date);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
             stmt.close();
             updateSongCount(connection);
         } catch (SQLException throwables) {
@@ -128,7 +144,7 @@ public class Query {
             columns.add(rs.getString("COLUMN_NAME"));
         }
 
-        String getRows = "SELECT * FROM discografica.album;";
+        String getRows = "SELECT * FROM album;";
         rs = stmt.executeQuery(getRows);
         String[] row = new String[columns.size()];
         ArrayList<String[]> rows = new ArrayList<>();
@@ -154,9 +170,12 @@ public class Query {
         while (rs.next()) {
             columns.add(rs.getString("COLUMN_NAME"));
         }
+        stmt.close();
 
-        String getRows = String.format("SELECT * FROM discografica.songs WHERE album LIKE '%s';", id);
-        rs = stmt.executeQuery(getRows);
+        String getRows = "SELECT * FROM songs WHERE album LIKE ?;";
+        PreparedStatement stmt2 = connection.prepareStatement(getRows);
+        stmt2.setString(1, id);
+        rs = stmt2.executeQuery();
         String[] row = new String[columns.size()];
         ArrayList<String[]> rows = new ArrayList<>();
         while (rs.next()) {
@@ -168,7 +187,7 @@ public class Query {
             row = new String[columns.size()];
         }
         rs.close();
-        stmt.close();
+        stmt2.close();
         return new CustomTableFormat(columns, rows);
     }
 
@@ -181,9 +200,12 @@ public class Query {
         while (rs.next()) {
             columns.add(rs.getString("COLUMN_NAME"));
         }
+        stmt.close();
 
-        String getRows = String.format("SELECT * FROM discografica.authors WHERE album LIKE '%s';", id);
-        rs = stmt.executeQuery(getRows);
+        String getRows = "SELECT * FROM authors WHERE album LIKE ?;";
+        PreparedStatement stmt2 = connection.prepareStatement(getRows);
+        stmt2.setString(1, id);
+        rs = stmt2.executeQuery();
         String[] row = new String[columns.size()];
         ArrayList<String[]> rows = new ArrayList<>();
         while (rs.next()) {
@@ -195,14 +217,14 @@ public class Query {
             row = new String[columns.size()];
         }
         rs.close();
-        stmt.close();
+        stmt2.close();
         return new CustomTableFormat(columns, rows);
     }
 
     public static List<String> getAlbumNames(Connection connection) {
         try {
             Statement stmt = connection.createStatement();
-            String albumsGet = "SELECT a.title title FROM discografica.album a;";
+            String albumsGet = "SELECT a.title title FROM album a;";
             ResultSet rs = stmt.executeQuery(albumsGet);
             List<String> list = new ArrayList<>();
             while (rs.next()) {

@@ -8,23 +8,32 @@ import utils.StringUtils;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class InsertAlbumWindow extends JFrame {
+public class EditAlbumWindow extends JFrame {
     private final MainWindow mainWindow;
+    private int id;
+    private String title;
+    private String date;
 
+    private JLabel idLabel;
     private JLabel titleLabel;
     private JLabel dateLabel;
 
+    private JTextArea idTextArea;
     private JTextArea titleTextArea;
 
     private JXDatePicker datePicker;
 
     private JButton submitButton;
 
-    public InsertAlbumWindow(MainWindow mainWindow) {
+    public EditAlbumWindow(MainWindow mainWindow, int id, String title, String date) {
         this.mainWindow = mainWindow;
+        this.id = id;
+        this.title = title;
+        this.date = date;
 
         createJLabel();
 
@@ -40,9 +49,9 @@ public class InsertAlbumWindow extends JFrame {
     }
 
     public void createJFrame() {
-        setBounds(100, 100, 300, 200);
+        setBounds(100, 100, 300, 250);
         setLayout(new GroupLayout(getContentPane()));
-        setTitle("Insertar Album");
+        setTitle("Editar Album");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -56,27 +65,39 @@ public class InsertAlbumWindow extends JFrame {
     }
 
     private void createJLabel() {
+        idLabel = (JLabel) mainWindow.createJThing(2, "ID");
+        idLabel.setBounds(20, 20, 80, 30);
         titleLabel = (JLabel) mainWindow.createJThing(2, "Título");
-        titleLabel.setBounds(20, 20, 80, 30);
+        titleLabel.setBounds(20, 70, 80, 30);
         dateLabel = (JLabel) mainWindow.createJThing(2, "Fecha");
-        dateLabel.setBounds(20, 70, 60, 30);
+        dateLabel.setBounds(20, 120, 60, 30);
     }
 
     private void createJTextArea() {
+        idTextArea = (JTextArea) mainWindow.createJThing(3, "");
+        idTextArea.setText(String.valueOf(this.id));
+        idTextArea.setBounds(100, 20, 170, 30);
+        idTextArea.setEditable(false);
+
         titleTextArea = (JTextArea) mainWindow.createJThing(3, "");
-        titleTextArea.setBounds(100, 20, 170, 30);
+        titleTextArea.setText(this.title);
+        titleTextArea.setBounds(100, 70, 170, 30);
     }
 
     private void createDatePicker() {
         datePicker = new JXDatePicker();
-        datePicker.setDate(Calendar.getInstance().getTime());
         datePicker.setFormats(new SimpleDateFormat("dd-MM-yyyy"));
-        datePicker.setBounds(100, 70, 170, 30);
+        try {
+            datePicker.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(this.date));
+        } catch (ParseException e) {
+            datePicker.setDate(Calendar.getInstance().getTime());
+        }
+        datePicker.setBounds(100, 120, 170, 30);
     }
 
     private void createJButton() {
-        submitButton = (JButton) mainWindow.createJThing(0, "Añadir");
-        submitButton.setBounds(100, 120, 110, 30);
+        submitButton = (JButton) mainWindow.createJThing(0, "Editar");
+        submitButton.setBounds(100, 170, 110, 30);
         submitButton.addActionListener(actionEvent -> {
             if (StringUtils.isEmpty(titleTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -84,8 +105,8 @@ public class InsertAlbumWindow extends JFrame {
                 String title = titleTextArea.getText().trim();
                 SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd-MM-yyyy");
                 String date = dateTimeFormatter.format(datePicker.getDate());
-                if (!Query.insertAlbum(mainWindow.dataSourceConnection.connection, title, date)) {
-                    JOptionPane.showMessageDialog(null, "Error al insertar!\nSeguro que este título no existe?", "ERROR", JOptionPane.ERROR_MESSAGE);
+                if (!Query.updateAlbum(mainWindow.dataSourceConnection.connection, this.id, title, date)) {
+                    JOptionPane.showMessageDialog(null, "Error al editar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
                 close();
@@ -94,9 +115,11 @@ public class InsertAlbumWindow extends JFrame {
     }
 
     private void addStuff() {
+        add(idLabel);
         add(titleLabel);
         add(dateLabel);
 
+        add(idTextArea);
         add(titleTextArea);
 
         add(datePicker);
