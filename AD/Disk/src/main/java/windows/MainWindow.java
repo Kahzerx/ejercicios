@@ -4,6 +4,7 @@ import components.tables.AlbumTable;
 import components.tables.AuthorTable;
 import components.tables.SongTable;
 import database.BasicDataSourceConnection;
+import database.Query;
 import helpers.ResizeThread;
 import utils.DBUtils;
 import components.TextPaneLogger;
@@ -30,6 +31,7 @@ public class MainWindow extends JFrame {
     public JButton disconnectButton;
     private JButton clearLogButton;
     public JButton insertAlbumButton;
+    public JButton deleteAlbumButton;
 
     public final TextPaneLogger logger;
 
@@ -77,7 +79,7 @@ public class MainWindow extends JFrame {
         setLayout(new GroupLayout(getContentPane()));
         setTitle("Ejercicio de Acceso a Datos");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setMinimumSize(new Dimension(WIDTH - 350, HEIGHT - 190));
+        setMinimumSize(new Dimension(WIDTH - 200, HEIGHT - 125));
         getContentPane().setBackground(Color.WHITE);
 
         ResizeThread resize = new ResizeThread("resizeComponents", true, this);
@@ -131,6 +133,23 @@ public class MainWindow extends JFrame {
             disconnectButton.setEnabled(false);
             albumWindow.setVisible(true);
         });
+
+        deleteAlbumButton = (JButton) createJThing(0, "Eliminar Seleccionado");
+        deleteAlbumButton.setEnabled(false);
+        deleteAlbumButton.addActionListener(actionEvent -> {
+            String name = (String) albumTable.getValueAt(albumTable.getSelectedRow(), albumTable.getColumn("title").getModelIndex());
+            if (name == null || name.equals("")) {
+                JOptionPane.showMessageDialog(null, "No hay ningún album seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (DBUtils.confirmation(String.format("Vas a eliminar el album %s\nSeguro que quieres continuar?", name))) {
+                int id = Integer.parseInt((String) albumTable.getValueAt(albumTable.getSelectedRow(), albumTable.getColumn("id").getModelIndex()));
+                if (!Query.deleteAlbum(dataSourceConnection.connection, id)) {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar!\n", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                DBUtils.refresh(dataSourceConnection, logger, this);
+            }
+        });
     }
 
     private void createJLabel() {
@@ -157,6 +176,7 @@ public class MainWindow extends JFrame {
         add(authorLabel);
         add(insertSongLabel);
         add(insertAlbumButton);
+        add(deleteAlbumButton);
     }
 
     /**
@@ -167,8 +187,10 @@ public class MainWindow extends JFrame {
         float height = getHeight();
 
         connectButton.setBounds((int) (width / 20), (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
-        disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2) + 25, (int) (height / 24));
-        insertAlbumButton.setBounds((int) (width / 20 * 12), (int) (height / 27), (int) (width / 5.2 * 1.5), (int) (height / 24));
+        disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2) + 10, (int) (height / 24));
+
+        insertAlbumButton.setBounds((int) (width / 20 * 10.5), (int) (height / 27), (int) (width / 5.6), (int) (height / 24));
+        deleteAlbumButton.setBounds((int) (width / 20 * 10.5) + (int) (width / 5.2), (int) (height / 27), (int) (width - (int) (width / 5.2) * 4), (int) (height / 24));
 
         albumLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
@@ -196,7 +218,7 @@ public class MainWindow extends JFrame {
         switch (type) {
             case 0:
                 thing = new JButton();
-                ((JButton) thing).setFont(new Font("Arial", Font.BOLD, 15));
+                ((JButton) thing).setFont(new Font("Arial", Font.BOLD, 14));
                 ((JButton) thing).setText(text);
                 break;
             case 1:

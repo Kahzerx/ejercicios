@@ -25,6 +25,7 @@ public class DBUtils {
                 windowComponents.albumTable.authorTable = windowComponents.authorTable;
                 windowComponents.albumTable.onConnect(dataSourceConnection.connection, null);
                 windowComponents.insertAlbumButton.setEnabled(true);
+                windowComponents.deleteAlbumButton.setEnabled(true);
             } else {
                 windowComponents.albumTable.onDisconnect();
                 windowComponents.songTable.onDisconnect();
@@ -42,6 +43,7 @@ public class DBUtils {
         try {
             shouldClose(dataSourceConnection, logger);
             windowComponents.insertAlbumButton.setEnabled(false);
+            windowComponents.deleteAlbumButton.setEnabled(false);
             windowComponents.albumTable.onClosed();
             windowComponents.songTable.onClosed();
             windowComponents.authorTable.onClosed();
@@ -63,7 +65,7 @@ public class DBUtils {
      * @param msg mensaje que sale en el pop up.
      * @return true si ha presionado que Sí.
      */
-    private static boolean confirmation(String msg) {
+    public static boolean confirmation(String msg) {
         return JOptionPane.showConfirmDialog(null, msg) == JOptionPane.YES_OPTION;
     }
 

@@ -37,7 +37,20 @@ public class Query {
             stmt.setString(1, title);
             stmt.setString(2, date);
             stmt.executeUpdate();
+            stmt.close();
             updateSongCount(connection);
+        } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean deleteAlbum(Connection connection, int id) {
+        try {
+            String deleteAlbum = String.format("DELETE FROM discografica.album WHERE id = %d;", id);
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(deleteAlbum);
+            stmt.close();
         } catch (SQLException throwables) {
             return false;
         }
