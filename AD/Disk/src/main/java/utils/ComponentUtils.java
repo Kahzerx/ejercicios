@@ -81,7 +81,7 @@ public class ComponentUtils {
                         System.out.println("editar autor");
                         break;
                     case 2:
-                        System.out.println("eliminar autor");
+                        deleteAuthor(mainWindow);
                         break;
                     case 3:
                         insertAuthor(mainWindow);
@@ -98,7 +98,15 @@ public class ComponentUtils {
     }
 
     public static void deleteAlbum(MainWindow mainWindow) {
-        String name = (String) mainWindow.albumTable.getValueAt(mainWindow.albumTable.getSelectedRow(), mainWindow.albumTable.getColumn("title").getModelIndex());
+        String name;
+
+        try {
+            name = (String) mainWindow.albumTable.getValueAt(mainWindow.albumTable.getSelectedRow(), mainWindow.albumTable.getColumn("title").getModelIndex());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (name == null || name.equals("")) {
             JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -121,8 +129,17 @@ public class ComponentUtils {
     }
 
     public static void deleteSong(MainWindow mainWindow) {
-        String sid = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("id").getModelIndex());
-        String name = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("title").getModelIndex());
+        String sid;
+        String name;
+
+        try {
+            sid = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("id").getModelIndex());
+            name = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("title").getModelIndex());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if ((name == null || name.equals("")) || (sid == null || !StringUtils.isInt(sid))) {
             JOptionPane.showMessageDialog(null, "No hay ningúna canción seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -142,5 +159,32 @@ public class ComponentUtils {
         InsertAuthorWindow authorWindow = new InsertAuthorWindow(mainWindow);
         mainWindow.switchB(false);
         authorWindow.setVisible(true);
+    }
+
+    public static void deleteAuthor(MainWindow mainWindow) {
+        String sid;
+        String name;
+
+        try {
+            sid = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("id").getModelIndex());
+            name = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("name").getModelIndex());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if ((name == null || name.equals("")) || (sid == null || !StringUtils.isInt(sid))) {
+            JOptionPane.showMessageDialog(null, "No hay ningún autor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int id = Integer.parseInt(sid);
+        mainWindow.switchB(false);
+        if (DBUtils.confirmation(String.format("Vas a eliminar el autor %s con ID %d\nSeguro que quieres continuar?", name, id))) {
+            if (!Query.deleteAuthor(mainWindow.dataSourceConnection.connection, id)) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar!\n", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
+        }
+        mainWindow.switchB(true);
     }
 }

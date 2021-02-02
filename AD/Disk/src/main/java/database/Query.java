@@ -105,6 +105,19 @@ public class Query {
         return true;
     }
 
+    public static boolean deleteAuthor(Connection connection, int id) {
+        try {
+            String deleteAuthor = String.format("DELETE FROM discografica.authors WHERE id = %d;", id);
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(deleteAuthor);
+            stmt.close();
+            updateSongCount(connection);
+        } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
+    }
+
     public static CustomTableFormat getAlbums(Connection connection) throws SQLException {
         Statement stmt = connection.createStatement();
         String getAlbumColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'album';";
