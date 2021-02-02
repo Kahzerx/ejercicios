@@ -18,7 +18,7 @@ public class ResizeThread extends Thread {
     public void run() {
         while (isRunning) {
             this.tick++;
-            if (this.tick % 250_000_000 == 0) {
+            if (this.tick % 200_000_000 == 0) {
                 mainWindow.componentBounds();
                 mainWindow.revalidate();
                 mainWindow.repaint();

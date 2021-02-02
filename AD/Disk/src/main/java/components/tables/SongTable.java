@@ -33,5 +33,12 @@ public class SongTable extends GenericTable {
         MainWindow.genericLabel1.setText("Editar canción seleccionada");
         MainWindow.genericLabel2.setText("Eliminar canción seleccionada");
         MainWindow.genericLabel3.setText("");
+
+        MainWindow.genericButton1.setText("Editar");
+        MainWindow.genericButton1.setVisible(true);
+        MainWindow.genericButton2.setText("Eliminar");
+        MainWindow.genericButton2.setVisible(true);
+        MainWindow.genericButton3.setText("");
+        MainWindow.genericButton3.setVisible(false);
     }
 }

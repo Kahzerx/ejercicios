@@ -155,6 +155,13 @@ public class MainWindow extends JFrame {
                 DBUtils.refresh(dataSourceConnection, logger, this);
             }
         });
+
+        genericButton1 = (JButton) createJThing(0, "");
+        genericButton1.setVisible(false);
+        genericButton2 = (JButton) createJThing(0, "");
+        genericButton2.setVisible(false);
+        genericButton3 = (JButton) createJThing(0, "");
+        genericButton3.setVisible(false);
     }
 
     private void createJLabel() {
@@ -186,6 +193,9 @@ public class MainWindow extends JFrame {
         add(genericLabel3);
         add(insertAlbumButton);
         add(deleteAlbumButton);
+        add(genericButton1);
+        add(genericButton2);
+        add(genericButton3);
     }
 
     /**
@@ -201,6 +211,12 @@ public class MainWindow extends JFrame {
         insertAlbumButton.setBounds((int) (width / 20 * 10.5), (int) (height / 27), (int) (width / 5.6), (int) (height / 24));
         deleteAlbumButton.setBounds((int) (width / 20 * 10.5) + (int) (width / 5.2), (int) (height / 27), (int) (width - (int) (width / 5.2) * 4), (int) (height / 24));
 
+        clearLogButton.setBounds((int) ((width / 20) * 15.5), (int) (height / 20) + (int) (height / 24) * 19, (int) (width / 5.2), (int) (height / 24));
+
+        genericButton1.setBounds((int) (width / 20 * 10.5) + (int) (width / 5.2) + 70, (int) (height / 20 * 11.5), (int) (width - (int) (width / 5.2) * 4.5), (int) (height / 24));
+        genericButton2.setBounds((int) (width / 20 * 10.5) + (int) (width / 5.2) + 70, (int) (height / 20 * 11.5) + (int) (width / 27.5), (int) (width - (int) (width / 5.2) * 4.5), (int) (height / 24));
+        genericButton3.setBounds((int) (width / 20 * 10.5) + (int) (width / 5.2) + 70, (int) (height / 20 * 11.5) + (int) (width / 13.5), (int) (width - (int) (width / 5.2) * 4.5), (int) (height / 24));
+
         albumLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         authorLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 10.8), (int) (width / 5.2), (int) (height / 24));
@@ -215,7 +231,6 @@ public class MainWindow extends JFrame {
 
         scrollPane.setBounds((int) (width / 20), (int) (height / 20) + (int) (height / 24) * 18, (int) (width - (int) (width / 5.2 / 2) * 3), (int) (height - ((height / 24) * 21)));
 
-        clearLogButton.setBounds((int) ((width / 20) * 15.5), (int) (height / 20) + (int) (height / 24) * 19, (int) (width / 5.2), (int) (height / 24));
     }
 
     /**

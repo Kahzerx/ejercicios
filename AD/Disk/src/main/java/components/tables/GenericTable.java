@@ -32,6 +32,13 @@ public class GenericTable extends JTable {
         MainWindow.genericLabel1.setText("");
         MainWindow.genericLabel2.setText("");
         MainWindow.genericLabel3.setText("");
+
+        MainWindow.genericButton1.setText("");
+        MainWindow.genericButton1.setVisible(false);
+        MainWindow.genericButton2.setText("");
+        MainWindow.genericButton2.setVisible(false);
+        MainWindow.genericButton3.setText("");
+        MainWindow.genericButton3.setVisible(false);
     }
 
     public void onClosed() {

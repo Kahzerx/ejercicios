@@ -34,6 +34,13 @@ public class AlbumTable extends GenericTable {
                 MainWindow.genericLabel1.setText("Editar album seleccionado");
                 MainWindow.genericLabel3.setText("Insertar cancion");
                 MainWindow.genericLabel2.setText("Insertar autor");
+
+                MainWindow.genericButton1.setText("Editar");
+                MainWindow.genericButton1.setVisible(true);
+                MainWindow.genericButton2.setText("Insertar");
+                MainWindow.genericButton2.setVisible(true);
+                MainWindow.genericButton3.setText("Insertar");
+                MainWindow.genericButton3.setVisible(true);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -77,5 +84,12 @@ public class AlbumTable extends GenericTable {
         MainWindow.genericLabel1.setText("Editar album seleccionado");
         MainWindow.genericLabel3.setText("Insertar cancion");
         MainWindow.genericLabel2.setText("Insertar autor");
+
+        MainWindow.genericButton1.setText("Editar");
+        MainWindow.genericButton1.setVisible(true);
+        MainWindow.genericButton2.setText("Insertar");
+        MainWindow.genericButton2.setVisible(true);
+        MainWindow.genericButton3.setText("Insertar");
+        MainWindow.genericButton3.setVisible(true);
     }
 }
