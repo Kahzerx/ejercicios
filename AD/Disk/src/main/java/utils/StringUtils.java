@@ -10,4 +10,16 @@ public class StringUtils {
         }
         return false;
     }
+
+    public static boolean isInt(String... ints) {  // Bueno... eso.
+        try {
+            for (String s : ints) {
+                Integer.parseInt(s);
+            }
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
 }

@@ -6,6 +6,7 @@ import components.tables.SongTable;
 import database.BasicDataSourceConnection;
 import database.Query;
 import helpers.ResizeThread;
+import utils.ComponentUtils;
 import utils.DBUtils;
 import components.TextPaneLogger;
 
@@ -129,39 +130,53 @@ public class MainWindow extends JFrame {
         clearLogButton = (JButton) createJThing(0, "Limpiar log");
         clearLogButton.addActionListener(actionEvent -> logger.clearLog());
 
-        insertAlbumButton = (JButton) createJThing(0, "Insertar Album");
+        insertAlbumButton = (JButton) createJThing(0, "Insertar Álbum");
         insertAlbumButton.setEnabled(false);
         insertAlbumButton.addActionListener(actionEvent -> {
-            InsertAlbumWindow albumWindow = new InsertAlbumWindow(this);
-            insertAlbumButton.setEnabled(false);
-            connectButton.setEnabled(false);
-            disconnectButton.setEnabled(false);
-            albumWindow.setVisible(true);
+            ComponentUtils.decodeWindow(3, 1, this);
         });
 
         deleteAlbumButton = (JButton) createJThing(0, "Eliminar Seleccionado");
         deleteAlbumButton.setEnabled(false);
         deleteAlbumButton.addActionListener(actionEvent -> {
-            String name = (String) albumTable.getValueAt(albumTable.getSelectedRow(), albumTable.getColumn("title").getModelIndex());
-            if (name == null || name.equals("")) {
-                JOptionPane.showMessageDialog(null, "No hay ningún album seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (DBUtils.confirmation(String.format("Vas a eliminar el album %s\nSeguro que quieres continuar?", name))) {
-                int id = Integer.parseInt((String) albumTable.getValueAt(albumTable.getSelectedRow(), albumTable.getColumn("id").getModelIndex()));
-                if (!Query.deleteAlbum(dataSourceConnection.connection, id)) {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar!\n", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
-                DBUtils.refresh(dataSourceConnection, logger, this);
-            }
+            ComponentUtils.decodeWindow(2, 1, this);
         });
 
         genericButton1 = (JButton) createJThing(0, "");
         genericButton1.setVisible(false);
+        genericButton1.addActionListener(actionEvent -> {
+            String what = genericLabel1.getText().split(" ")[0];
+            String what2 = genericLabel1.getText().split(" ")[1];
+            int action = ComponentUtils.getAction(what);
+            int table = ComponentUtils.getTable(what2);
+
+            if (action == 0 || table == 0) return;
+            ComponentUtils.decodeWindow(action, table, this);
+        });
+
         genericButton2 = (JButton) createJThing(0, "");
         genericButton2.setVisible(false);
+        genericButton2.addActionListener(actionEvent -> {
+            String what = genericLabel2.getText().split(" ")[0];
+            String what2 = genericLabel2.getText().split(" ")[1];
+            int action = ComponentUtils.getAction(what);
+            int table = ComponentUtils.getTable(what2);
+
+            if (action == 0 || table == 0) return;
+            ComponentUtils.decodeWindow(action, table, this);
+        });
+
         genericButton3 = (JButton) createJThing(0, "");
         genericButton3.setVisible(false);
+        genericButton3.addActionListener(actionEvent -> {
+            String what = genericLabel3.getText().split(" ")[0];
+            String what2 = genericLabel3.getText().split(" ")[1];
+            int action = ComponentUtils.getAction(what);
+            int table = ComponentUtils.getTable(what2);
+
+            if (action == 0 || table == 0) return;
+            ComponentUtils.decodeWindow(action, table, this);
+        });
     }
 
     private void createJLabel() {
@@ -265,5 +280,9 @@ public class MainWindow extends JFrame {
                 throw new IllegalStateException(String.format("Unexpected value %d", type));
         }
         return thing;
+    }
+
+    public void switchB(boolean enable) {
+        ComponentUtils.switchButtons(enable, insertAlbumButton, connectButton, disconnectButton, deleteAlbumButton, genericButton1, genericButton2, genericButton3);
     }
 }

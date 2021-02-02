@@ -5,6 +5,7 @@ import utils.CustomTableFormat;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Query {
@@ -40,6 +41,24 @@ public class Query {
             stmt.close();
             updateSongCount(connection);
         } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean insertSong(Connection connection, String title, String album, float duration, int year) {
+        try {
+            String insertAlbum = "INSERT INTO discografica.songs(title, album, duration, year) VALUES(?,?,?,?);";
+            PreparedStatement stmt = connection.prepareStatement(insertAlbum);
+            stmt.setString(1, title);
+            stmt.setString(2, album);
+            stmt.setFloat(3, duration);
+            stmt.setInt(4, year);
+            stmt.executeUpdate();
+            stmt.close();
+            updateSongCount(connection);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
             return false;
         }
         return true;
@@ -136,5 +155,24 @@ public class Query {
         rs.close();
         stmt.close();
         return new CustomTableFormat(columns, rows);
+    }
+
+    public static List<String> getAlbumNames(Connection connection) {
+        try {
+            Statement stmt = connection.createStatement();
+            String albumsGet = "SELECT a.title title FROM discografica.album a;";
+            ResultSet rs = stmt.executeQuery(albumsGet);
+            List<String> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(rs.getString("title"));
+            }
+            rs.close();
+            stmt.close();
+
+            return list;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 }

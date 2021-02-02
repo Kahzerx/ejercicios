@@ -106,8 +106,6 @@ public class InsertAlbumWindow extends JFrame {
 
     private void close() {
         dispose();
-        mainWindow.connectButton.setEnabled(true);
-        mainWindow.disconnectButton.setEnabled(true);
-        mainWindow.insertAlbumButton.setEnabled(true);
+        mainWindow.switchB(true);
     }
 }
