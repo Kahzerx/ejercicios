@@ -32,6 +32,9 @@ public class MainWindow extends JFrame {
     private JButton clearLogButton;
     public JButton insertAlbumButton;
     public JButton deleteAlbumButton;
+    public static JButton genericButton1;
+    public static JButton genericButton2;
+    public static JButton genericButton3;
 
     public final TextPaneLogger logger;
 
@@ -42,7 +45,9 @@ public class MainWindow extends JFrame {
     private JLabel albumLabel;
     private JLabel songLabel;
     private JLabel authorLabel;
-    public JLabel insertSongLabel;
+    public static JLabel genericLabel1;
+    public static JLabel genericLabel2;
+    public static JLabel genericLabel3;
 
     public final BasicDataSourceConnection dataSourceConnection;
 
@@ -157,7 +162,9 @@ public class MainWindow extends JFrame {
         songLabel = (JLabel) createJThing(2, "Canciones");
         authorLabel = (JLabel) createJThing(2, "Autores");
 
-        insertSongLabel = (JLabel) createJThing(2, "Insertar cancion en awdawd");
+        genericLabel1 = (JLabel) createJThing(2, "");
+        genericLabel2 = (JLabel) createJThing(2, "");
+        genericLabel3 = (JLabel) createJThing(2, "");
     }
 
     /**
@@ -174,7 +181,9 @@ public class MainWindow extends JFrame {
         add(albumLabel);
         add(songLabel);
         add(authorLabel);
-        add(insertSongLabel);
+        add(genericLabel1);
+        add(genericLabel2);
+        add(genericLabel3);
         add(insertAlbumButton);
         add(deleteAlbumButton);
     }
@@ -196,7 +205,9 @@ public class MainWindow extends JFrame {
         songLabel.setBounds((int) (width / 20 * 14), (int) (height / 20 * 2.2), (int) (width / 5.2), (int) (height / 24));
         authorLabel.setBounds((int) (width / 20 * 4.7), (int) (height / 20 * 10.8), (int) (width / 5.2), (int) (height / 24));
 
-        insertSongLabel.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 11.5), (int) (width / 5.2 * 3), (int) (height / 24));
+        genericLabel1.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 11.5), (int) (width / 5.2 * 3), (int) (height / 24));
+        genericLabel2.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 11.5) + (int) (width / 27.5), (int) (width / 5.2 * 3), (int) (height / 24));
+        genericLabel3.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 11.5) + (int) (width / 13.5), (int) (width / 5.2 * 3), (int) (height / 24));
 
         albumScrollPane.setBounds((int) (width / 20), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));
         songScrollPane.setBounds((int) (width / 20 * 10.5), (int) (height / 20 * 3), (int) (width - (int) (width / 5.2) * 3), (int) (height - ((height / 24) * 15)));

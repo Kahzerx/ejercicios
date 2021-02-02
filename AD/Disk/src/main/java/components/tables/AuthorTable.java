@@ -2,6 +2,7 @@ package components.tables;
 
 import database.Query;
 import utils.CustomTableFormat;
+import windows.MainWindow;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,12 +20,17 @@ public class AuthorTable extends GenericTable {
             for (String[] row : tbl.rows) {
                 super.model.addRow(row);
             }
-
-            if (super.model.getRowCount() > 0) {
-                super.selectFirst();
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @Override
+    public void changeSelection(int i, int i1, boolean b, boolean b1) {
+        super.changeSelection(i, i1, b, b1);
+        if (getSelectedRow() == -1) return;
+        MainWindow.genericLabel1.setText("Editar autor seleccionado");
+        MainWindow.genericLabel2.setText("Eliminar autor seleccionado");
+        MainWindow.genericLabel3.setText("");
     }
 }
