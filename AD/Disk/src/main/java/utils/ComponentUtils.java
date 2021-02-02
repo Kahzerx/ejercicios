@@ -68,7 +68,7 @@ public class ComponentUtils {
                         System.out.println("editar cancion");
                         break;
                     case 2:
-                        System.out.println("eliminar cancion");
+                        deleteSong(mainWindow);
                         break;
                     case 3:
                         insertSong(mainWindow);
@@ -118,6 +118,24 @@ public class ComponentUtils {
         InsertSongWindow songWindow = new InsertSongWindow(mainWindow);
         mainWindow.switchB(false);
         songWindow.setVisible(true);
+    }
+
+    public static void deleteSong(MainWindow mainWindow) {
+        String sid = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("id").getModelIndex());
+        String name = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("title").getModelIndex());
+        if ((name == null || name.equals("")) || (sid == null || !StringUtils.isInt(sid))) {
+            JOptionPane.showMessageDialog(null, "No hay ningúna canción seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int id = Integer.parseInt(sid);
+        mainWindow.switchB(false);
+        if (DBUtils.confirmation(String.format("Vas a eliminar la canción %s con ID %d\nSeguro que quieres continuar?", name, id))) {
+            if (!Query.deleteSong(mainWindow.dataSourceConnection.connection, id)) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar!\n", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
+        }
+        mainWindow.switchB(true);
     }
 
     public static void insertAuthor(MainWindow mainWindow) {

@@ -48,8 +48,8 @@ public class Query {
 
     public static boolean insertSong(Connection connection, String title, String album, float duration, int year) {
         try {
-            String insertAlbum = "INSERT INTO discografica.songs(title, album, duration, year) VALUES(?,?,?,?);";
-            PreparedStatement stmt = connection.prepareStatement(insertAlbum);
+            String insertSong = "INSERT INTO discografica.songs(title, album, duration, year) VALUES(?,?,?,?);";
+            PreparedStatement stmt = connection.prepareStatement(insertSong);
             stmt.setString(1, title);
             stmt.setString(2, album);
             stmt.setFloat(3, duration);
@@ -66,8 +66,8 @@ public class Query {
 
     public static boolean insertAuthor(Connection connection, String name, String album) {
         try {
-            String insertAlbum = "INSERT INTO discografica.authors(name,album) VALUES(?,?);";
-            PreparedStatement stmt = connection.prepareStatement(insertAlbum);
+            String insertAuthor = "INSERT INTO discografica.authors(name,album) VALUES(?,?);";
+            PreparedStatement stmt = connection.prepareStatement(insertAuthor);
             stmt.setString(1, name);
             stmt.setString(2, album);
             stmt.executeUpdate();
@@ -86,6 +86,19 @@ public class Query {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteAlbum);
             stmt.close();
+        } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean deleteSong(Connection connection, int id) {
+        try {
+            String deleteSong = String.format("DELETE FROM discografica.songs WHERE id = %d;", id);
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(deleteSong);
+            stmt.close();
+            updateSongCount(connection);
         } catch (SQLException throwables) {
             return false;
         }
