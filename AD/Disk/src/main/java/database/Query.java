@@ -134,6 +134,24 @@ public class Query {
         return true;
     }
 
+    public static boolean updateSong(Connection connection, int id, String title, String album, float duration, int year) {
+        try {
+            String updateSong = "UPDATE songs SET title = ?, album = ?, duration = ?, year = ? WHERE id = ?";
+            PreparedStatement stmt = connection.prepareStatement(updateSong);
+            stmt.setString(1, title);
+            stmt.setString(2, album);
+            stmt.setFloat(3, duration);
+            stmt.setInt(4, year);
+            stmt.setInt(5, id);
+            stmt.executeUpdate();
+            stmt.close();
+            updateSongCount(connection);
+        } catch (SQLException throwables) {
+            return false;
+        }
+        return true;
+    }
+
     public static CustomTableFormat getAlbums(Connection connection) throws SQLException {
         Statement stmt = connection.createStatement();
         String getAlbumColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'album';";

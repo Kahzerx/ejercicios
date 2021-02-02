@@ -62,7 +62,7 @@ public class ComponentUtils {
             case 2:
                 switch (action) {
                     case 1:
-                        System.out.println("editar cancion");
+                        editSong(mainWindow);
                         break;
                     case 2:
                         deleteSong(mainWindow);
@@ -173,6 +173,33 @@ public class ComponentUtils {
             DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
         }
         mainWindow.switchB(true);
+    }
+
+    public static void editSong(MainWindow mainWindow) {
+        String sid;
+        String title;
+        String album;
+        String duration;
+        String year;
+        try {
+            sid = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("id").getModelIndex());
+            title = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("title").getModelIndex());
+            album = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("album").getModelIndex());
+            duration = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("duration").getModelIndex());
+            year = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("year").getModelIndex());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if ((sid == null || !StringUtils.isInt(sid)) || (title == null || title.equals("")) || (album == null || album.equals("")) || (duration == null || duration.equals("")) || (year == null || year.equals(""))) {
+            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int id = Integer.parseInt(sid);
+        EditSongWindow editSongWindow = new EditSongWindow(mainWindow, id, title, album, duration, year);
+        mainWindow.switchB(false);
+        editSongWindow.setVisible(true);
     }
 
     public static void insertAuthor(MainWindow mainWindow) {
