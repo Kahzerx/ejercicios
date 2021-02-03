@@ -8,14 +8,20 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-// Uso un Pane como component para mostrar el log de lo que ocurre.
+/**
+ * Pane a modo de logger para ~~debug~~ mostrar información al usuario del estado de la conexión.
+ */
 public class TextPaneLogger extends JTextPane {
     public TextPaneLogger() {
         setMargin(new Insets(10, 10, 10, 10));
         setEditable(false);
     }
 
-    // Loggear información.
+    /**
+     * Enviar un mensaje con un nivel a la consola.
+     * @param level El tipo del mensaje.
+     * @param content Mensaje que quieres enviar.
+     */
     public void log(LogLevel level, String content) {
         try {
             StyledDocument doc = getStyledDocument();
@@ -32,6 +38,9 @@ public class TextPaneLogger extends JTextPane {
         // this.setText(String.format("%s [%s] [%s] %s: %s%n", getText(), connType, getTime(), level.getLevel(), content));
     }
 
+    /**
+     * Limpiar la consola.
+     */
     public void clearLog() {
         setText("");
     }

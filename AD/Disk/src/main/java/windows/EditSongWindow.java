@@ -125,9 +125,10 @@ public class EditSongWindow extends JFrame {
         submitButton = (JButton) mainWindow.createJThing(0, "Editar");
         submitButton.setBounds(100, 270, 110, 30);
         submitButton.addActionListener(actionEvent -> {
+            // Handle de posibles errores de usuario.
             if (StringUtils.isEmpty(titleTextArea.getText(), minuteTextArea.getText(), secondTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else if (!StringUtils.isInt(minuteTextArea.getText(), secondTextArea.getText())){
+            } else if (StringUtils.isNotInt(minuteTextArea.getText(), secondTextArea.getText())){
                 JOptionPane.showMessageDialog(null, "Pon solo números en la duración!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             else {

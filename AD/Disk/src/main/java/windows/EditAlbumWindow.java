@@ -88,6 +88,7 @@ public class EditAlbumWindow extends JFrame {
         datePicker = new JXDatePicker();
         datePicker.setFormats(new SimpleDateFormat("dd-MM-yyyy"));
         try {
+            // Formateo la fecha de la base de datos.
             datePicker.setDate(new SimpleDateFormat("dd-MM-yyyy").parse(this.date));
         } catch (ParseException e) {
             datePicker.setDate(Calendar.getInstance().getTime());
@@ -99,6 +100,7 @@ public class EditAlbumWindow extends JFrame {
         submitButton = (JButton) mainWindow.createJThing(0, "Editar");
         submitButton.setBounds(100, 170, 110, 30);
         submitButton.addActionListener(actionEvent -> {
+            // handle de excepciones.
             if (StringUtils.isEmpty(titleTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {

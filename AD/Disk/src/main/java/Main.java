@@ -1,6 +1,7 @@
 import windows.MainWindow;
 
 public class Main {
+    // TODO Integrity check.
     /**
      * Datos de conexión para la base de datos con {@link database.BasicDataSourceConnection}.
      */

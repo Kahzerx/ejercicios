@@ -4,11 +4,18 @@ import database.Query;
 import utils.CustomTableFormat;
 import windows.MainWindow;
 
-import javax.swing.event.ListSelectionEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Tabla que muestra las canciones, extiendo de una clase para tener funciones en común con las demás tablas.
+ */
 public class SongTable extends GenericTable {
+    /**
+     * Acciones al establecer conexión con esta tabla.
+     * @param connection Conexión para hacer las queries de las demás tablas.
+     * @param table Aquí no hace nada pero lo necesito como parámetro en las otras tablas del extends.
+     */
     @Override
     public void onConnect(Connection connection, GenericTable table) {
         super.onConnect(connection, this);
@@ -26,6 +33,13 @@ public class SongTable extends GenericTable {
         }
     }
 
+    /**
+     * Acciones que se desbloquean al hacer click en alguna canción.
+     * @param i parámetros
+     * @param i1 raros
+     * @param b del
+     * @param b1 override
+     */
     @Override
     public void changeSelection(int i, int i1, boolean b, boolean b1) {
         super.changeSelection(i, i1, b, b1);

@@ -108,6 +108,7 @@ public class EditAuthorWindow extends JFrame {
         for (String album : albums) {
             albumList.addItem(album);
         }
+        // Selecciono el item que ya había en la base de datos para comodidad.
         albumList.setSelectedItem(this.album);
     }
 

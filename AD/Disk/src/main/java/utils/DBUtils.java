@@ -56,6 +56,12 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Refrescar la conexión, AKA apagar y encender con extra steps, pero es más fácil de leer y entender.
+     * @param dataSourceConnection conexión.
+     * @param logger no sé por qué, si ya paso el windowComponents.
+     * @param windowComponents el objeto de la ventana principal.
+     */
     public static void refresh(BasicDataSourceConnection dataSourceConnection, TextPaneLogger logger, MainWindow windowComponents) {
         connect(dataSourceConnection, logger, windowComponents);
     }

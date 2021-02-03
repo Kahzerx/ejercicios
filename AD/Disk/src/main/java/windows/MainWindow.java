@@ -4,7 +4,6 @@ import components.tables.AlbumTable;
 import components.tables.AuthorTable;
 import components.tables.SongTable;
 import database.BasicDataSourceConnection;
-import database.Query;
 import helpers.ResizeThread;
 import utils.ComponentUtils;
 import utils.DBUtils;
@@ -132,15 +131,11 @@ public class MainWindow extends JFrame {
 
         insertAlbumButton = (JButton) createJThing(0, "Insertar Álbum");
         insertAlbumButton.setEnabled(false);
-        insertAlbumButton.addActionListener(actionEvent -> {
-            ComponentUtils.decodeWindow(3, 1, this);
-        });
+        insertAlbumButton.addActionListener(actionEvent -> ComponentUtils.decodeWindow(3, 1, this));
 
         deleteAlbumButton = (JButton) createJThing(0, "Eliminar Seleccionado");
         deleteAlbumButton.setEnabled(false);
-        deleteAlbumButton.addActionListener(actionEvent -> {
-            ComponentUtils.decodeWindow(2, 1, this);
-        });
+        deleteAlbumButton.addActionListener(actionEvent -> ComponentUtils.decodeWindow(2, 1, this));
 
         genericButton1 = (JButton) createJThing(0, "");
         genericButton1.setVisible(false);
@@ -195,22 +190,24 @@ public class MainWindow extends JFrame {
     private void addStuff() {
         add(connectButton);
         add(disconnectButton);
+        add(clearLogButton);
+        add(insertAlbumButton);
+        add(deleteAlbumButton);
+        add(genericButton1);
+        add(genericButton2);
+        add(genericButton3);
+
         add(scrollPane);
         add(albumScrollPane);
         add(songScrollPane);
         add(authorScrollPane);
-        add(clearLogButton);
+
         add(albumLabel);
         add(songLabel);
         add(authorLabel);
         add(genericLabel1);
         add(genericLabel2);
         add(genericLabel3);
-        add(insertAlbumButton);
-        add(deleteAlbumButton);
-        add(genericButton1);
-        add(genericButton2);
-        add(genericButton3);
     }
 
     /**
@@ -220,6 +217,7 @@ public class MainWindow extends JFrame {
         float width = getWidth();
         float height = getHeight();
 
+        // No tengo ni idea de qué está pasando aquí.
         connectButton.setBounds((int) (width / 20), (int) (height / 27), (int) (width / 5.2), (int) (height / 24));
         disconnectButton.setBounds((int) (width / 20) + (int) (width / 5.2) + 20, (int) (height / 27), (int) (width / 5.2) + 10, (int) (height / 24));
 

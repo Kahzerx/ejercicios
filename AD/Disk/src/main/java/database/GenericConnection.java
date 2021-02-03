@@ -9,6 +9,11 @@ public class GenericConnection {
      */
     public Connection connection;
 
+    /**
+     * Creo la base de datos y la uso.
+     * @param name nombre de la base de datos que quiero que tenga.
+     * @return si ha conseguido conectarse
+     */
     public boolean createDatabase(String name) {
         try {
             Statement stmt = connection.createStatement();
@@ -59,7 +64,7 @@ public class GenericConnection {
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
             stmt.executeUpdate(song);
 
-            // Debug with InnoDB: mysql -> show engine innodb status;
+            // Debug con InnoDB: mysql -> show engine innodb status;
 
             stmt.close();
             return true;

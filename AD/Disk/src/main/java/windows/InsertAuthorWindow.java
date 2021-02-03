@@ -7,7 +7,6 @@ import utils.StringUtils;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unchecked")

@@ -2,6 +2,9 @@ package utils;
 
 import java.util.ArrayList;
 
+/**
+ * Formato para recibir los datos en las tablas.
+ */
 public class CustomTableFormat {
     public ArrayList<String> columnNames;
     public ArrayList<String[]> rows;

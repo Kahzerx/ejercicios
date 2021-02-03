@@ -101,7 +101,7 @@ public class InsertSongWindow extends JFrame{
         submitButton.addActionListener(actionEvent -> {
             if (StringUtils.isEmpty(titleTextArea.getText(), minuteTextArea.getText(), secondTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
-            } else if (!StringUtils.isInt(minuteTextArea.getText(), secondTextArea.getText())){
+            } else if (StringUtils.isNotInt(minuteTextArea.getText(), secondTextArea.getText())){
                 JOptionPane.showMessageDialog(null, "Pon solo números en la duración!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
             else {
