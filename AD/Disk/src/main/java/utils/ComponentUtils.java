@@ -198,7 +198,7 @@ public class ComponentUtils {
             sid = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("id").getModelIndex());
             name = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("title").getModelIndex());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ninguna canción seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -234,12 +234,12 @@ public class ComponentUtils {
             duration = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("duration").getModelIndex());
             year = (String) mainWindow.songTable.getValueAt(mainWindow.songTable.getSelectedRow(), mainWindow.songTable.getColumn("year").getModelIndex());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ninguna canción seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if ((sid == null || StringUtils.isNotInt(sid)) || (title == null || title.equals("")) || (album == null || album.equals("")) || (duration == null || duration.equals("")) || (year == null || year.equals(""))) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ninguna canción seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int id = Integer.parseInt(sid);
@@ -269,7 +269,7 @@ public class ComponentUtils {
             sid = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("id").getModelIndex());
             name = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("name").getModelIndex());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ningún autor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -301,12 +301,12 @@ public class ComponentUtils {
             name = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("name").getModelIndex());
             album = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("album").getModelIndex());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ningún autor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if ((sid == null || StringUtils.isNotInt(sid)) || (name == null || name.equals("")) || (album == null || album.equals(""))) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ningún autor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int id = Integer.parseInt(sid);
