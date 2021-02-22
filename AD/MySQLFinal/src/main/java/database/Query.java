@@ -25,7 +25,6 @@ public class Query {
 
     public static boolean insertBuild(Connection connection, String type, int speed, String cat, String orientation, int bits, String numSys, String date) {
         try {
-            connection.setAutoCommit(false);
             String insertBuild = "INSERT INTO builds(type, speed, category, orientation, bits, num_system, date) VALUES(?,?,?,?,?,?,?);";
             PreparedStatement stmt = connection.prepareStatement(insertBuild);
             stmt.setString(1, type);
@@ -216,7 +215,7 @@ public class Query {
         }
         stmt.close();
 
-        String getRows = "SELECT * FROM authors WHERE album LIKE ?;";
+        String getRows = "SELECT * FROM authors WHERE buildID LIKE ?;";
         PreparedStatement stmt2 = connection.prepareStatement(getRows);
         stmt2.setString(1, id);
         rs = stmt2.executeQuery();

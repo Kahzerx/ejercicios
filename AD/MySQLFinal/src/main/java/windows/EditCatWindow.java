@@ -28,7 +28,7 @@ public class EditCatWindow extends JFrame {
 
         createJLabel();
 
-        createJTextArea();
+        createJTextField();
 
         createJButton();
 
@@ -60,7 +60,7 @@ public class EditCatWindow extends JFrame {
         titleLabel.setBounds(20, 70, 80, 30);
     }
 
-    private void createJTextArea() {
+    private void createJTextField() {
         idTextField = (JTextField) mainWindow.createJThing(4, String.valueOf(this.id));
         idTextField.setBounds(100, 20, 170, 30);
         idTextField.setEditable(false);

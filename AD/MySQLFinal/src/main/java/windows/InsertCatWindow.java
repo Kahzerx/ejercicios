@@ -13,7 +13,7 @@ public class InsertCatWindow extends JFrame {
 
     private JLabel nameLabel;
 
-    private JTextArea nameTextArea;
+    private JTextField nameTextArea;
 
     private JButton submitButton;
 
@@ -53,7 +53,7 @@ public class InsertCatWindow extends JFrame {
     }
 
     private void createJTextArea() {
-        nameTextArea = (JTextArea) mainWindow.createJThing(3, "");
+        nameTextArea = (JTextField) mainWindow.createJThing(4, "");
         nameTextArea.setBounds(100, 20, 170, 30);
     }
 

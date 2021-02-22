@@ -30,9 +30,6 @@ public class BuildTable extends GenericTable {
                 super.model.addRow(row);
             }
             // Funciones de categorías a demás de activar las otras tablas.
-            if (super.model.getRowCount() > 0) {
-                authorTable.onConnect(connection, this);
-            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

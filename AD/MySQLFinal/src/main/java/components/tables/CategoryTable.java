@@ -35,6 +35,10 @@ public class CategoryTable extends GenericTable {
             if (super.model.getRowCount() > 0) {
                 super.selectFirst();
                 buildTable.onConnect(connection, this);
+                if (super.buildTable.model.getRowCount() > 0) {
+                    super.buildTable.selectFirst();
+                    super.authorTable.onConnect(connection, buildTable);
+                }
                 MainWindow.genericLabel1.setText("Editar categoría seleccionada");
                 MainWindow.genericLabel2.setText("Insertar build");
                 MainWindow.genericLabel3.setText("");
@@ -95,8 +99,8 @@ public class CategoryTable extends GenericTable {
         if (getSelectedRow() == -1) return;
 
         MainWindow.genericLabel1.setText("Editar categoría seleccionada");
-        MainWindow.genericLabel3.setText("Insertar build");
-        MainWindow.genericLabel2.setText("");
+        MainWindow.genericLabel2.setText("Insertar build");
+        MainWindow.genericLabel3.setText("");
 
         MainWindow.genericButton1.setText("Editar");
         MainWindow.genericButton1.setVisible(true);
