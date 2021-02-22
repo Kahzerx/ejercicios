@@ -272,7 +272,14 @@ public class MainWindow extends JFrame {
             case 3:
                 thing = new JTextArea();
                 ((JTextArea) thing).setFont(new Font("Arial", Font.PLAIN, 14));
-                ((JTextArea) thing).setMargin(new Insets(6, 6, 6, 6));
+                ((JTextArea) thing).setMargin(new Insets(3, 3, 3, 3));
+                ((JTextArea) thing).setText(text);
+                break;
+            case 4:
+                thing = new JTextField();
+                ((JTextField) thing).setFont(new Font("Arial", Font.PLAIN, 14));
+                ((JTextField) thing).setMargin(new Insets(3, 3, 3, 3));
+                ((JTextField) thing).setText(text);
                 break;
             default:
                 throw new IllegalStateException(String.format("Unexpected value %d", type));

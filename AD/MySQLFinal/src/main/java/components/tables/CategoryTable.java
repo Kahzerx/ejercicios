@@ -35,17 +35,16 @@ public class CategoryTable extends GenericTable {
             if (super.model.getRowCount() > 0) {
                 super.selectFirst();
                 buildTable.onConnect(connection, this);
-                authorTable.onConnect(connection, buildTable);
-                MainWindow.genericLabel1.setText("Editar álbum seleccionado");
-                MainWindow.genericLabel3.setText("Insertar canción");
-                MainWindow.genericLabel2.setText("Insertar autor");
+                MainWindow.genericLabel1.setText("Editar categoría seleccionada");
+                MainWindow.genericLabel2.setText("Insertar build");
+                MainWindow.genericLabel3.setText("");
 
                 MainWindow.genericButton1.setText("Editar");
                 MainWindow.genericButton1.setVisible(true);
                 MainWindow.genericButton2.setText("Insertar");
                 MainWindow.genericButton2.setVisible(true);
-                MainWindow.genericButton3.setText("Insertar");
-                MainWindow.genericButton3.setVisible(true);
+                MainWindow.genericButton3.setText("");
+                MainWindow.genericButton3.setVisible(false);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

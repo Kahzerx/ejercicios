@@ -139,7 +139,7 @@ public class ComponentUtils {
         }
         // Desactivo los botones.
         mainWindow.switchB(false);
-        if (DBUtils.confirmation(String.format("Vas a eliminar el album %s\nSeguro que quieres continuar?", name))) {
+        if (DBUtils.confirmation(String.format("Vas a eliminar %s\nSeguro que quieres continuar?", name))) {
             int id = Integer.parseInt((String) mainWindow.categoryTable.getValueAt(mainWindow.categoryTable.getSelectedRow(), mainWindow.categoryTable.getColumn("id").getModelIndex()));
             if (!Query.deleteCategory(mainWindow.dataSourceConnection.connection, id)) {
                 JOptionPane.showMessageDialog(null, "Error al eliminar!\n", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -161,12 +161,12 @@ public class ComponentUtils {
             sid = (String) mainWindow.categoryTable.getValueAt(mainWindow.categoryTable.getSelectedRow(), mainWindow.categoryTable.getColumn("id").getModelIndex());
             name = (String) mainWindow.categoryTable.getValueAt(mainWindow.categoryTable.getSelectedRow(), mainWindow.categoryTable.getColumn("name").getModelIndex());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ninguna categoría seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if ((sid == null || StringUtils.isNotInt(sid)) || (name == null || name.equals(""))) {
-            JOptionPane.showMessageDialog(null, "No hay ningún álbum seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No hay ninguna categoría seleccionada", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int id = Integer.parseInt(sid);

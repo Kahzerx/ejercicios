@@ -29,6 +29,10 @@ public class BuildTable extends GenericTable {
             for (String[] row : tbl.rows) {
                 super.model.addRow(row);
             }
+            // Funciones de categorías a demás de activar las otras tablas.
+            if (super.model.getRowCount() > 0) {
+                authorTable.onConnect(connection, this);
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

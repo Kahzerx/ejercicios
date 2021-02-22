@@ -1,16 +1,12 @@
 package windows;
 
 import database.Query;
-import org.jdesktop.swingx.JXDatePicker;
 import utils.DBUtils;
 import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class EditCatWindow extends JFrame {
     private final MainWindow mainWindow;
@@ -19,12 +15,9 @@ public class EditCatWindow extends JFrame {
 
     private JLabel idLabel;
     private JLabel titleLabel;
-    private JLabel dateLabel;
 
-    private JTextArea idTextArea;
-    private JTextArea titleTextArea;
-
-    private JXDatePicker datePicker;
+    private JTextField idTextField;
+    private JTextField nameTextField;
 
     private JButton submitButton;
 
@@ -37,8 +30,6 @@ public class EditCatWindow extends JFrame {
 
         createJTextArea();
 
-        createDatePicker();
-
         createJButton();
 
         addStuff();
@@ -47,9 +38,9 @@ public class EditCatWindow extends JFrame {
     }
 
     public void createJFrame() {
-        setBounds(100, 100, 300, 250);
+        setBounds(100, 100, 300, 200);
         setLayout(new GroupLayout(getContentPane()));
-        setTitle("Editar Album");
+        setTitle("Editar Categoría");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -65,37 +56,28 @@ public class EditCatWindow extends JFrame {
     private void createJLabel() {
         idLabel = (JLabel) mainWindow.createJThing(2, "ID");
         idLabel.setBounds(20, 20, 80, 30);
-        titleLabel = (JLabel) mainWindow.createJThing(2, "Título");
+        titleLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
         titleLabel.setBounds(20, 70, 80, 30);
-        dateLabel = (JLabel) mainWindow.createJThing(2, "Fecha");
-        dateLabel.setBounds(20, 120, 60, 30);
     }
 
     private void createJTextArea() {
-        idTextArea = (JTextArea) mainWindow.createJThing(3, "");
-        idTextArea.setText(String.valueOf(this.id));
-        idTextArea.setBounds(100, 20, 170, 30);
-        idTextArea.setEditable(false);
-    }
+        idTextField = (JTextField) mainWindow.createJThing(4, String.valueOf(this.id));
+        idTextField.setBounds(100, 20, 170, 30);
+        idTextField.setEditable(false);
 
-    private void createDatePicker() {
-        datePicker = new JXDatePicker();
-        datePicker.setFormats(new SimpleDateFormat("dd-MM-yyyy"));
-        datePicker.setDate(Calendar.getInstance().getTime());
-        datePicker.setBounds(100, 120, 170, 30);
+        nameTextField = (JTextField) mainWindow.createJThing(4, this.name);
+        nameTextField.setBounds(100, 70, 170, 30);
     }
 
     private void createJButton() {
         submitButton = (JButton) mainWindow.createJThing(0, "Editar");
-        submitButton.setBounds(100, 170, 110, 30);
+        submitButton.setBounds(100, 120, 110, 30);
         submitButton.addActionListener(actionEvent -> {
             // handle de excepciones.
-            if (StringUtils.isEmpty(titleTextArea.getText())) {
+            if (StringUtils.isEmpty(nameTextField.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                String title = titleTextArea.getText().trim();
-                SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd-MM-yyyy");
-                String date = dateTimeFormatter.format(datePicker.getDate());
+                String title = nameTextField.getText().trim();
                 if (!Query.updateCategory(mainWindow.dataSourceConnection.connection, this.id, title)) {
                     JOptionPane.showMessageDialog(null, "Error al editar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
@@ -108,12 +90,9 @@ public class EditCatWindow extends JFrame {
     private void addStuff() {
         add(idLabel);
         add(titleLabel);
-        add(dateLabel);
 
-        add(idTextArea);
-        add(titleTextArea);
-
-        add(datePicker);
+        add(idTextField);
+        add(nameTextField);
 
         add(submitButton);
     }

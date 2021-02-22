@@ -1,16 +1,16 @@
 package components.tables;
 
 import helpers.SelectionHelper;
+import org.jdesktop.swingx.JXTable;
 import windows.MainWindow;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 
 /**
  * Clase de la que extienden el resto de tablas.
  */
-public class GenericTable extends JTable {
+public class GenericTable extends JXTable {
     public BuildTable buildTable;
     public AuthorTable authorTable;
     public Connection connection;
@@ -22,6 +22,8 @@ public class GenericTable extends JTable {
 
         model = (DefaultTableModel) this.getModel();
         model.addColumn("Conexión no establecida.");
+
+        this.setAutoResizeMode(JXTable.AUTO_RESIZE_OFF);
     }
 
     /**
@@ -71,5 +73,11 @@ public class GenericTable extends JTable {
      */
     public void selectFirst() {
         this.setRowSelectionInterval(0, 0);
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        this.packAll();
+        return getPreferredSize().width < getParent().getWidth();
     }
 }

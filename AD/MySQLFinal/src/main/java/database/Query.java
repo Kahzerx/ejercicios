@@ -239,11 +239,11 @@ public class Query {
     public static List<String> getCategoryNames(Connection connection) {
         try {
             Statement stmt = connection.createStatement();
-            String catGet = "SELECT a.title title FROM album a;";
+            String catGet = "SELECT c.name name FROM category c;";
             ResultSet rs = stmt.executeQuery(catGet);
             List<String> list = new ArrayList<>();
             while (rs.next()) {
-                list.add(rs.getString("title"));
+                list.add(rs.getString("name"));
             }
             rs.close();
             stmt.close();

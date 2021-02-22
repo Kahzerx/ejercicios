@@ -1,25 +1,19 @@
 package windows;
 
 import database.Query;
-import org.jdesktop.swingx.JXDatePicker;
 import utils.DBUtils;
 import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class InsertCatWindow extends JFrame {
     private final MainWindow mainWindow;
 
-    private JLabel titleLabel;
-    private JLabel dateLabel;
+    private JLabel nameLabel;
 
-    private JTextArea titleTextArea;
-
-    private JXDatePicker datePicker;
+    private JTextArea nameTextArea;
 
     private JButton submitButton;
 
@@ -30,8 +24,6 @@ public class InsertCatWindow extends JFrame {
 
         createJTextArea();
 
-        createDatePicker();
-
         createJButton();
 
         addStuff();
@@ -40,9 +32,9 @@ public class InsertCatWindow extends JFrame {
     }
 
     public void createJFrame() {
-        setBounds(100, 100, 300, 200);
+        setBounds(100, 100, 300, 150);
         setLayout(new GroupLayout(getContentPane()));
-        setTitle("Insertar Album");
+        setTitle("Insertar Categoría");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -56,35 +48,24 @@ public class InsertCatWindow extends JFrame {
     }
 
     private void createJLabel() {
-        titleLabel = (JLabel) mainWindow.createJThing(2, "Título");
-        titleLabel.setBounds(20, 20, 80, 30);
-        dateLabel = (JLabel) mainWindow.createJThing(2, "Fecha");
-        dateLabel.setBounds(20, 70, 60, 30);
+        nameLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
+        nameLabel.setBounds(20, 20, 80, 30);
     }
 
     private void createJTextArea() {
-        titleTextArea = (JTextArea) mainWindow.createJThing(3, "");
-        titleTextArea.setBounds(100, 20, 170, 30);
-    }
-
-    private void createDatePicker() {
-        datePicker = new JXDatePicker();
-        datePicker.setDate(Calendar.getInstance().getTime());
-        datePicker.setFormats(new SimpleDateFormat("dd-MM-yyyy"));
-        datePicker.setBounds(100, 70, 170, 30);
+        nameTextArea = (JTextArea) mainWindow.createJThing(3, "");
+        nameTextArea.setBounds(100, 20, 170, 30);
     }
 
     private void createJButton() {
         submitButton = (JButton) mainWindow.createJThing(0, "Añadir");
-        submitButton.setBounds(100, 120, 110, 30);
+        submitButton.setBounds(100, 70, 110, 30);
         submitButton.addActionListener(actionEvent -> {
-            if (StringUtils.isEmpty(titleTextArea.getText())) {
+            if (StringUtils.isEmpty(nameTextArea.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                String title = titleTextArea.getText().trim();
-                SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd-MM-yyyy");
-                String date = dateTimeFormatter.format(datePicker.getDate());
-                if (!Query.insertCategory(mainWindow.dataSourceConnection.connection, title)) {
+                String name = nameTextArea.getText().trim();
+                if (!Query.insertCategory(mainWindow.dataSourceConnection.connection, name)) {
                     JOptionPane.showMessageDialog(null, "Error al insertar!\nSeguro que este título no existe?", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
@@ -94,12 +75,9 @@ public class InsertCatWindow extends JFrame {
     }
 
     private void addStuff() {
-        add(titleLabel);
-        add(dateLabel);
+        add(nameLabel);
 
-        add(titleTextArea);
-
-        add(datePicker);
+        add(nameTextArea);
 
         add(submitButton);
     }
