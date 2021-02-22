@@ -12,7 +12,7 @@ import java.util.List;
 public class Query {
     public static boolean insertCategory(Connection connection, String name) {
         try {
-            String insertCategory = "INSERT INTO category(name) VALUES(?);";
+            String insertCategory = "INSERT INTO b_category(name) VALUES(?);";
             PreparedStatement stmt = connection.prepareStatement(insertCategory);
             stmt.setString(1, name);
             stmt.executeUpdate();
@@ -25,7 +25,7 @@ public class Query {
 
     public static boolean insertBuild(Connection connection, String type, int speed, String cat, String orientation, int bits, String numSys, String date) {
         try {
-            String insertBuild = "INSERT INTO builds(type, speed, category, orientation, bits, num_system, date) VALUES(?,?,?,?,?,?,?);";
+            String insertBuild = "INSERT INTO b_builds(type, speed, category, orientation, bits, num_system, date) VALUES(?,?,?,?,?,?,?);";
             PreparedStatement stmt = connection.prepareStatement(insertBuild);
             stmt.setString(1, type);
             stmt.setInt(2, speed);
@@ -45,7 +45,7 @@ public class Query {
 
     public static boolean insertAuthor(Connection connection, String name, int buildID) {
         try {
-            String insertAuthor = "INSERT INTO authors(name,buildID) VALUES(?,?);";
+            String insertAuthor = "INSERT INTO b_authors(name,buildID) VALUES(?,?);";
             PreparedStatement stmt = connection.prepareStatement(insertAuthor);
             stmt.setString(1, name);
             stmt.setInt(2, buildID);
@@ -62,7 +62,7 @@ public class Query {
 
     public static boolean deleteCategory(Connection connection, int id) {
         try {
-            String deleteCategory = String.format("DELETE FROM category WHERE id = %d;", id);
+            String deleteCategory = String.format("DELETE FROM b_category WHERE id = %d;", id);
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteCategory);
             stmt.close();
@@ -74,7 +74,7 @@ public class Query {
 
     public static boolean deleteBuild(Connection connection, int id) {
         try {
-            String deleteBuild = String.format("DELETE FROM builds WHERE id = %d;", id);
+            String deleteBuild = String.format("DELETE FROM b_builds WHERE id = %d;", id);
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteBuild);
             stmt.close();
@@ -86,7 +86,7 @@ public class Query {
 
     public static boolean deleteAuthor(Connection connection, int id) {
         try {
-            String deleteAuthor = String.format("DELETE FROM authors WHERE id = %d;", id);
+            String deleteAuthor = String.format("DELETE FROM b_authors WHERE id = %d;", id);
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(deleteAuthor);
             stmt.close();
@@ -98,7 +98,7 @@ public class Query {
 
     public static boolean updateCategory(Connection connection, int id, String name) {
         try {
-            String updateCategory = "UPDATE category SET name = ? WHERE id = ?";
+            String updateCategory = "UPDATE b_category SET name = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(updateCategory);
             stmt.setString(1, name);
             stmt.setInt(2, id);
@@ -112,7 +112,7 @@ public class Query {
 
     public static boolean updateBuild(Connection connection, int id, String type, int speed, String cat, String orientation, int bits, String numSys, String date) {
         try {
-            String updateBuild = "UPDATE builds SET type = ?, speed = ?, category = ?, orientation = ?, bits = ?, num_system = ?, date = ? WHERE id = ?";
+            String updateBuild = "UPDATE b_builds SET type = ?, speed = ?, category = ?, orientation = ?, bits = ?, num_system = ?, date = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(updateBuild);
             stmt.setString(1, type);
             stmt.setInt(2, speed);
@@ -132,7 +132,7 @@ public class Query {
 
     public static boolean updateAuthor(Connection connection, int id, String name, int buildID) {
         try {
-            String updateAuthor = "UPDATE authors SET name = ?, buildID = ? WHERE id = ?";
+            String updateAuthor = "UPDATE b_authors SET name = ?, buildID = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(updateAuthor);
             stmt.setString(1, name);
             stmt.setInt(2, buildID);
@@ -147,7 +147,7 @@ public class Query {
 
     public static CustomTableFormat getAlbums(Connection connection) throws SQLException {
         Statement stmt = connection.createStatement();
-        String getCatColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'category';";  // Lista de nombres de columnas de la tabla category.
+        String getCatColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'b_category';";  // Lista de nombres de columnas de la tabla category.
         ResultSet rs = stmt.executeQuery(getCatColumns);
 
         ArrayList<String> columns = new ArrayList<>();
@@ -155,7 +155,7 @@ public class Query {
             columns.add(rs.getString("COLUMN_NAME"));
         }
 
-        String getRows = "SELECT * FROM category;";
+        String getRows = "SELECT * FROM b_category;";
         rs = stmt.executeQuery(getRows);
         String[] row = new String[columns.size()];
         ArrayList<String[]> rows = new ArrayList<>();
@@ -175,7 +175,7 @@ public class Query {
 
     public static CustomTableFormat getBuilds(Connection connection, String id) throws SQLException {
         Statement stmt = connection.createStatement();
-        String getBuildsColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'builds';";  // Lista de nombres de columnas de la tabla builds.
+        String getBuildsColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'b_builds';";  // Lista de nombres de columnas de la tabla builds.
         ResultSet rs = stmt.executeQuery(getBuildsColumns);
 
         ArrayList<String> columns = new ArrayList<>();
@@ -184,7 +184,7 @@ public class Query {
         }
         stmt.close();
 
-        String getRows = "SELECT * FROM builds WHERE category LIKE ?;";
+        String getRows = "SELECT * FROM b_builds WHERE category LIKE ?;";
         PreparedStatement stmt2 = connection.prepareStatement(getRows);
         stmt2.setString(1, id);
         rs = stmt2.executeQuery();
@@ -206,7 +206,7 @@ public class Query {
 
     public static CustomTableFormat getAuthors(Connection connection, String id) throws SQLException {
         Statement stmt = connection.createStatement();
-        String getAuthorsColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'authors';";  // Lista de nombres de columnas de la tabla authors.
+        String getAuthorsColumns = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'b_authors';";  // Lista de nombres de columnas de la tabla authors.
         ResultSet rs = stmt.executeQuery(getAuthorsColumns);
 
         ArrayList<String> columns = new ArrayList<>();
@@ -215,7 +215,7 @@ public class Query {
         }
         stmt.close();
 
-        String getRows = "SELECT * FROM authors WHERE buildID LIKE ?;";
+        String getRows = "SELECT * FROM b_authors WHERE buildID LIKE ?;";
         PreparedStatement stmt2 = connection.prepareStatement(getRows);
         stmt2.setString(1, id);
         rs = stmt2.executeQuery();
@@ -238,11 +238,30 @@ public class Query {
     public static List<String> getCategoryNames(Connection connection) {
         try {
             Statement stmt = connection.createStatement();
-            String catGet = "SELECT c.name name FROM category c;";
+            String catGet = "SELECT c.name name FROM b_category c;";
             ResultSet rs = stmt.executeQuery(catGet);
             List<String> list = new ArrayList<>();
             while (rs.next()) {
                 list.add(rs.getString("name"));
+            }
+            rs.close();
+            stmt.close();
+
+            return list;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<String> getBuildNames(Connection connection) {
+        try {
+            Statement stmt = connection.createStatement();
+            String catGet = "SELECT b.id id FROM b_builds b;";
+            ResultSet rs = stmt.executeQuery(catGet);
+            List<String> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(rs.getString("id"));
             }
             rs.close();
             stmt.close();

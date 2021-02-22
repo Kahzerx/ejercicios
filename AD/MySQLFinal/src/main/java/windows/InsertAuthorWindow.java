@@ -8,26 +8,27 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class InsertAuthorWindow extends JFrame {
     private final MainWindow mainWindow;
 
     private JLabel nameLabel;
-    private JLabel albumLabel;
+    private JLabel buildLabel;
 
-    private JTextArea nameTextArea;
+    private JTextField nameTextField;
 
     private JButton submitButton;
 
-    private JComboBox<String> albumList;
+    private JComboBox<String> buildList;
 
     public InsertAuthorWindow(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
 
         createJLabel();
 
-        createJTextArea();
+        createJTextField();
 
         createJButton();
 
@@ -57,26 +58,38 @@ public class InsertAuthorWindow extends JFrame {
     private void createJLabel() {
         nameLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
         nameLabel.setBounds(20, 20, 80, 30);
-        albumLabel = (JLabel) mainWindow.createJThing(2, "Álbum");
-        albumLabel.setBounds(20, 70, 80, 30);
+        buildLabel = (JLabel) mainWindow.createJThing(2, "BuildID");
+        buildLabel.setBounds(20, 70, 80, 30);
     }
 
-    private void createJTextArea() {
-        nameTextArea = (JTextArea) mainWindow.createJThing(3, "");
-        nameTextArea.setBounds(100, 20, 170, 30);
+    private void createJTextField() {
+        nameTextField = (JTextField) mainWindow.createJThing(4, "");
+        nameTextField.setBounds(100, 20, 170, 30);
+    }
+
+    private void createJComboBox() {
+        buildList = (JComboBox<String>) mainWindow.createJThing(1, "");
+        buildList.setBounds(100, 70, 170, 30);
+        List<String> albums = Query.getBuildNames(mainWindow.dataSourceConnection.connection);
+        assert albums != null;
+        for (String album : albums) {
+            buildList.addItem(album);
+        }
     }
 
     private void createJButton() {
         submitButton = (JButton) mainWindow.createJThing(0, "Añadir");
         submitButton.setBounds(100, 120, 110, 30);
         submitButton.addActionListener(actionEvent -> {
-            if (StringUtils.isEmpty(nameTextArea.getText())) {
+            if (StringUtils.isEmpty(nameTextField.getText())) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos en blanco!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else if (StringUtils.isNotInt((String) buildList.getSelectedItem())) {
+                JOptionPane.showMessageDialog(null, "WAT!\nEl ID ha de ser un número", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                String name = nameTextArea.getText().trim();
-                String album = (String) albumList.getSelectedItem();
+                String name = nameTextField.getText().trim();
+                int buildID = Integer.parseInt((String) Objects.requireNonNull(buildList.getSelectedItem()));
 
-                if (!Query.insertAuthor(mainWindow.dataSourceConnection.connection, name, 1)) {
+                if (!Query.insertAuthor(mainWindow.dataSourceConnection.connection, name, buildID)) {
                     JOptionPane.showMessageDialog(null, "Error al insertar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);
@@ -85,25 +98,15 @@ public class InsertAuthorWindow extends JFrame {
         });
     }
 
-    private void createJComboBox() {
-        albumList = (JComboBox<String>) mainWindow.createJThing(1, "");
-        albumList.setBounds(100, 70, 170, 30);
-        List<String> albums = Query.getCategoryNames(mainWindow.dataSourceConnection.connection);
-        assert albums != null;
-        for (String album : albums) {
-            albumList.addItem(album);
-        }
-    }
-
     private void addStuff() {
         add(nameLabel);
-        add(albumLabel);
+        add(buildLabel);
 
-        add(nameTextArea);
+        add(nameTextField);
 
         add(submitButton);
 
-        add(albumList);
+        add(buildList);
     }
 
     private void close() {

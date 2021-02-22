@@ -34,7 +34,7 @@ public class GenericConnection {
         try {
             Statement stmt = connection.createStatement();
 
-            String cat = "CREATE TABLE IF NOT EXISTS `category` (" +
+            String cat = "CREATE TABLE IF NOT EXISTS `b_category` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`name` VARCHAR(30) NOT NULL," +
                     "PRIMARY KEY (`id`)," +
@@ -42,7 +42,7 @@ public class GenericConnection {
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
             stmt.executeUpdate(cat);
 
-            String build = "CREATE TABLE IF NOT EXISTS `builds` (" +
+            String build = "CREATE TABLE IF NOT EXISTS `b_builds` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`type` VARCHAR(40) DEFAULT NULL," +
                     "`speed` INT DEFAULT NULL," +
@@ -53,16 +53,16 @@ public class GenericConnection {
                     "`date` VARCHAR(40) DEFAULT NULL," +
                     "PRIMARY KEY (`id`)," +
                     "UNIQUE KEY `id`(`id`)," +
-                    "CONSTRAINT `cat_build_fk` FOREIGN KEY (`category`) REFERENCES `category`(`name`) ON DELETE CASCADE ON UPDATE CASCADE)" +
+                    "CONSTRAINT `cat_build_fk` FOREIGN KEY (`category`) REFERENCES `b_category`(`name`) ON DELETE CASCADE ON UPDATE CASCADE)" +
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
             stmt.executeUpdate(build);
 
-            String authors = "CREATE TABLE IF NOT EXISTS `authors` (" +
+            String authors = "CREATE TABLE IF NOT EXISTS `b_authors` (" +
                     "`id` INT NOT NULL AUTO_INCREMENT," +
                     "`name` VARCHAR(30) NOT NULL," +
                     "`buildID` INT NOT NULL," +
                     "PRIMARY KEY (`id`)," +
-                    "CONSTRAINT `build_author_fk` FOREIGN KEY (`buildID`) REFERENCES `builds`(`id`) ON DELETE CASCADE ON UPDATE CASCADE)" +
+                    "CONSTRAINT `build_author_fk` FOREIGN KEY (`buildID`) REFERENCES `b_builds`(`id`) ON DELETE CASCADE ON UPDATE CASCADE)" +
                     "ENGINE=InnoDB DEFAULT CHARSET=latin1;";
             stmt.executeUpdate(authors);
 

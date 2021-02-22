@@ -38,6 +38,9 @@ public class CategoryTable extends GenericTable {
                 if (super.buildTable.model.getRowCount() > 0) {
                     super.buildTable.selectFirst();
                     super.authorTable.onConnect(connection, buildTable);
+                    if (super.authorTable.model.getRowCount() > 0) {
+                        super.authorTable.selectFirst();
+                    }
                 }
                 MainWindow.genericLabel1.setText("Editar categoría seleccionada");
                 MainWindow.genericLabel2.setText("Insertar build");
