@@ -10,6 +10,9 @@ import java.util.List;
  * Lugar donde hago todas las consultas, refactor needed ;-;.
  */
 public class Query {
+    /**
+     * @return si la query se ha ejecutado
+     */
     public static boolean insertCategory(Connection connection, String name) {
         try {
             String insertCategory = "INSERT INTO b_category(name) VALUES(?);";
@@ -23,6 +26,9 @@ public class Query {
         return true;
     }
 
+    /**
+     * @return si la query se ha ejecutado
+     */
     public static boolean insertBuild(Connection connection, String type, int speed, String cat, String orientation, int bits, String numSys, String date) {
         try {
             String insertBuild = "INSERT INTO b_builds(type, speed, category, orientation, bits, num_system, date) VALUES(?,?,?,?,?,?,?);";
@@ -43,6 +49,9 @@ public class Query {
         return true;
     }
 
+    /**
+     * @return si la query se ha ejecutado
+     */
     public static boolean insertAuthor(Connection connection, String name, int buildID) {
         try {
             String insertAuthor = "INSERT INTO b_authors(name,buildID) VALUES(?,?);";
@@ -57,8 +66,6 @@ public class Query {
         }
         return true;
     }
-
-    // TODO Fusionar todos los métodos de delete en 1, no hay motivo para que haya 3 para la misma cosa.
 
     public static boolean deleteCategory(Connection connection, int id) {
         try {

@@ -68,7 +68,7 @@ public class EditAuthorWindow extends JFrame {
         idLabel.setBounds(20, 20, 80, 30);
         nameLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
         nameLabel.setBounds(20, 70, 80, 30);
-        albumLabel = (JLabel) mainWindow.createJThing(2, "Álbum");
+        albumLabel = (JLabel) mainWindow.createJThing(2, "BuildID");
         albumLabel.setBounds(20, 120, 80, 30);
     }
 
@@ -88,7 +88,7 @@ public class EditAuthorWindow extends JFrame {
         for (String album : albums) {
             buildList.addItem(album);
         }
-        buildList.setSelectedItem(this.buildID);
+        buildList.setSelectedItem(String.valueOf(buildID));
     }
 
     private void createJButton() {

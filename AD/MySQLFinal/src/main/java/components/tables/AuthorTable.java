@@ -19,6 +19,7 @@ public class AuthorTable extends GenericTable {
     @Override
     public void onConnect(Connection connection, GenericTable table) {
         super.onConnect(connection, table);
+        super.connection = connection;
         try {
             CustomTableFormat tbl = Query.getAuthors(connection, (String) table.getValueAt(table.getSelectedRow(), table.getColumn("id").getModelIndex()));
             for (String column : tbl.columnNames) {
@@ -27,6 +28,10 @@ public class AuthorTable extends GenericTable {
 
             for (String[] row : tbl.rows) {
                 super.model.addRow(row);
+            }
+
+            if (this.model.getRowCount() > 0) {
+                this.selectFirst();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -22,7 +22,7 @@ public class DBUtils {
             if (dataSourceConnection.connection == null || dataSourceConnection.connection.isClosed()) {
                 connectBasicDataSource(dataSourceConnection, logger);
                 windowComponents.categoryTable.buildTable = windowComponents.buildTable;
-                windowComponents.categoryTable.authorTable = windowComponents.authorTable;
+                windowComponents.buildTable.authorTable = windowComponents.authorTable;
                 windowComponents.categoryTable.onConnect(dataSourceConnection.connection, null);
                 windowComponents.insertCatButton.setEnabled(true);
                 windowComponents.deleteCatButton.setEnabled(true);

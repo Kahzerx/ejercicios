@@ -20,6 +20,7 @@ public class BuildTable extends GenericTable {
     @Override
     public void onConnect(Connection connection, GenericTable table) {
         super.onConnect(connection, this);
+        super.connection = connection;
         try {
             CustomTableFormat tbl = Query.getBuilds(connection, (String) table.getValueAt(table.getSelectedRow(), table.getColumn("name").getModelIndex()));
             for (String column : tbl.columnNames) {
@@ -30,6 +31,11 @@ public class BuildTable extends GenericTable {
                 super.model.addRow(row);
             }
             // Funciones de categorías a demás de activar las otras tablas.
+
+            if (this.model.getRowCount() > 0) {
+                this.selectFirst();
+                super.authorTable.onConnect(connection, this);
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

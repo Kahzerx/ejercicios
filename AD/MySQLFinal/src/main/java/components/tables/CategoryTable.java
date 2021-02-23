@@ -35,13 +35,6 @@ public class CategoryTable extends GenericTable {
             if (super.model.getRowCount() > 0) {
                 super.selectFirst();
                 buildTable.onConnect(connection, this);
-                if (super.buildTable.model.getRowCount() > 0) {
-                    super.buildTable.selectFirst();
-                    super.authorTable.onConnect(connection, buildTable);
-                    if (super.authorTable.model.getRowCount() > 0) {
-                        super.authorTable.selectFirst();
-                    }
-                }
                 MainWindow.genericLabel1.setText("Editar categoría seleccionada");
                 MainWindow.genericLabel2.setText("Insertar build");
                 MainWindow.genericLabel3.setText("");
@@ -84,6 +77,9 @@ public class CategoryTable extends GenericTable {
             if (getSelectedRow() == -1) return;
             if (buildTable != null && getSelectedRow() != -1) {
                 buildTable.onClosed();
+                if (buildTable.authorTable != null) {
+                    buildTable.authorTable.onClosed();
+                }
                 buildTable.onConnect(connection, this);  // Refresco las conexiones cada vez que selecciono un nuevo album.
             }
         }
