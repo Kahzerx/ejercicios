@@ -194,7 +194,7 @@ public class ComponentUtils {
         try {
             // Extraigo los datos de la row seleccionada.
             sid = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("id").getModelIndex());
-            type = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("type").getModelIndex());
+            type = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("types").getModelIndex());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No hay ningún build seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -230,13 +230,13 @@ public class ComponentUtils {
         try {
             // Extraigo los datos de la row seleccionada.
             sid = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("id").getModelIndex());
-            type = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("type").getModelIndex());
+            type = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("types").getModelIndex());
             sSpeed = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("speed").getModelIndex());
             category = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("category").getModelIndex());
             orientation = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("orientation").getModelIndex());
             sBits = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("bits").getModelIndex());
             num_system = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("num_system").getModelIndex());
-            date = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("date").getModelIndex());
+            date = (String) mainWindow.buildTable.getValueAt(mainWindow.buildTable.getSelectedRow(), mainWindow.buildTable.getColumn("dates").getModelIndex());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No hay ningún build seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -303,24 +303,24 @@ public class ComponentUtils {
     public static void editAuthor(MainWindow mainWindow) {
         String sid;
         String name;
-        String sBuildID;
+        String sBuild_id;
         try {
             // Extraigo los datos de la row seleccionada.
             sid = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("id").getModelIndex());
             name = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("name").getModelIndex());
-            sBuildID = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("buildID").getModelIndex());
+            sBuild_id = (String) mainWindow.authorTable.getValueAt(mainWindow.authorTable.getSelectedRow(), mainWindow.authorTable.getColumn("build_id").getModelIndex());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No hay ningún autor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if ((sid == null || StringUtils.isNotInt(sid)) || (name == null || name.equals("")) || (sBuildID == null || StringUtils.isNotInt(sBuildID))) {
+        if ((sid == null || StringUtils.isNotInt(sid)) || (name == null || name.equals("")) || (sBuild_id == null || StringUtils.isNotInt(sBuild_id))) {
             JOptionPane.showMessageDialog(null, "No hay ningún autor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
         int id = Integer.parseInt(sid);
-        int buildID = Integer.parseInt(sBuildID);
-        EditAuthorWindow authorWindow = new EditAuthorWindow(mainWindow, id, name, buildID);
+        int build_id = Integer.parseInt(sBuild_id);
+        EditAuthorWindow authorWindow = new EditAuthorWindow(mainWindow, id, name, build_id);
         mainWindow.switchB(false);
         authorWindow.setVisible(true);
     }

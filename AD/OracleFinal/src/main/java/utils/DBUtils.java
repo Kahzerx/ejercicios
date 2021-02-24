@@ -110,14 +110,8 @@ public class DBUtils {
             logger.log(LogLevel.ERROR, "Error al establecer conexión.");
         }
 
-        if (!dataSourceConnection.tryCreateDatabase()) {
+        if (!dataSourceConnection.tryUseDatabase()) {
             logger.log(LogLevel.ERROR, "Error al crear la base de datos!");
-            return;
-        }
-
-        if (!dataSourceConnection.tryCreateTables()) {
-            logger.log(LogLevel.ERROR, "Error al crear tablas.");
-            dataSourceConnection.close();
         }
     }
 }

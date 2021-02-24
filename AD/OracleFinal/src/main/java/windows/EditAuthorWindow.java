@@ -15,7 +15,7 @@ public class EditAuthorWindow extends JFrame {
     private final MainWindow mainWindow;
     private final int id;
     private final String name;
-    private final int buildID;
+    private final int build_id;
 
     private JLabel idLabel;
     private JLabel nameLabel;
@@ -28,11 +28,11 @@ public class EditAuthorWindow extends JFrame {
 
     private JComboBox<String> buildList;
 
-    public EditAuthorWindow(MainWindow mainWindow, int id, String name, int buildID) {
+    public EditAuthorWindow(MainWindow mainWindow, int id, String name, int build_id) {
         this.mainWindow = mainWindow;
         this.id = id;
         this.name = name;
-        this.buildID = buildID;
+        this.build_id = build_id;
 
         createJLabel();
 
@@ -68,7 +68,7 @@ public class EditAuthorWindow extends JFrame {
         idLabel.setBounds(20, 20, 80, 30);
         nameLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
         nameLabel.setBounds(20, 70, 80, 30);
-        albumLabel = (JLabel) mainWindow.createJThing(2, "BuildID");
+        albumLabel = (JLabel) mainWindow.createJThing(2, "build_id");
         albumLabel.setBounds(20, 120, 80, 30);
     }
 
@@ -88,7 +88,7 @@ public class EditAuthorWindow extends JFrame {
         for (String album : albums) {
             buildList.addItem(album);
         }
-        buildList.setSelectedItem(String.valueOf(buildID));
+        buildList.setSelectedItem(String.valueOf(build_id));
     }
 
     private void createJButton() {
@@ -101,9 +101,9 @@ public class EditAuthorWindow extends JFrame {
                 JOptionPane.showMessageDialog(null, "WAT!\nEl ID ha de ser un número", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 String name = nameTextField.getText().trim();
-                int buildID = Integer.parseInt((String) Objects.requireNonNull(buildList.getSelectedItem()));
+                int build_id = Integer.parseInt((String) Objects.requireNonNull(buildList.getSelectedItem()));
 
-                if (!Query.updateAuthor(mainWindow.dataSourceConnection.connection, id, name, buildID)) {
+                if (!Query.updateAuthor(mainWindow.dataSourceConnection.connection, id, name, build_id)) {
                     JOptionPane.showMessageDialog(null, "Error al editar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);

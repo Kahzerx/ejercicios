@@ -58,7 +58,7 @@ public class InsertAuthorWindow extends JFrame {
     private void createJLabel() {
         nameLabel = (JLabel) mainWindow.createJThing(2, "Nombre");
         nameLabel.setBounds(20, 20, 80, 30);
-        buildLabel = (JLabel) mainWindow.createJThing(2, "BuildID");
+        buildLabel = (JLabel) mainWindow.createJThing(2, "build_id");
         buildLabel.setBounds(20, 70, 80, 30);
     }
 
@@ -87,9 +87,9 @@ public class InsertAuthorWindow extends JFrame {
                 JOptionPane.showMessageDialog(null, "WAT!\nEl ID ha de ser un número", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 String name = nameTextField.getText().trim();
-                int buildID = Integer.parseInt((String) Objects.requireNonNull(buildList.getSelectedItem()));
+                int build_id = Integer.parseInt((String) Objects.requireNonNull(buildList.getSelectedItem()));
 
-                if (!Query.insertAuthor(mainWindow.dataSourceConnection.connection, name, buildID)) {
+                if (!Query.insertAuthor(mainWindow.dataSourceConnection.connection, name, build_id)) {
                     JOptionPane.showMessageDialog(null, "Error al insertar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 DBUtils.refresh(mainWindow.dataSourceConnection, mainWindow.logger, mainWindow);

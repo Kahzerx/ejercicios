@@ -24,7 +24,7 @@ public class BasicDataSourceConnection extends GenericConnection {
         this.name = name;
     }
 
-    public boolean tryCreateDatabase() {
+    public boolean tryUseDatabase() {
         return createDatabase(name);
     }
 
@@ -37,9 +37,5 @@ public class BasicDataSourceConnection extends GenericConnection {
             return false;
         }
         return true;
-    }
-
-    public boolean tryCreateTables() {
-        return createTables();
     }
 }
