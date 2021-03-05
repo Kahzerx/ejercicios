@@ -25,7 +25,7 @@
             - **_nombreImagen_**:**_tag_**
                 - . (o ruta)
                     - Crea la imágen mencionada previamente pero con otra **_tag_** name.
-    - [^ps]: ps
+    - ps
         - Lista todos los containers que docker está ejecutando.
         - -a
             - Lista todos los containers incluyendo los que han muerto.
@@ -34,13 +34,23 @@
     - rm
         - -fv
             - **_nombreContainer_**
-                - Elimina el container con el **_nombreContainer_** especificado (debe ser el **_nombreContainer_** que aparezca en `docker ps`[^ps])
+                - Elimina el container con el **_nombreContainer_** especificado (debe ser el **_nombreContainer_** que aparezca en `docker ps`)
     - images
         - Lista todas las imágenes que tenemos instaladas en nuestro pc.
+    - image
+        - rm
+            - **_image\_id_**
+                - Elimina la imagen con el ID especificado, podemos sacar los IDs del comando `docker images`.
+        - prune
+            - Elimina todas las imágenes que no están asociadas con nada, que son versiones antiguas (dangling).
+            - -a
+                - Elimina tanto las imágenes no asociadas a nada como las imágenes que no están siendo usadas.
     - history
         - -H
             - **_nombreImagen_**:**_tag_**
-                - Visualizar las capas de nuestra imagen
+                - Visualizar las capas de nuestra imagen.
+                - --no-trunc
+                    - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
     - run
         - -d
             - **_nombreImagen_**
