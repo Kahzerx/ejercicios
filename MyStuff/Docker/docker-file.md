@@ -1,7 +1,5 @@
 ## COMANDOS PARA EL DOCKERFILE
 
-Normalmente el dockerfile inicia con un FROM
-
 - FROM
     - Normalmente el dockerfile inicia con esto.
     - Especificamos qué sistema operativo queremos para nuestra imagen, o incluso especificar una imagen misma desde la que queramos iniciar.
@@ -107,6 +105,7 @@ Normalmente el dockerfile inicia con un FROM
 - CMD
     - Comando para ejecutar un servicio en primer plano.
     - El servicio tiene que mantenerse vivo y attached al primer plano, de otra forma, el container morirá.
+    - Si el proceso finaliza, el container también morirá.
     - Es lo que se encarga de mantener con vida el container.
 
         ```docker
