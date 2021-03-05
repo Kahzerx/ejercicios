@@ -14,6 +14,8 @@
 
 > Para evitar esto, creamos un archivo .dockerignore en el que especificaremos qué archivos ignorar. Funciona igual que el .gitignore, no necesita escribir guia, simplemente escribes lo que no quieres dentro del archivo, ya sean directorios, archivos...
 
+> Las capas de las imágenes son de solo lectura, por lo que al generar una imagen con el mismo nombre y tag pero con algún cambio en alguna capa que una ya previamente creada, esta será desreferenciada para ser reemplazada por la nueva, dejando a la antigua huérfana, es por esto que al ejecutar `docker images` vemos algunas imágenes con \<none\>, esto es conocido como `dangling images` y se puede solucionar con las **_tags_**.
+
 ---
 
 - docker
@@ -22,6 +24,11 @@
             - **_nombreImagen_**
                 - . (o ruta)
                     - Crea la imagen con el **_nombreImagen_** especificado tomando el `dockerfile` en esa ruta.
+            - **_nombreImagen_**
+                - -f
+                    - **_filename_**
+                        - . (o ruta)
+                            - Crea la imagen con el **_nombreImagen_** especificado tomando el `dockerfile` en esa ruta y tomando como referencia el archivo especificado en -f en reemplazo del default `Dockerfile`.
             - **_nombreImagen_**:**_tag_**
                 - . (o ruta)
                     - Crea la imágen mencionada previamente pero con otra **_tag_** name.
@@ -37,6 +44,9 @@
                 - Elimina el container con el **_nombreContainer_** especificado (debe ser el **_nombreContainer_** que aparezca en `docker ps`)
     - images
         - Lista todas las imágenes que tenemos instaladas en nuestro pc.
+        - -f
+            - dangling=true
+                - Buscar entre las imágenes aplicando el filtro de que solo aparezcan las imágenes huérfanas.
     - image
         - rm
             - **_image\_id_**
