@@ -1,0 +1,23 @@
+FROM centos AS build
+
+RUN fallocate -l 10M /opt/test1
+
+RUN fallocate -l 20M /opt/test2
+
+RUN fallocate -l 30M /opt/test3
+
+# Hacer un build hasta aquí seguido de el comando `docker images`
+# nos muestra que la imagen total de centos + estos 3 archivos
+# suman alrededor de 260~ MB
+
+# alpine pesa alrededor de 5MB
+FROM alpine
+
+COPY --from=build /opt/test1 /opt/file
+# Resultado final de la imagen: 15MB
+
+# Esto demuestra que hemos procesado lo que necesitábamos en un
+# FROM que tenía lo que queríamos, y hemos pasado el resultado
+# a una nueva imagen con un sistema mucho más ligero, y eliminando
+# los pasos del anterior FROM, resultando en una imagen mucho más
+# sencilla y ligera.
