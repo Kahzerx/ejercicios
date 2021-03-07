@@ -18,39 +18,45 @@
 
 > Puede haber varios FROM dentro de un Dockerfile como podemos ver en ./multi-stage, el último FROM siempre será el válido, todos los anteriores serán olvidados por la imagen final.
 
-> docker rm -fv $(docker ps -aq) Elimina todo lo que haya en `docker ps`.
+> docker rm -fv $(docker ps -aq) elimina todo lo que haya en `docker ps`.
 
 ---
 
 - docker
     - build
         - -t
-            - **_nombreImagen_**
-                - . (o ruta)
-                    - Crea la imagen con el **_nombreImagen_** especificado tomando el `dockerfile` en esa ruta.
-            - **_nombreImagen_**
+            - **_nombreImagen_**:**_tag_**
                 - -f
                     - **_filename_**
-                        - . (o ruta)
-                            - Crea la imagen con el **_nombreImagen_** especificado tomando el `dockerfile` en esa ruta y tomando como referencia el archivo especificado en -f en reemplazo del default `Dockerfile`.
-            - **_nombreImagen_**:**_tag_**
+                        - Usar el Dockerfile que especificamos con este arg, si no se usa, por defecto usará el archivo `Dockerfile`.
                 - . (o ruta)
-                    - Crea la imágen mencionada previamente pero con otra **_tag_** name.
-    - ps
-        - Lista todos los containers que docker está ejecutando.
-        - -a
-            - Lista todos los containers incluyendo los que han muerto.
+                    - Crea la imagen con el **_nombreImagen_** especificado a partir del `Dockerfile`.
+    - commit
+        - **_nombreContainer_** or **_idContainer_**
+            - **_nombreImagenResultante_**
+                - Esto va a crear una imagen con el estado actual del container que se está ejecutando, de esta forma podemos guardar los cambios realizados, ya que los containers son totalmente temporales, esto crea una imagen a partir de un container, guardará todo a excepción de lo guardado dentro de un volumen.
+    - cp
+        - **_localPath_**
+            - **_nombreContainer_**:**_containerPath_**
+                - Copia lo seleccionado en local hacia la ruta introducida del container `docker cp index.html apache:/tmp/index.html`.
+        - **_nombreContainer_**:**_containerPath_**
+            - **_localPath_**
+                - Copia lo seleccionado desde dentro del container hacia nuestra máquina `docker cp apache:/tmp/index.html .`.
+    - exec
+        - -u
+            - **_userName_**
+                - Usar el user especificado para loguear.
+        - -ti
+            - terminal interactiva
+        - **_nombreContainer_** or **_idContainer_**
+            - bash
+                - Entrar en la consola del contenedor.
+    - history
+        - -H
+        - **_nombreImagen_**:**_tag_**
+            - Visualizar las capas de nuestra imagen.
         - --no-trunc
             - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
-    - rm
-        - -fv
-            - **_nombreContainer_** or **_idContainer_**
-                - Elimina el container con el nombre especificado (debe ser el nombre o ID que aparezca en `docker ps`)
-    - images
-        - Lista todas las imágenes que tenemos instaladas en nuestro pc.
-        - -f
-            - dangling=true
-                - Buscar entre las imágenes aplicando el filtro de que solo aparezcan las imágenes huérfanas.
     - image
         - rm
             - **_image\_id_**
@@ -59,12 +65,38 @@
             - Elimina todas las imágenes que no están asociadas con nada, que son versiones antiguas (dangling).
             - -a
                 - Elimina tanto las imágenes no asociadas a nada como las imágenes que no están siendo usadas.
-    - history
-        - -H
-        - **_nombreImagen_**:**_tag_**
-            - Visualizar las capas de nuestra imagen.
+    - images
+        - Lista todas las imágenes que tenemos instaladas en nuestro pc.
+        - -f
+            - dangling=true
+                - Buscar entre las imágenes aplicando el filtro de que solo aparezcan las imágenes huérfanas.
+    - inspect
+        - **_nombreContainer_** or **_idContainer_**
+            - información adicional sobre nuestro contenedor como dirección IP, variables de entorno, etc.
+    - logs
+        - -f
+            - **_nombreContainer_**
+                - Mostrar todos los logs generados por el proceso "attached" al container, es decir, por el proceso ejecutado por `CMD` que mantiene vivo el container.
+    - ps
+        - Lista todos los containers que docker está ejecutando.
+        - -a
+            - Lista todos los containers incluyendo los que han muerto.
         - --no-trunc
             - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
+    - pull
+        - **_nombreImagen_**:**_tag_**
+            - Descargar desde el repositorio de docker la imagen seleccionada.
+    - rename
+        - **_nombreContainerAntiguo_**
+            - **_nombreContainerNuevo_**
+                - Renombrar un docker ya en ejecución.
+    - restart
+        - **_nombreContainer_** or **_idContainer_**
+            - Reiniciar el container con ese id o nombre.
+    - rm
+        - -fv
+            - **_nombreContainer_** or **_idContainer_**
+                - Elimina el container con el nombre especificado (debe ser el nombre o ID que aparezca en `docker ps`)
     - run
         - -d(ti?) (ti puede dejar el OS ejecutándose para que podamos acceder).
             - -m
@@ -83,38 +115,13 @@
                 - Vinculando el puerto del docker con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
             - **_nombreImagen_**
                 - Crear y ejecutar un container (o instancia) de **_nombreImagen_**.
-    - logs
-        - -f
-            - **_nombreContainer_**
-                - Mostrar todos los logs generados por el proceso "attached" al container, es decir, por el proceso ejecutado por `CMD` que mantiene vivo el container.
-    - rename
-        - **_nombreContainerAntiguo_**
-            - **_nombreContainerNuevo_**
-                - Renombrar un docker ya en ejecución.
-    - stop
-        - **_nombreContainer_** or **_idContainer_**
-            - Detener el container con ese id o nombre.
+            - Todo lo posterior a **_nombreImagen_** será considerado argumento que sobreescribe a CMD, por ejemplo, si nuestra imagen es centos, y después escribimos `echo hola` el contenedor escribirá eso en la consola en lugar del `/bin/bash` que tiene por defecto. `docker run -dti centos echo hola`, util para cosas como `docker run -d -p 8080:8080 centos python -m SimpleHTTPServer 8080`
     - start
         - **_nombreContainer_** or **_idContainer_**
             - Iniciar el container con ese id o nombre.
-    - restart
-        - **_nombreContainer_** or **_idContainer_**
-            - Reiniciar el container con ese id o nombre.
-    - exec
-        - -u
-            - **_userName_**
-                - Usar el user especificado para loguear.
-        - -ti
-            - terminal interactiva
-        - **_nombreContainer_** or **_idContainer_**
-            - bash
-                - Entrar en la consola del contenedor.
-    - pull
-        - **_nombreImagen_**:**_tag_**
-            - Descargar desde el repositorio de docker la imagen seleccionada.
-    - inspect
-        - **_nombreContainer_** or **_idContainer_**
-            - información adicional sobre nuestro contenedor como dirección IP, variables de entorno, etc.
     - stats
         - **_nombreContainer_** or **_idContainer_**
             - Recursos que está usando nuestro contenedor.
+    - stop
+        - **_nombreContainer_** or **_idContainer_**
+            - Detener el container con ese id o nombre.
