@@ -19,6 +19,7 @@
 > Puede haber varios FROM dentro de un Dockerfile como podemos ver en ./multi-stage, el último FROM siempre será el válido, todos los anteriores serán olvidados por la imagen final.
 
 > docker rm -fv $(docker ps -aq) Elimina todo lo que haya en `docker ps`.
+
 ---
 
 - docker
@@ -65,7 +66,13 @@
         - --no-trunc
             - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
     - run
-        - -d(ti?) (ti puede dejar el OS ejecutándose para que podamos acceder.)
+        - -d(ti?) (ti puede dejar el OS ejecutándose para que podamos acceder).
+            - -m
+                - "500mb"
+                    - El container tendrá un límite de 500MB de ram asociada, también puedes usar gb...
+            - --cpuset-cpus
+                - 0-1
+                    - Ceder al container la cpu 0 y la cpu 1. Para ver cuántas cpus tienes usa el comando `grep "model name" /proc/cpuinfo | wc -l`.
             - -e
                 - "key=value"
                     - Declarar variables de entorno al crear container.
@@ -96,7 +103,7 @@
     - exec
         - -u
             - **_userName_**
-                - Usar el user especificado.
+                - Usar el user especificado para loguear.
         - -ti
             - terminal interactiva
         - **_nombreContainer_** or **_idContainer_**
