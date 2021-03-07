@@ -42,8 +42,8 @@
             - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
     - rm
         - -fv
-            - **_nombreContainer_**
-                - Elimina el container con el **_nombreContainer_** especificado (debe ser el **_nombreContainer_** que aparezca en `docker ps`)
+            - **_nombreContainer_** or **_idContainer_**
+                - Elimina el container con el nombre especificado (debe ser el nombre o ID que aparezca en `docker ps`)
     - images
         - Lista todas las imágenes que tenemos instaladas en nuestro pc.
         - -f
@@ -74,6 +74,30 @@
                     - **_nombreImagen_**
                         - Crear y ejecutar un container (o instancia) de **_nombreImagen_** con el nombre especificado, vinculando el puerto del docker con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
     - logs
-        - f
+        - -f
             - **_nombreContainer_**
                 - Mostrar todos los logs generados por el proceso "attached" al container, es decir, por el proceso ejecutado por `CMD` que mantiene vivo el container.
+    - rename
+        - **_nombreContainerAntiguo_**
+            - **_nombreContainerNuevo_**
+                - Renombrar un docker ya en ejecución.
+    - stop
+        - **_nombreContainer_** or **_idContainer_**
+            - Detener el container con ese id o nombre.
+    - start
+        - **_nombreContainer_** or **_idContainer_**
+            - Iniciar el container con ese id o nombre.
+    - restart
+        - **_nombreContainer_** or **_idContainer_**
+            - Reiniciar el container con ese id o nombre.
+    - exec
+        - -ti (terminal interactive)
+            - **_nombreContainer_** or **_idContainer_**
+                - bash
+                    - Entrar en la consola del contenedor.
+        - -u
+            - **_userName_**
+                - -ti (terminal interactive)
+                    - **_nombreContainer_** or **_idContainer_**
+                        - bash
+                            - Entrar en la consola del contenedor como el user especificado.
