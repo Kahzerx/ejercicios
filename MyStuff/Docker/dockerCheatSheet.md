@@ -59,20 +59,22 @@
                 - Elimina tanto las imágenes no asociadas a nada como las imágenes que no están siendo usadas.
     - history
         - -H
-            - **_nombreImagen_**:**_tag_**
-                - Visualizar las capas de nuestra imagen.
-                - --no-trunc
-                    - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
+        - **_nombreImagen_**:**_tag_**
+            - Visualizar las capas de nuestra imagen.
+        - --no-trunc
+            - Al listar el contenido puede estar recortado para que quede mejor en la consola, este arg muestra el contenido completo.
     - run
-        - -d
-            - **_nombreImagen_**
-                - Crear y ejecutar un container (o instancia) de **_nombreImagen_**, se aplicará un nombre random que puedes ver con el comando `docker ps`.
+        - -d(ti?) (ti puede dejar el OS ejecutándose para que podamos acceder.)
+            - -e
+                - "key=value"
+                    - Declarar variables de entorno al crear container.
             - --name **_nombreContainer_**
-                - **_nombreImagen_**
-                    - Crear y ejecutar un container (o instancia) de **_nombreImagen_** con el nombre especificado.
-                - -p (puerto de tu máquina):(puerto del docker) | (80:80)
-                    - **_nombreImagen_**
-                        - Crear y ejecutar un container (o instancia) de **_nombreImagen_** con el nombre especificado, vinculando el puerto del docker con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
+                - Aplicar **_nombreImagen_** con el nombre especificado.
+                se aplicará un nombre random si no se aplica este arg que puedes ver con el comando `docker ps`.
+            - -p (puerto de tu máquina):(puerto del docker) | (80:80)
+                - Vinculando el puerto del docker con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
+            - **_nombreImagen_**
+                - Crear y ejecutar un container (o instancia) de **_nombreImagen_**.
     - logs
         - -f
             - **_nombreContainer_**
@@ -91,13 +93,11 @@
         - **_nombreContainer_** or **_idContainer_**
             - Reiniciar el container con ese id o nombre.
     - exec
-        - -ti (terminal interactive)
-            - **_nombreContainer_** or **_idContainer_**
-                - bash
-                    - Entrar en la consola del contenedor.
         - -u
             - **_userName_**
-                - -ti (terminal interactive)
-                    - **_nombreContainer_** or **_idContainer_**
-                        - bash
-                            - Entrar en la consola del contenedor como el user especificado.
+                - Usar el user especificado.
+        - -ti
+            - terminal interactiva
+        - **_nombreContainer_** or **_idContainer_**
+            - bash
+                - Entrar en la consola del contenedor.
