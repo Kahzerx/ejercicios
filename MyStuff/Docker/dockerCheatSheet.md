@@ -18,6 +18,7 @@
 
 > Puede haber varios FROM dentro de un Dockerfile como podemos ver en ./multi-stage, el último FROM siempre será el válido, todos los anteriores serán olvidados por la imagen final.
 
+> docker rm -fv $(docker ps -aq) Elimina todo lo que haya en `docker ps`.
 ---
 
 - docker
@@ -101,3 +102,9 @@
         - **_nombreContainer_** or **_idContainer_**
             - bash
                 - Entrar en la consola del contenedor.
+    - pull
+        - **_nombreImagen_**:**_tag_**
+            - Descargar desde el repositorio de docker la imagen seleccionada.
+    - inspect
+        - **_nombreContainer_** or **_idContainer_**
+            - información adicional sobre nuestro contenedor como dirección IP, variables de entorno, etc.
