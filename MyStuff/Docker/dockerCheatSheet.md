@@ -108,3 +108,6 @@
     - inspect
         - **_nombreContainer_** or **_idContainer_**
             - información adicional sobre nuestro contenedor como dirección IP, variables de entorno, etc.
+    - stats
+        - **_nombreContainer_** or **_idContainer_**
+            - Recursos que está usando nuestro contenedor.
