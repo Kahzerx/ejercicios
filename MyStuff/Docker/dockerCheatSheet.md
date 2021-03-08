@@ -20,6 +20,8 @@
 
 > docker rm -fv $(docker ps -aq) elimina todo lo que haya en `docker ps`.
 
+> Cambiar el Document root de docker: `nano /lib/systemd/system/docker.service` y modificar la línea `ExecStart=/usr/bin/dockerd` añadiendo al final `--data-root /opt/docker`, por lo que ahora nuestra instalación de docker estará en `/opt/docker`, ahora recargamos el daemon con el comando `systemctl daemon-reload` y reiniciamos docker `systemctl restart docker`. Para restaurar nuestra información anterior, simplemente movemos los archivos `mv /var/lib/docker /opt/`.
+
 ---
 
 - docker
@@ -79,6 +81,8 @@
                 - Mostrar todos los logs generados por el proceso "attached" al container, es decir, por el proceso ejecutado por `CMD` que mantiene vivo el container.
     - ps
         - Lista todos los containers que docker está ejecutando.
+        - -l
+            - Lista el último contenedor creado.
         - -a
             - Lista todos los containers incluyendo los que han muerto.
         - --no-trunc
@@ -98,6 +102,8 @@
             - **_nombreContainer_** or **_idContainer_**
                 - Elimina el container con el nombre especificado (debe ser el nombre o ID que aparezca en `docker ps`)
     - run
+        - --rm (reemplazar esto por -d)
+            - Indicas que tras salir del contenedor, quieres que este se autodestruya. Al ejecutar el comando entra en el container automáticamente como si hicieramos un exec, al hacer `exit` se eliminará.
         - -d(ti?) (ti puede dejar el OS ejecutándose para que podamos acceder).
             - -m
                 - "500mb"

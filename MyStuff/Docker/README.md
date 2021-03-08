@@ -1,39 +1,22 @@
 ## COMANDOS PARA EL DOCKERFILE
 
-- FROM
-    - Normalmente el dockerfile inicia con esto.
-    - Especificamos qué sistema operativo queremos para nuestra imagen, o incluso especificar una imagen misma desde la que queramos iniciar.
+- CMD
+    - Comando para ejecutar un servicio en primer plano.
+    - El servicio tiene que mantenerse vivo y attached al primer plano, de otra forma, el container morirá.
+    - Si el proceso finaliza, el container también morirá.
+    - Es lo que se encarga de mantener con vida el container.
 
         ```docker
-        # Esto descarga la última versión de centos.
-        FROM centos
+        # Iniciamos el servicio apache en primer plano.
+        CMD apachectl -DFOREGROUND
         ```
-    - Para definir otra versión de `centos`, especificar una tag de las que salgan aquí: https://hub.docker.com/_/centos/, de forma que si queremos centos 7, escribiremos `FROM centos:7`
-
-- LABEL
-    - LABEL puede ir en cualquier parte del docker file, normalmente va al principio.
-    - Suele servir para dar metadatos a la imagen que estamos creando.
+    - De igual forma puede ser un script.
 
         ```docker
-        LABEL version=1.0
-        # Usar "" cuando hay espacios para evitar problemas.
-        LABEL description="This is an apache image"
-        ```
-
-- RUN
-    - Instrucciones que se pueden ejecutar en la terminal. (cualquier comando que se pueda ejecutar en linux).
-
-        ```docker
-        # Instalamos httpd con -y, siempre comandos que
-        # no requieran confirmación humana.
-        RUN yum install httpd -y
-        ```
-
-- WORKDIR
-    - Especificar la ruta en la que queremos que nuestro docker esté situado para trabajar.
-    
-        ```docker
-        WORKDIR /var/www
+        # Copiamos el archivo run.sh a la imagen.
+        COPY run.sh /run.sh
+        # Ejecutamos el script.
+        CMD sh /run.sh
         ```
 
 - COPY/ADD
@@ -72,6 +55,35 @@
         # de forma que sepa escuchar en el puerto 8080.
         ```
 
+- FROM
+    - Normalmente el dockerfile inicia con esto.
+    - Especificamos qué sistema operativo queremos para nuestra imagen, o incluso especificar una imagen misma desde la que queramos iniciar.
+
+        ```docker
+        # Esto descarga la última versión de centos.
+        FROM centos
+        ```
+    - Para definir otra versión de `centos`, especificar una tag de las que salgan aquí: https://hub.docker.com/_/centos/, de forma que si queremos centos 7, escribiremos `FROM centos:7`
+
+- LABEL
+    - LABEL puede ir en cualquier parte del docker file, normalmente va al principio.
+    - Suele servir para dar metadatos a la imagen que estamos creando.
+
+        ```docker
+        LABEL version=1.0
+        # Usar "" cuando hay espacios para evitar problemas.
+        LABEL description="This is an apache image"
+        ```
+
+- RUN
+    - Instrucciones que se pueden ejecutar en la terminal. (cualquier comando que se pueda ejecutar en linux).
+
+        ```docker
+        # Instalamos httpd con -y, siempre comandos que
+        # no requieran confirmación humana.
+        RUN yum install httpd -y
+        ```
+
 - USER
     - Especificar el usuario que ejecuta las tareas.
 
@@ -102,21 +114,9 @@
         VOLUME /var/www/html
         ```
 
-- CMD
-    - Comando para ejecutar un servicio en primer plano.
-    - El servicio tiene que mantenerse vivo y attached al primer plano, de otra forma, el container morirá.
-    - Si el proceso finaliza, el container también morirá.
-    - Es lo que se encarga de mantener con vida el container.
-
+- WORKDIR
+    - Especificar la ruta en la que queremos que nuestro docker esté situado para trabajar.
+    
         ```docker
-        # Iniciamos el servicio apache en primer plano.
-        CMD apachectl -DFOREGROUND
-        ```
-    - De igual forma puede ser un script.
-
-        ```docker
-        # Copiamos el archivo run.sh a la imagen.
-        COPY run.sh /run.sh
-        # Ejecutamos el script.
-        CMD sh /run.sh
+        WORKDIR /var/www
         ```
