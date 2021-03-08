@@ -107,7 +107,7 @@
         ```
 
 - VOLUME
-    - Hacer que cuando el contenedor se elimine o muera, los datos guardados aquí se queden almacenados en nuestra máquina y no se pierdan.
+    - Hacer que cuando el contenedor se elimine o muera, los datos guardados aquí se queden almacenados en nuestra máquina y no se pierdan. Estos volumes son ANONIMOS (los creados en el Dockerfile, para crear de Host o Named se crean desde args en el run).
 
         ```docker
         # Se guardará lo especificado en esa ruta.

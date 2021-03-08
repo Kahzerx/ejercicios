@@ -16,6 +16,8 @@
 
 > Las capas de las imágenes son de solo lectura, por lo que al generar una imagen con el mismo nombre y tag pero con algún cambio en alguna capa que una ya previamente creada, esta será desreferenciada para ser reemplazada por la nueva, dejando a la antigua huérfana, es por esto que al ejecutar `docker images` vemos algunas imágenes con \<none\>, esto es conocido como `dangling images` y se puede solucionar con las **_tags_**.
 
+> Al igual existen `dangling volumes`.
+
 > Puede haber varios FROM dentro de un Dockerfile como podemos ver en ./multi-stage, el último FROM siempre será el válido, todos los anteriores serán olvidados por la imagen final.
 
 > docker rm -fv $(docker ps -aq) elimina todo lo que haya en `docker ps`.
@@ -36,7 +38,7 @@
     - commit
         - **_nombreContainer_** or **_idContainer_**
             - **_nombreImagenResultante_**
-                - Esto va a crear una imagen con el estado actual del container que se está ejecutando, de esta forma podemos guardar los cambios realizados, ya que los containers son totalmente temporales, esto crea una imagen a partir de un container, guardará todo a excepción de lo guardado dentro de un volumen.
+                - Esto va a crear una imagen con el estado actual del container que se está ejecutando, de esta forma podemos guardar los cambios realizados, ya que los containers son totalmente temporales, esto crea una imagen a partir de un container, guardará todo a excepción de lo guardado dentro de un volume.
     - cp
         - **_localPath_**
             - **_nombreContainer_**:**_containerPath_**
@@ -53,6 +55,8 @@
         - **_nombreContainer_** or **_idContainer_**
             - bash
                 - Entrar en la consola del contenedor.
+        - -c "\<comando\>"
+            - puedes ejecutar comandos desde tu máquina al container sin acceder a ella con el arg `-ti` de esta forma.
     - history
         - -H
         - **_nombreImagen_**:**_tag_**
@@ -119,6 +123,15 @@
                 se aplicará un nombre random si no se aplica este arg que puedes ver con el comando `docker ps`.
             - -p (puerto de tu máquina):(puerto del docker) | (80:80)
                 - Vinculando el puerto del docker con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
+            - -v
+                - **_AbsoluteLocalDir_**:**_containerDir_**
+                    - Crea un volume en la ruta local especificada para almacenar los datos del directorio del container indicado en local para así añadir persistencia, esto es un volume de host. NO se elimina el volume al hacer rm -f**v**.
+                - **_containerDir_**
+                    - También puedes especificar la ruta del container que quieres hacer persistente pero quieres hacer un volume anonimus, en este caso docker creará una carpeta dentro del directorio `volumes` dentro del Docker Root `(docker info | grep -i root)`.
+                    - Importante no usar docker rm -f**v**, ya que la v lo que hace es eliminar el volume anonimo asociado, si nos interesa conservar los datos, usar rm -f.
+                    - Los volumes anonimos no son muy recomendables, el nombre que se les asocia está basado en el hash, que es único en cada container por lo que crear otro container con el mismo comando no restaurará los datos, simplemente creará otra carpeta, aunque los datos son guardados así que si queremos restaurar esos datos en otro container tendríamos que usar este nombre(estaría bien renombrar) y asociarlo en la creación de otro docker convirtiendolo así en un volume de host.
+                - **_nombreVolume_**:**_containerDir_**
+                    - Enlaza un named volume que habremos creado previamente con la ruta del contenedor que nos interesa hacer persistente, es un término medio entre los volumes de host y un anonimus volume. NO se elimina el volume al hacer rm -f**v**.
             - **_nombreImagen_**
                 - Crear y ejecutar un container (o instancia) de **_nombreImagen_**.
             - Todo lo posterior a **_nombreImagen_** será considerado argumento que sobreescribe a CMD, por ejemplo, si nuestra imagen es centos, y después escribimos `echo hola` el contenedor escribirá eso en la consola en lugar del `/bin/bash` que tiene por defecto. `docker run -dti centos echo hola`, util para cosas como `docker run -d -p 8080:8080 centos python -m SimpleHTTPServer 8080`
@@ -131,3 +144,14 @@
     - stop
         - **_nombreContainer_** or **_idContainer_**
             - Detener el container con ese id o nombre.
+    - volume
+        - ls
+            - Lista todos los volumes creados (por lo general, los anonimos, los VOLUME en los Dockerfile son anonimos).
+        - prune
+            - Elimina todos los volumes que no están siendo usados por un container.
+        - create
+            - **_nombreVolume_**
+                - Crea un volume con el nombre especificado, esto se usa para los named volumes.
+        - -f
+            - dangling=true
+                - Buscar entre los volumes aplicando el filtro de que solo aparezcan los volumes huérfanos.
