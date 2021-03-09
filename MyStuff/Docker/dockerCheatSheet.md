@@ -20,9 +20,11 @@
 
 > Puede haber varios FROM dentro de un Dockerfile como podemos ver en ./multi-stage, el último FROM siempre será el válido, todos los anteriores serán olvidados por la imagen final.
 
-> docker rm -fv $(docker ps -aq) elimina todo lo que haya en `docker ps`.
+> `docker rm -fv $(docker ps -aq)` elimina todo lo que haya en `docker ps`.
 
 > Cambiar el Document root de docker: `nano /lib/systemd/system/docker.service` y modificar la línea `ExecStart=/usr/bin/dockerd` añadiendo al final `--data-root /opt/docker`, por lo que ahora nuestra instalación de docker estará en `/opt/docker`, ahora recargamos el daemon con el comando `systemctl daemon-reload` y reiniciamos docker `systemctl restart docker`. Para restaurar nuestra información anterior, simplemente movemos los archivos `mv /var/lib/docker /opt/`.
+
+> En las redes definidas por el usuario puedes referirte a otras ips con los nombres de los contenedores: `docker exec contenedor1 bash -c "ping contenedor2"` aparte del más que válido `docker exec contenedor1 bash -c "ping ipOtroContainer"`.
 
 ---
 
@@ -83,6 +85,35 @@
         - -f
             - **_nombreContainer_**
                 - Mostrar todos los logs generados por el proceso "attached" al container, es decir, por el proceso ejecutado por `CMD` que mantiene vivo el container.
+    - network
+        - ls
+            - Lista todas las redes de docker.
+        - inspect
+            - **_nombreRed_** or **_idRed_**
+                - Extrae información sobre la red como ip del gateway, containers que la usan junto con su ip y MAC privada, etc.
+        - create
+            - -d
+                - **_nombreDriver_**
+                    - Especificar el nombre del driver que queramos usar. El driver por defecto es bridge.
+            - --subnet
+                - **_subred_** (172.124.10.0/24)
+                    - la subred de esa nueva red que estamos creando, con tal de que cumpla los requisitos de CIDR y que no sea igual que otra red que ya tengamos vale.
+            - --gateway
+                - **_gateway_** (172.124.10.1)
+                    - Podríamos decir la IP que simula ser el router de nuestra red, la puerta de acceso a la misma.
+            - **_nombreRed_**
+                - Crear una red con el nombre definido. El driver por defecto es bridge.
+        - connect
+            - **_nombreRed_**
+                - **_nombreContainer_**
+                    - Conectar el container especificado a la red que queramos.
+        - disconnect
+            - **_nombreRed_**
+                - **_nombreContainer_**
+                    - Desconectar el container especificado a la red que queramos.
+        - rm
+            - **_nombreRed_**
+                - Eliminar la red seleccionada, no puede tener containers usándola.
     - ps
         - Lista todos los containers que docker está ejecutando.
         - -l
@@ -121,8 +152,15 @@
             - --name **_nombreContainer_**
                 - Aplicar **_nombreImagen_** con el nombre especificado.
                 se aplicará un nombre random si no se aplica este arg que puedes ver con el comando `docker ps`.
-            - -p (puerto de tu máquina):(puerto del docker) | (80:80)
-                - Vinculando el puerto del docker con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
+            - -p (puerto de tu máquina):(puerto del container) | (80:80)
+                - Vinculando el puerto del container con el puerto de tu máquina, esto funciona igual que abrir puertos en tu router.
+                - Al revisar `docker ps`, veremos que por defecto nos marca la ip 0.0.0.0, esto significa que va a usar todas las redes de nuestra máquina, si solo quiesieramos que fuera accesible desde localhost o 127.0.0.1, tendríamos que especificarlo de esta forma: `... -p 127.0.0.1:<puerto de tu máquina>:<puerto del container> ...`. De esta forma no será accesible usando nuestra ip privada, solo la local.
+            - --network
+                - **_nombreRed_**
+                    - Usar una red específico, por default usa la `bridge`. También puedes especificar la `host`, que es la misma en la que está tu máquina. O la `none`, para dicho container no tenga red.
+            - --ip
+                - **_ip_**
+                    - Adjudicar la ip interna que tendrá el container. La IP tiene que tener sentido para la subred en la que se encuentra.
             - -v
                 - **_AbsoluteLocalDir_**:**_containerDir_**
                     - Crea un volume en la ruta local especificada para almacenar los datos del directorio del container indicado en local para así añadir persistencia, esto es un volume de host. NO se elimina el volume al hacer rm -f**v**.
