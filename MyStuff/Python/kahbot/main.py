@@ -5,6 +5,7 @@ from discord.ext import commands
 from discord import Status
 
 bot = commands.Bot(command_prefix='.')
+bot.remove_command('help')
 
 @bot.event
 async def on_ready():
