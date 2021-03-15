@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    container_name: nginx
+    ports:
+      - "80:90"
+    image: nginx
+    env_file: common.env
+    environment:
+      - NGINX_PORT=90
+    networks:
+      - net-test
+networks:
+  net-test:
