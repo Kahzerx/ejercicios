@@ -28,3 +28,27 @@ En el caso de los volumes de host, y a diferencia de los volumes nombrados, no t
 Para crear redes al igual que los named volumes, los nombramos en su sección de networks dentro del yml. y posteriormente referenciarla desde el service.
 
 Con redes custom podemos hacer pings desde unos containers a otro llamandolos tanto por el nombre del container como por el nombre del service que aparece en el archivo yml.
+
+---
+
+Tiene también una función para crear imágenes con el comando `docker-compose build`, para crear y usar imágenes custom.
+
+Puedes sobreescribir la CMD con `command`.
+
+Si tu `docker-compose.yml` tiene otro nombre, puedes especificarlo con el argument `-f <nombreArchivo>`.
+
+Para dar un nombre personalizado a nuestro proyecto de docker-compose usar el argument `-p <nombre>`.
+
+`mem_limit: 20m` limitará el uso de ram del contenedor a 20m.
+
+`cpuset: "0"` limitar el uso de CPU a 1 sola cpu.
+
+---
+
+Existen unas políticas de reinicio de containers que definen cuándo un container debe ser reiniciado. https://docs.docker.com/config/containers/start-containers-automatically/
+
+Podemos usar la flag `--restart <condicion>` al hacer el run, que define si el contenedor se ha de reiniciar ante un crash, detener manual, etc.
+
+Para hacerlo desde docker compose, dentro del service que nos insterese reiniciar, colocar `restart: <condicion>`.
+
+El valor por defecto es `no`.

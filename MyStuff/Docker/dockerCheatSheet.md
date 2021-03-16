@@ -140,6 +140,15 @@
         - --rm (reemplazar esto por -d)
             - Indicas que tras salir del contenedor, quieres que este se autodestruya. Al ejecutar el comando entra en el container automáticamente como si hicieramos un exec, al hacer `exit` se eliminará.
         - -d(ti?) (ti puede dejar el OS ejecutándose para que podamos acceder).
+            - --restart
+                - no
+                    - Que no se reinicie, valor por defecto.
+                - on-failure
+                    - Reinicio al crashear.
+                - always
+                    - Reiniciar siempre que el container se detenga.
+                - unless-stopped
+                    - Siempre reiniciar a no ser que el container sea cerrado manualmente.
             - -m
                 - "500mb"
                     - El container tendrá un límite de 500MB de ram asociada, también puedes usar gb...
@@ -182,6 +191,18 @@
     - stop
         - **_nombreContainer_** or **_idContainer_**
             - Detener el container con ese id o nombre.
+    - update
+        - --restart
+            - no
+                - Que no se reinicie, valor por defecto.
+            - on-failure
+                - Reinicio al crashear.
+            - always
+                - Reiniciar siempre que el container se detenga.
+            - unless-stopped
+                - Siempre reiniciar a no ser que el container sea cerrado manualmente.
+        - **_nombreContainer_** or **_idContainer_**
+            - Actualiza la política de reinicio de nuestro container en ejecución.
     - volume
         - ls
             - Lista todos los volumes creados (por lo general, los anonimos, los VOLUME en los Dockerfile son anonimos).
