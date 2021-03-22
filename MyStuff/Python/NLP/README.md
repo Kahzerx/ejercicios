@@ -1,6 +1,6 @@
 # NLP
 
-`Natural language processing`, procesamiento de lenguajes naturales, es decir, el **NLP** es la parte de la inteligencia artificial que trabaja el lenguaje humano.
+`Natural language processing` Procesamiento de lenguajes naturales, es decir, el **NLP** es la parte de la inteligencia artificial que trabaja el lenguaje humano.
 
 ## Redes Neurales de Convolución para NLP
 
@@ -9,12 +9,12 @@ Las `RNC`, son ampliamente usadas para tareas de clasificación como detección 
 Pasos para `RNC`:
 
 1. **Convolución**:
-    - Creamos `detectores` de pequeñas `características` que recorrerán toda la imagen devolviendonos una lista de todas las que tiene.
+    - Creamos `detectores` de pequeñas `características` que recorrerán toda la imagen devolviéndonos una lista de todas las que tiene.
 
-    - Dividimos imágenes en mini zonas que podrían ser píxeles por ejemplo, tratamos esto como matrices. Lo segmentaremos en base a las dimensiones de nuestro detector de características, por ejemplo un 3x3 píxeles, y se operarán con un `producto tensorial`, que consiste en tener un 3x3 de características que buscamos, y compararlo con todas las posibiliades de areas 3x3 de nuestra "gran imagen llena de píxeles"
+    - Dividimos imágenes en mini zonas que podrían ser píxeles por ejemplo, tratamos esto como matrices. Lo segmentaremos basándonos en las dimensiones de nuestro detector de características, por ejemplo un 3x3 píxeles, y se operarán con un `producto tensorial`, que consiste en tener un 3x3 de características que buscamos, y compararlo con todas las posibilidades de areas 3x3 de nuestra "gran imagen llena de píxeles"
     y multiplicamos cada índice con su relativo en el detector y sumamos cada producto.
 
-    - Pongamos que tenemos una imágen de 6 x 6 píxeles, el `primer paso` será tomar el primer 3x3, aquel que va desde la posición `0 a la 2`, tanto `horizontal como verticalmente`, ese segmento lo `compararemos` con nuestro `detector de características` con un `producto tensorial` y añadiendo el resultado a nuestro mapa final, a la posición 0, 0 de la misma y, `a continuación`, `repetiremos` el proceso pero esta vez tomando el siguiente segmento, el que va de `1 a 3 en X`, y de `0 a 2 en Y`, como si fuera un `bucle anidado`.
+    - Pongamos que tenemos una imagen de 6 x 6 píxeles, el `primer paso` será tomar el primer 3x3, aquel que va desde la posición `0 a la 2`, tanto `horizontal como verticalmente`, ese segmento lo `compararemos` con nuestro `detector de características` con un `producto tensorial` y añadiendo el resultado a nuestro mapa final, a la posición 0, 0 de la misma y, `a continuación`, `repetiremos` el proceso pero esta vez tomando el siguiente segmento, el que va de `1 a 3 en X`, y de `0 a 2 en Y`, como si fuera un `bucle anidado`.
 
     - `[[0, 0, 0], [0, 1, 0], [0, 0, 0]]` Esto es el segmento 3x3 que hemos tomado de la "gran imagen" (el 3x3 de la esquina superior izquierda por ejemplo), y `[[0, 0, 1], [1, 0, 0], [0, 1, 1]]` esto es nuestro detector, básicamente multiplicamos todos los índices con su relativo y sumamos los productos, y el resultado se coloca en una nueva matriz, en la posición (0, 0) de nuestro mapa de características que enviaremos al paso 2, y así en bucle, en este caso el producto tensorial da 0.
 
@@ -28,7 +28,7 @@ Pasos para `RNC`:
 
 2. **Max Pooling**
 
-    - Aplicamos funcines máximo a los mapas de características previamente obtenidas para reducirla y evitar un exceso de información, reduce el tamaño y el coste de computación del modelo global convirtiendolo en más genérico.
+    - Aplicamos funciones máximo a los mapas de características previamente obtenidas para reducirla y evitar un exceso de información, reduce el tamaño y el coste de computación del modelo global convirtiéndolo en más genérico.
 
     - Tomamos nuestro `mapa de características` del paso anterior, y vamos a tomar de nuevo `segmentos` esta vez `de 2x2` (por ejemplo dadas las dimensiones de nuestro mapa) y hacemos el mismo proceso de `bucle anidado` del paso anterior `pero` esta vez los segmentos no han de tener intersecciones entre ellos.
 
@@ -45,7 +45,7 @@ Pasos para `RNC`:
         
         4. `Repetimos` el proceso de los 3 puntos anteriores pero `bajamos 2 en Y`.
     
-    - Con esto hemos conseguido reducir nuestro mapa, haciendolo más sencillo para computar por el ordenador y manteniendo lo importante y reduciendo información inútil (apenas hay 0).
+    - Con esto hemos conseguido reducir nuestro mapa, haciéndolo más sencillo para computar por el ordenador y manteniendo lo importante y reduciendo información inútil (apenas hay 0).
     
     - Nuestro mapa de características (pooled) final será:
 
@@ -65,7 +65,7 @@ Pasos para `RNC`:
 
     - Podemos añadir tantas capas ocultas como queramos, con tantas neuronas como queramos, estarán totalmente conectadas (por supuesto más capas ocultas y más neuronas = más tiempo de procesamiento).
 
-    - En la entrada tendríamos nuestro vector aplanado del paso anterior y al otro extremo tendríamos nuestros valores de salida, y represetan la probabilidad de que una imagen corresponda a dicha categoría.
+    - En la entrada tendríamos nuestro vector aplanado del paso anterior y al otro extremo tendríamos nuestros valores de salida, y representan la probabilidad de que una imagen corresponda a dicha categoría.
 
     - Cada `valor de entrada` tiene una `flecha` a cada `neurona` de la capa oculta para relacionar, cada `flecha tiene un peso`, lo que hacemos es `multiplicar` el `peso` que tiene cada flecha que apunta a una neurona (que al otro extremo tiene un valor de entrada) por el `valor de entrada` (el valor de donde sale esa flecha), lo multiplicamos `en bucle` y al final `sumamos` todos esos `productos` y adjudicamos el `valor obtenido` a la `neurona` a la que dichas flechas apuntaban desde el principio.
 
@@ -83,7 +83,7 @@ Para ello podemos buscar patrones entre palabras de una frase, y para ello podem
 
 Una de las formas de `transformar palabras en vectores` en la conocida como `one-hot encoding`, que es igual de `sencilla` como `inútil`, ya que no hay relación entre palabras.
 
-Consiste en tener un vocabulario (pongamos una lista de 100.000 palabras), y cada palabrá corresponderá con una lista única de la misma length que la lista de vocabulario, en la que todos los elementos son 0 menos una posición en concreto que tendrá un 1, y esta será única para cada palabra.
+Consiste en tener un vocabulario (pongamos una lista de 100.000 palabras), y cada palabra corresponderá con una lista única de la misma length que la lista de vocabulario, en la que todos los elementos son 0 menos una posición en concreto que tendrá un 1, y esta será única para cada palabra.
 
 - dog = [0, ..., 0, 1, 0, ..., 0]
 
@@ -104,7 +104,7 @@ Estas relaciones se podrían sumar y restar usando sus vectores correspondientes
 - \[king] - \[man] + \[woman] = \[queen]
 - \[Paris] - \[France] + \[Italia] = \[Rome]
 
-Y como podemos observar en esta representación bidimensional de algunas palabras embebidas, palabras que estan relacionadas han quedado cerca unas de otras.
+Y como podemos observar en esta representación bidimensional de algunas palabras embebidas, palabras que están relacionadas han quedado cerca unas de otras.
 
 ![wordEmbedding](img/wordEmbedding.png)
 
@@ -113,3 +113,25 @@ La red tomará una serie de palabras de contexto que serán aquellas que en nues
 "...people are really good at heart...", si tomamos "good" como nuestra palabra clave, la red tomará las palabras "are", "really", "at", "heart" como contexto para así establecer relaciones usando la `matriz de embedding` y la `matriz de contexto`.
 
 Aplicamos `matriz de embedding` para reducir dimension, y aplicamos la `matriz de contexto` para reconstruirlo con sus palabras posiblemente relacionadas, dando como resultado números especialmente elevados cercanos a las palabras que podrían tener sentido junto con nuestra palabra "clave".
+
+### Arquitectura RNC para NLP
+
+Diferencias entre las matrices de imágenes y textos.
+
+- Ambas son bidimensionales.
+
+- En las imágenes hay una relación en el movimiento de las matrices(pasas de un pixel a otro), pero en el caso de las frases no tiene por qué ser así, ya que las filas son palabras codificadas, y que una fila tenga una palabra en concreto no tiene relación con otra palabra 5 lineas más abajo.
+
+- No porque estén cerca significa que estén relacionadas. Ya que puedes haber seguido cualquier orden, alfabético, si son verbos, etc.
+
+- No tiene sentido hacer el proceso de convolución que hacemos con imágenes por ese mismo motivo. Se realiza otro tipo que consiste en agrupar pequeños conjuntos de palabras para buscar relaciones entre las palabras de una frase, wordEmbedding, esto hace que nuestras capas de convolución sean unidimensionales.
+
+- Los `filtros` para la convolución han de tener la `misma anchura` que nuestro `modelo`, como se ve en la imagen de abajo, de forma que analizamos linea a línea verticalmente (en las de las imágenes es ambas horizontal como verticalmente).
+
+![wordEmbedding](img/NLPRNCArch.png)
+
+- En la fase de max pooling, nos quedamos con tan solo 1 elemento. En la frase es menos importante saber donde se encontraba una determinada característica. Lo que importa es si la característica está o no.
+
+- 3 tamaños distintos de filtros para encontrar diferentes niveles de relaciones entre palabras como se ve en la imagen superior, para encontrar las relaciones de las palabras que rodean y dan ese contexto (filtros de altura 2, 3 y 4, para buscar características locales en grupos de 2, 3 y 4 palabras).
+
+- Al tener capas de convolución unidimensionales, tras hacer el max pooling tendremos vectores, no matrices, por lo que NO necesitamos una fase de aplanamiento. Simplemente concatenamos los resultados del max pooling.
