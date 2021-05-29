@@ -12,11 +12,11 @@ bot = commands.Bot(command_prefix='.')
 @bot.command(hidden=True)
 async def reload(ctx):
     [bot.unload_extension(i) for i in [extension[0] for extension in bot.extensions.items()]]
-    registerCommands()
+    register_commands()
     await ctx.send('Reloaded!')
 
 
-def registerCommands():
+def register_commands():
     [bot.load_extension(f'cogs.{file[:-3]}') for file in os.listdir('./cogs') if file.endswith('.py')]
 
 
@@ -24,6 +24,6 @@ if __name__ == '__main__':
     load_dotenv()
 
     tryCreateDatabase()
-    registerCommands()
+    register_commands()
 
     bot.run(os.getenv('TOKEN'))

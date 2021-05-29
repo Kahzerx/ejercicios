@@ -1,8 +1,0 @@
-version: '3'
-services:
-  web:
-    image: centos
-    command: python -m SimpleHTTPServer 8080
-    restart: always
-    ports:
-      - "8080:8080"
